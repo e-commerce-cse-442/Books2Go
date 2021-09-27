@@ -1,11 +1,13 @@
 import React from 'react';
-import './App.css'
+import './App.css';
+import logo from './images/Logo.png';
 
 function HomeBackground(){
     return(
         <>
         <div className = "container">
-            <h1 class = "header">Books2Go</h1>
+            <img class = 'logo' src={logo} alt="Logo" />
+            <h1 class = 'adv'> Your Story Begins Here </h1>
             <Button />
         </div>
         </>
