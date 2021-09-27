@@ -25,7 +25,7 @@ button:hover {
 }
 
 .black {
-    margin-left: 600px;
+    margin-left: 1000px;
     background-color: #757575;
 }
 .black:hover {
@@ -52,7 +52,7 @@ body {background-color: #0D1D46;}
 }
 
 .adv{
-    margin-left: 500px;
+    margin-left: 900px;
     margin-bottom: 70px;
     color:white;
     font-size: 40px;
