@@ -1,7 +1,6 @@
 .searchbar {
-  margin-left: 300px;
-  margin-bottom: 50px;
-  padding: 10px;
+  margin-left: 15%;
+  width:450px;
 }
 
 
@@ -16,17 +15,18 @@ button {
     cursor: pointer;
     box-shadow: 0px 2px 2px lightgray;
     font-size: 20px;
-    margin-right: 20px;
-
 }
 
 button:hover {
     background-color: #283593;
   }
 
-
+.blue{
+    margin-bottom: 40px;
+}
 
 .orange {
+    margin-bottom: 40px;
     background-color: #F57C00;
 }
 .orange:hover {
@@ -34,14 +34,15 @@ button:hover {
 }
 
 .black {
-    margin-left: 1000px;
+    margin-bottom: 40px;
+    margin-left: 64.5%;
     background-color: #757575;
 }
 .black:hover {
     background-color: #212121;
 }
 
-.container{
+.cont{
     background-image: url(./images/book-image.jpeg);
     background-position: center;
     background-size: cover;
@@ -52,7 +53,6 @@ button:hover {
     color:azure;
     text-align: center;
 }
-body {background-color: #0D1D46;}
 
 .logo{
     margin: 20px;
@@ -60,19 +60,43 @@ body {background-color: #0D1D46;}
     height: 60px;
 }
 
-.adv{
-    margin-left: 900px;
-    margin-bottom: 70px;
-    color:white;
-    font-size: 40px;
+.adv1{
+    margin-left: 60%;
+    margin-top: 100px;
+    margin-bottom: 40px ;
+    color:aliceblue;
+    font-size: 45px;
     font-weight: bold;
 }
 
+.adv2{
+    margin-left: 60.3%;
+    color:aliceblue;
+    font-size: 30px;
+    font-weight: bold;
+}
 
-/*
-.container{
-    background-image: url(./images/book1.jpg);
-    background-position: bottom right;
-    background-size: small;
-    background-repeat: no-repeat;
-} */
+.body {
+    background-color: #f6f7f9
+}
+
+.custom-badge {
+    background-color: #343a40 !important;
+    color: #fff;
+    font-size: 11px;
+    padding: 5px;
+    padding-left: 11px;
+    padding-right: 11px;
+    border-radius: 7px
+}
+
+.card {
+    border: none;
+    padding: 15px;
+    cursor: pointer
+}
+
+.time i {
+    color: #cacacaa3
+}
+
