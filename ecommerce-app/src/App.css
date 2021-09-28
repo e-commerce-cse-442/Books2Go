@@ -1,78 +1,41 @@
 .searchbar {
-  margin-left: 300px;
-  margin-bottom: 50px;
-  padding: 10px;
+  margin-left: 15%;
+  width: 450px;
+}
+.cont {
+  background-image: url(./images/book-image.jpeg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-
-button {
-    display:inline;
-    background-color: #3f51b5;
-    color: white;
-    padding: 10px 20px;
-    margin: 15px 5px;
-    border-radius: 5px;
-    outline: 0;
-    cursor: pointer;
-    box-shadow: 0px 2px 2px lightgray;
-    font-size: 20px;
-    margin-right: 20px;
-
+.header {
+  color: azure;
+  text-align: center;
 }
 
-button:hover {
-    background-color: #283593;
-  }
-
-
-
-.orange {
-    background-color: #F57C00;
-}
-.orange:hover {
-    background-color: #FF5722;
+.logo {
+  margin: 20px;
+  width: 250px;
+  height: 60px;
 }
 
-.black {
-    margin-left: 1000px;
-    background-color: #757575;
-}
-.black:hover {
-    background-color: #212121;
-}
-
-.container{
-    background-image: url(./images/book-image.jpeg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+.adv1 {
+  margin-left: 60%;
+  margin-top: 100px;
+  margin-bottom: 40px;
+  color: aliceblue;
+  font-size: 45px;
+  font-weight: bold;
 }
 
-.header{
-    color:azure;
-    text-align: center;
-}
-body {background-color: #0D1D46;}
-
-.logo{
-    margin: 20px;
-    width: 250px;
-    height: 60px;
+.adv2 {
+  margin-left: 60.3%;
+  color: aliceblue;
+  font-size: 30px;
+  font-weight: bold;
 }
 
-.adv{
-    margin-left: 900px;
-    margin-bottom: 70px;
-    color:white;
-    font-size: 40px;
-    font-weight: bold;
+.body {
+  background-color: #f6f7f9;
 }
-
-
-/*
-.container{
-    background-image: url(./images/book1.jpg);
-    background-position: bottom right;
-    background-size: small;
-    background-repeat: no-repeat;
-} */
