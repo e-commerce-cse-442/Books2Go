@@ -1,95 +1,37 @@
 import React from 'react';
-import Popup from './components/Popup';
-import { useState } from 'react';
+import Product from './components/Product';
+import Button from './components/Button';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from './images/Logo.png';
-import book1 from './images/book1.jpg';
-import book2 from './images/book2.jpg';
-import book3 from './images/book3.jpg';
-import book4 from './images/book4.jpg';
-import book5 from './images/book5.jpg';
-import book6 from './images/book6.jpg';
-import JSONDATA from "./random_data.json";
-
-
 
 function HomeBackground(){
     return(
-        <>
-        <div className = "container">
+        <div className = "cont">
             <img class = 'logo' src={logo} alt="Logo" />
-            <h1 class = 'adv'> Your Story Begins Here </h1>
+            <h1 class = 'adv1'> Your Story Begins Here </h1>
+            <h2 class = 'adv2'> Shop you collection of Books </h2>
             <SearchBar />
             <Button />
         </div>
-        </>
     );
 }
 
-function Products(){
-    return (
-        <div>
-            <h1>Book Adds</h1>
-                <img src={book1} alt=""/>
-                <img src={book2} alt=""/>
-                <img src={book3} alt=""/>
-                <img src={book4} alt=""/>
-                <img src={book5} alt=""/>
-                <img src={book6} alt=""/>
-        </div>
-    );
-}
-
-//export default images;
-
-function Button() {
-    const [buttonPopup, setButtonPopup] = useState(false);
-
-    return (
-        <div>
-            <button class="black">
-                Home
-            </button>
-            <button onClick={() => setButtonPopup(true)}>
-                Login
-            </button>
-
-            <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-                <h2>Login</h2>
-                <form>
-                    <label>
-                        Username: <input type="text" name="username" />
-                    </label>
-                    <label>
-                        Password: <input type="password" name="password" />
-                    </label>
-                </form>
-            </Popup>
-
-            <button class="orange">
-                Sign Up
-            </button>
-        </div>
-    );
-}
 
 function SearchBar() {
   return (
-    <div className="searchbar">
-      <input
-        type="text"
-        placeholder="Search Bar"
-      />
+    <div class="form-outline searchbar">
+        <input type="search" id="form1" class="form-control" placeholder="Search for the books you would like to buy"
+        aria-label="Search" />
     </div>
   );
 }
 
 export default function App() {
     return (
-        <div>
-        <HomeBackground />
-
-        <Products />
+        <div class = 'body'>
+            <HomeBackground />
+            <Product />
         </div>
     );
 }
