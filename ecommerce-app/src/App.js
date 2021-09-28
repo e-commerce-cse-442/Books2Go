@@ -1,12 +1,9 @@
 import React from 'react';
-<<<<<<< HEAD
 import Popup from './components/Popup';
 import { useState } from 'react';
-import './App.css'
-=======
 import './App.css';
 import logo from './images/Logo.png';
->>>>>>> origin/developing
+
 
 function HomeBackground(){
     return(
