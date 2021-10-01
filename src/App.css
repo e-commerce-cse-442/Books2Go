@@ -1,0 +1,42 @@
+.searchbar {
+  margin-left: 15%;
+  margin-bottom: 500px;
+  width: 450px;
+}
+.cont {
+  background-image: url(./images/book-image.jpeg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.header {
+  color: azure;
+  text-align: center;
+}
+
+.logo {
+  margin: 20px;
+  width: 250px;
+  height: 60px;
+}
+
+.adv1 {
+  margin-left: 60%;
+  margin-top: 100px;
+  margin-bottom: 40px;
+  color: aliceblue;
+  font-size: 45px;
+  font-weight: bold;
+}
+
+.adv2 {
+  margin-left: 60.3%;
+  color: aliceblue;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.body {
+  background-color: #f6f7f9;
+}
