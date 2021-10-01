@@ -14,7 +14,9 @@ const HOST = '0.0.0.0';
 //   res.sendFile(path.join(reqPath + 'public/index.html'));
 // });
 //
+console.log(path.join(__dirname, "..", "build"));
 app.use(express.static(path.join(__dirname, "..", "build")));
+
 app.use(express.static('../public'));
 // app.use(express.static('../src'));
 
