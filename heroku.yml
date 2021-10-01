@@ -5,6 +5,10 @@ build:
   docker:
     web: Dockerfile
 
+<<<<<<< HEAD
 db_config = os.environ['postgres://wxcnmfmaruihly:a613eeead91623c56a8b27eedf08019447868c226b6d1333a2b5383bcc0be9c6@ec2-34-227-120-94.compute-1.amazonaws.com:5432/d1fdsan95ad3s8
 '] if 'postgres://wxcnmfmaruihly:a613eeead91623c56a8b27eedf08019447868c226b6d1333a2b5383bcc0be9c6@ec2-34-227-120-94.compute-1.amazonaws.com:5432/d1fdsan95ad3s8
 ' in os.environ else 'user=wxcnmfmaruihly password=a613eeead91623c56a8b27eedf08019447868c226b6d1333a2b5383bcc0be9c6'
+=======
+db_config = os.environ['enter url here']
+>>>>>>> 08ed09b932f05f311afb71974756509be34f950a
