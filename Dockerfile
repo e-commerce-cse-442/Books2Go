@@ -1,4 +1,4 @@
-FROM node:13
+FROM node:latest
 
 ENV HOME /root
 WORKDIR /root
@@ -9,4 +9,4 @@ RUN npm install
 
 EXPOSE 8000
 
-CMD ["node", "backend/server.js"]
+CMD ["npm", "start"]
