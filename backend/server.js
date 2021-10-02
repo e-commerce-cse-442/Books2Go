@@ -17,7 +17,10 @@ const client = new Client({
 
 client.connect();
 
-client.query('SELECT books2go, user_id FROM User_Info;', (err, res) => {
+console.log("DATABASE URL IS PRINTING: ", process.env.DATABASE_URL)
+console.log("PROCESS PORT: ", process.env.PORT)
+
+client.query('SELECT *, * FROM User_Info;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
     console.log(JSON.stringify(row));
