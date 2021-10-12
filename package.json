@@ -1,5 +1,5 @@
 {
-  "name": "BOOKS2GO",
+  "name": "books2go",
   "version": "0.1.0",
   "engines": {
     "node": "6.11.1"
@@ -9,18 +9,21 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "babel": "^6.23.0",
     "bootstrap": "^5.1.1",
+    "pg": "^8.7.1",
     "react": "^17.0.2",
-    "react-bootstrap": "^2.0.0-rc.0",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yarn": "^1.22.15"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start-client": "cd backend && npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start": "npm run build && (cd backend && npm start)"
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +42,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/code-frame": "^7.14.5",
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6"
   }
 }

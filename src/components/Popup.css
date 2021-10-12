@@ -13,14 +13,16 @@
 
 .popup-inner {
   position: relative;
-  padding: 32px;
+  padding: 40px;
   width: 100%;
-  max-width: 640px;
+  max-width: 1000px;
   background-color: rgb(130, 133, 130);
 }
 
 .popup-inner .close-btn {
   position: absolute;
-  top: 50px;
-  right: 4px;
+  margin-left: 90%;
+  top: 7px;
+  background-color: #212121;
 }
+

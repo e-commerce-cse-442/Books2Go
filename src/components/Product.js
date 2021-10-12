@@ -10,7 +10,7 @@ function Product() {
     <div class="container mt-5">
       <div class="d-flex justify-content-between align-items-center mb-3">
         {" "}
-        <span>Hottest Giveaways</span>{" "}
+        <span>Hottest Deals</span>{" "}
         <span class="custom-badge text-uppercase">See More</span>{" "}
       </div>
       <div class="row">
@@ -28,7 +28,7 @@ function Product() {
               <img src={book1} alt="" width="250" />{" "}
             </div>
             <div class="text-center">
-              <h5>Fundamentals of python</h5>{" "}
+              <h5>Fundamentals of Python</h5>{" "}
               <span class="text-success">$20 value</span>
             </div>
           </div>
@@ -67,7 +67,7 @@ function Product() {
               <img src={book2} alt="" width="250" />{" "}
             </div>
             <div class="text-center">
-              <h5>Algorithm Design</h5> <span class="text-success">free</span>
+              <h5>Algorithm Design</h5> <span class="text-success">FREE</span>
             </div>
           </div>
         </div>
