@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD:package.json
-  "name": "BOOKS2GO",
-=======
   "name": "books2go",
->>>>>>> 4c701aee4608c4520217d83da465dd60cdeaabfe:ecommerce-app/package.json
   "version": "0.1.0",
   "engines": {
     "node": "6.11.1"
