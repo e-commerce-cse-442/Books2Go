@@ -10,7 +10,11 @@ function HomeBackground() {
     <div className="cont">
       <img class="logo" src={logo} alt="Logo" />
       <h1 class="adv1"> Your Story Begins Here </h1>
+<<<<<<< HEAD
       <h2 class="adv2"> Shop you collection of Books </h2>
+=======
+      <h2 class="adv2"> Shop our collection of Books </h2>
+>>>>>>> 4c701aee4608c4520217d83da465dd60cdeaabfe
       <SearchBar />
       <Button />
     </div>
@@ -24,7 +28,11 @@ function SearchBar() {
         type="search"
         id="form1"
         class="form-control"
+<<<<<<< HEAD
         placeholder="Search for the books you would like to buy"
+=======
+        placeholder="Search for book title"
+>>>>>>> 4c701aee4608c4520217d83da465dd60cdeaabfe
         aria-label="Search"
       />
     </div>
