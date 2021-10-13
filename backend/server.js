@@ -20,7 +20,7 @@ client.connect();
 console.log("DATABASE URL IS PRINTING: ", process.env.DATABASE_URL)
 console.log("PROCESS PORT: ", process.env.PORT)
 
-client.query('SELECT *, * FROM User_Info;', (err, res) => {
+client.query('SELECT * FROM user_info ', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
     console.log(JSON.stringify(row));
