@@ -23,8 +23,10 @@ app.post("/signup", async(req, res) =>{
         const name = req.body.username;
         const password = req.body.password;
         const email = req.body.email;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
         const post = await client.query(
-            `INSERT INTO User_Info (username, user_password, user_email) VALUES('${name}', '${password}', '${email}') RETURNING *`
+            `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', '${firstName}', '${lastName}' , '${password}', '${email}') RETURNING *`
         );
         res.json(post.rows[0]);
     
