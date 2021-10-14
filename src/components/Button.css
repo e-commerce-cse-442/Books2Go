@@ -38,9 +38,10 @@ button:hover {
 
 
 /* signup */
+
 body {
 	color: #fff;
-	background: #63738a;
+	background: #295faa;
 	font-family: 'Roboto', sans-serif;
 }
 .form-control {
@@ -125,4 +126,4 @@ body {
 }	
 .signup-form form a:hover {
 	text-decoration: underline;
-}
+} 

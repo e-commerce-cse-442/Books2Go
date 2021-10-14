@@ -5,7 +5,6 @@
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +15,7 @@
   padding: 40px;
   width: 100%;
   max-width: 1000px;
-  background-color: rgb(130, 133, 130);
+  background-color: #295faa;
 }
 
 .popup-inner .close-btn {
