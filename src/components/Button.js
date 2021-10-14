@@ -7,6 +7,28 @@ import Popup from "./Popup";
 export default function Button() {
   const [LoginPopup, setLoginPopup] = useState(false);
   const [SignUpPopup, setSignUpPopup] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+
+const handleSignup = async(e) =>{
+  e.preventDefault();
+  try{
+    const body = { username, password, email };
+    const response = await fetch("http://0.0.0.0:5000/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify(body)
+  });
+
+  console.log(response)
+
+  } catch(err){
+    console.error(err.message)
+  }
+}
+
 
   return (
     <div class="container">
@@ -34,15 +56,18 @@ export default function Button() {
         <button class="orange col" onClick={() => setSignUpPopup(true)} >Sign Up</button>
         <Popup trigger={SignUpPopup} setTrigger={setSignUpPopup}>
           <h2>SignUp</h2>
-          <form>
+          <form onSubmit={handleSignup}>
             <label>
-              Email: <input type="text" name="email" />
+              Email: <input type="email" name="email" 
+              value ={email} onChange={e => setEmail(e.target.value)} />
             </label>
             <label>
-              Username: <input type="text" name="username" />
+              Username: <input type="text" name="username" 
+              value ={username} onChange={e => setUsername(e.target.value)}  />
             </label>
             <label>
-              Password: <input type="password" name="password" />
+              Password: <input type="password" name="password" 
+              value ={password} onChange={e => setPassword(e.target.value)} />
             </label>
             <button>
               Join Now
