@@ -35,6 +35,27 @@ app.post("/signup", async(req, res) =>{
     }
 });
 
+app.get("/login", async(req, res) =>{
+    //async: wait for the function
+    try{
+        const username = req.body.username;
+        const password = req.body.password;
+        const isValid = false;  //may have to change from const to else...
+        /*
+        const post = await client.query(
+            `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', '${firstName}', '${lastName}' , '${password}', '${email}') RETURNING *`
+        );
+        */
+        //res.json(post.rows[0]);  may have to change to get instead
+    
+    } catch(err){
+        console.error(err.message);
+    }
+});
+//for login : /login , app.get("/login", async... )
+//SELECT * FROM .....
+//pass in db is plaintext
+
 
 
 const PORT = process.env.PORT || 8000;
