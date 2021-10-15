@@ -29,6 +29,23 @@ export default function Button() {
     }
   };
 
+  //below function will be activated when login form submitted
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const body = { username, password};
+      const response = await fetch("http://0.0.0.0:5000/login", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),  //will need to get data from database and compare ithe username and pass if same; succes if same
+      });
+
+      console.log(response);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   return (
     <div class="container">
       <div class="row">
@@ -39,12 +56,24 @@ export default function Button() {
 
         <Popup trigger={LoginPopup} setTrigger={setLoginPopup}>
           <h2>Login</h2>
-          <form>
+          <form onSubmit={handleLogin}>
             <label>
-              Username: <input type="text" name="username" />
+              Username: <input type="text"
+                        class="form-control"
+                        name="username"
+                        placeholder="Username"
+                        required="required"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)} />
             </label>
             <label>
-              Password: <input type="password" name="password" />
+              Password: <input type="password" 
+                        class="form-control"
+                        name="password"
+                        placeholder="Password"
+                        required="required"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)} />
             </label>
             <button>Login</button>
           </form>
