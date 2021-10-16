@@ -17,7 +17,7 @@ export default function Button() {
     e.preventDefault();
     try {
       const body = { username, firstName, lastName, password, email };
-      const response = await fetch("http://0.0.0.0:5000/signup", {
+      const response = await fetch("/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -33,21 +33,65 @@ export default function Button() {
     <div class="container">
       <div class="row">
         <button class="black col">Home</button>
+
+        {/* login  */}
         <button class="col blue" onClick={() => setLoginPopup(true)}>
           Login
         </button>
 
         <Popup trigger={LoginPopup} setTrigger={setLoginPopup}>
-          <h2>Login</h2>
-          <form>
-            <label>
-              Username: <input type="text" name="username" />
-            </label>
-            <label>
-              Password: <input type="password" name="password" />
-            </label>
-            <button>Login</button>
-          </form>
+        <body>
+            <div class="signup-form">
+              <form onSubmit={handleSignup}>
+                <h2>Login</h2>
+                <p class="hint-text">
+                  Login to sell or buy books.
+                </p>
+
+                <div class="form-group">
+                  <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    placeholder="Email"
+                    required="required"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    placeholder="Username"
+                    required="required"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    placeholder="Password"
+                    required="required"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <button
+                    type="submit"
+                    class="btn btn-success btn-lg btn-block"
+                  >
+                    Login Now
+                  </button>
+                </div>
+              </form>
+              <div class="text-center">
+                Don't have account yet? <a href="#">Create an account</a>
+              </div>
+            </div>
+          </body>
         </Popup>
 
         {/* Sign up */}
