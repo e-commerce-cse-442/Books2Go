@@ -40,9 +40,9 @@ export default function Button() {
         body: JSON.stringify(body),  //will need to get data from database and compare ithe username and pass if same; succes if same
       });
 
-      console.log(response);
+      console.log("this is the " + response);
     } catch (err) {
-      //console.error(err.message);   had this as error in console when trying to log in
+      console.error(err.message);   //had this as error in console when trying to log in
     }
   };
 
@@ -75,7 +75,7 @@ export default function Button() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} />
             </label>
-            <button>Login</button>
+            <button>Login</button> 
           </form>
         </Popup>
 
