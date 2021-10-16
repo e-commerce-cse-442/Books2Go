@@ -42,7 +42,7 @@ export default function Button() {
 
       console.log(response);
     } catch (err) {
-      console.error(err.message);
+      //console.error(err.message);   had this as error in console when trying to log in
     }
   };
 

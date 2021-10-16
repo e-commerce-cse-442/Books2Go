@@ -34,26 +34,34 @@ app.post("/signup", async(req, res) =>{
         console.error(err.message);
     }
 });
-
+//maybe should change to post instead
 app.get("/login", async(req, res) =>{
     //async: wait for the function
+    ///*
     try{
         const username = req.body.username;
         const password = req.body.password;
-        const isValid = false;  //may have to change from const to else...
-        /*
-        const post = await client.query(
-            `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', '${firstName}', '${lastName}' , '${password}', '${email}') RETURNING *`
-        );
-        */
-        //res.json(post.rows[0]);  may have to change to get instead
-    
+        const isValid = false;  //may have to change from const to else...    will change to true if valid
+
+        client.query(
+            "SELECT * FROM users WHERE username = ? AND password = ?",
+            [username, password],
+            (err, result) => {
+                if (err) {
+                    res.send({err: err});
+                }
+                if (result) {
+                    res.send(result);
+                } else {
+                    res.send({message: "Invalid Credentials!"});
+                }  
+            }
+        )
     } catch(err){
         console.error(err.message);
     }
+    //*/
 });
-//for login : /login , app.get("/login", async... )
-//SELECT * FROM .....
 //pass in db is plaintext
 
 
