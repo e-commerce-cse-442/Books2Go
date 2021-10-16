@@ -55,8 +55,6 @@ export default function Button() {
                     name="email"
                     placeholder="Email"
                     required="required"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
 
@@ -67,8 +65,6 @@ export default function Button() {
                     name="username"
                     placeholder="Username"
                     required="required"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
 
@@ -79,8 +75,6 @@ export default function Button() {
                     name="password"
                     placeholder="Password"
                     required="required"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
 
