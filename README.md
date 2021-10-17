@@ -1,6 +1,6 @@
 # Books2Go
 
-Books2Go is a E-Commerce website for everyone would like to sell their own books. This project uses Reactjs, Nodejs, Express and Postgresql to make books purchases possible by including, a cart, order tracking, your own user account, and book information.
+Books2Go is a E-Commerce website for everyone would like to sell their own books. This project uses Reactjs, Nodejs, Express and Postgresql to make books purchases possible by including carts, order tracking, user accounts, and book information.
 
 ## Installation
 
