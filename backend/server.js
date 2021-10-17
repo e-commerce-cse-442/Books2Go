@@ -7,24 +7,6 @@ const app = express();
 
 client.connect();
 
-const { Client } = require('pg');
-
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
-
-client.connect();
-
-client.query('SELECT * FROM user_info ', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-  client.end();
-});
 
 app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(express.static('../public'));
@@ -47,7 +29,7 @@ app.post("/signup", async(req, res) =>{
             `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', '${firstName}', '${lastName}' , '${password}', '${email}') RETURNING *`
         );
         res.json(post.rows[0]);
-
+    
     } catch(err){
         console.error(err.message);
     }
@@ -60,3 +42,4 @@ const HOST = '0.0.0.0';
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
+
