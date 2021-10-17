@@ -18,9 +18,6 @@ const client = new Client({
 
 client.connect();
 
-console.log("DATABASE URL IS PRINTING: ", process.env.DATABASE_URL)
-console.log("PROCESS PORT: ", process.env.PORT)
-
 client.query('SELECT * FROM user_info ', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
@@ -50,7 +47,7 @@ app.post("/signup", async(req, res) =>{
             `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', '${firstName}', '${lastName}' , '${password}', '${email}') RETURNING *`
         );
         res.json(post.rows[0]);
-    
+
     } catch(err){
         console.error(err.message);
     }
