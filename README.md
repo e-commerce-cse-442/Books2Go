@@ -14,7 +14,7 @@ Express: We used a node library express for our APIs. Install express by running
 
 Reactjs: All of our frontend stuff is with reactjs. To get started with reactjs you have to install react by running this command `npm install create_react_app`.
 
-Postgresql: We used Postgresql as our database. We use heroku database to run our app. You could use Pgadmin to build your database.
+Postgresql: We used Postgresql as our database. We used heroku database to run our app. You could use Pgadmin to build your database.
 
 # Usage
 
