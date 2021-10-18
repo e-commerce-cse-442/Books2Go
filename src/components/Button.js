@@ -50,33 +50,65 @@ export default function Button() {
     <div class="container">
       <div class="row">
         <button class="black col">Home</button>
+
+        {/* login  */}
         <button class="col blue" onClick={() => setLoginPopup(true)}>
           Login
         </button>
 
         <Popup trigger={LoginPopup} setTrigger={setLoginPopup}>
-          <h2>Login</h2>
-          <form onSubmit={handleLogin}>
-            <label>
-              Username: <input type="text"
-                        class="form-control"
-                        name="username"
-                        placeholder="Username"
-                        required="required"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)} />
-            </label>
-            <label>
-              Password: <input type="password" 
-                        class="form-control"
-                        name="password"
-                        placeholder="Password"
-                        required="required"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)} />
-            </label>
-            <button>Login</button> 
-          </form>
+        <body>
+            <div class="signup-form">
+              <form onSubmit={handleSignup}>
+                <h2>Login</h2>
+                <p class="hint-text">
+                  Login to sell or buy books.
+                </p>
+
+                <div class="form-group">
+                  <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    placeholder="Email"
+                    required="required"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    placeholder="Username"
+                    required="required"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    placeholder="Password"
+                    required="required"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <button
+                    type="submit"
+                    class="btn btn-success btn-lg btn-block"
+                  >
+                    Login Now
+                  </button>
+                </div>
+              </form>
+              <div class="text-center">
+                Don't have account yet? <a href="#">Create an account</a>
+              </div>
+            </div>
+          </body>
         </Popup>
 
         {/* Sign up */}
