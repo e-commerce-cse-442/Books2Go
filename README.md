@@ -27,3 +27,7 @@ After the dependencies install, you can run `npm start` to build and run the app
 Passwords will be stored in the database using md5 encryption.
 
 Use "npm install md5" to have the encryption working.
+
+## Routing 
+
+Routing would work between Home Button and the Marketplace which create direct connection between pages and the Buttons which we are using to create different links from routs and pages.
