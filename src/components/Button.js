@@ -29,6 +29,23 @@ export default function Button() {
     }
   };
 
+  //below function will be activated when login form submitted
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const body = { username, password};
+      const response = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),  //will need to get data from database and compare ithe username and pass if same; succes if same
+      });
+
+      console.log(response);
+    } catch (err) {
+      console.log(err);   //had this as error in console when trying to log in //err says "request with GET/HEAD cannot have body"
+    }
+  };
+
   return (
     <div class="container">
       <div class="row">
@@ -42,21 +59,11 @@ export default function Button() {
         <Popup trigger={LoginPopup} setTrigger={setLoginPopup}>
         <body>
             <div class="signup-form">
-              <form onSubmit={handleSignup}>
+              <form onSubmit={handleLogin}>
                 <h2>Login</h2>
                 <p class="hint-text">
                   Login to sell or buy books.
                 </p>
-
-                <div class="form-group">
-                  <input
-                    type="email"
-                    class="form-control"
-                    name="email"
-                    placeholder="Email"
-                    required="required"
-                  />
-                </div>
 
                 <div class="form-group">
                   <input
@@ -65,6 +72,8 @@ export default function Button() {
                     name="username"
                     placeholder="Username"
                     required="required"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
 
@@ -75,6 +84,8 @@ export default function Button() {
                     name="password"
                     placeholder="Password"
                     required="required"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
 
