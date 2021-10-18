@@ -7,29 +7,12 @@ const app = express();
 
 client.connect();
 
-const { Client } = require('pg');
-
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
-
-client.connect();
-
-client.query('SELECT * FROM user_info ', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-  client.end();
-});
 
 app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(express.static('../public'));
 
 //middleware
+
 app.use(cors());
 app.use(express.json()); //req.body
 
@@ -46,13 +29,39 @@ app.post("/signup", async(req, res) =>{
             `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', '${firstName}', '${lastName}' , '${password}', '${email}') RETURNING *`
         );
         res.json(post.rows[0]);
-
+    
     } catch(err){
         console.error(err.message);
     }
 });
 
+app.post('/login', function(req, res) {
+    let username = req.body.username;
+    let password = req.body.password;
+    let LoggedIn = false;
+    
+    client.query("Select * from user_info Where username='" + username + "' and user_password='" + password + "'", function(error, sqlinfo) {
 
+        //console.log(rows);
+        var size = Object.keys(sqlinfo["rows"]).length;  //0 is no user,
+
+        if(size > 0) {
+          //the user is valid
+          LoggedIn = true;
+          //console.log("the size of keys is : " + JSON.stringify(size)) ;
+          console.log("LoggedIn is: " + LoggedIn);
+
+        } else {
+          //the user isn't valid
+          LoggedIn = false;
+          //console.log("LoggedIn is false");
+          console.log("LoggedIn is: " + LoggedIn);
+        }
+    });
+    res.send(LoggedIn);
+});
+
+//pass in db is plaintext
 
 const PORT = process.env.PORT || 8000;
 const HOST = '0.0.0.0';
