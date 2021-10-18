@@ -15,13 +15,15 @@ app.use(express.static('../public'));
 
 app.use(cors());
 app.use(express.json()); //req.body
+const md5 = require('md5');
 
 //create
 app.post("/signup", async(req, res) =>{
     //async: wait for the function
     try{
         const name = req.body.username;
-        const password = req.body.password;
+        const password = md5(req.body.password);  //encrypted
+        //console.log("this is the signup passs being sent: " + password) ;
         const email = req.body.email;
         const firstName = req.body.firstName;
         const lastName = req.body.lastName;
@@ -37,8 +39,9 @@ app.post("/signup", async(req, res) =>{
 
 app.post('/login', function(req, res) {
     let username = req.body.username;
-    let password = req.body.password;
+    let password = md5(req.body.password); //encrypted
     let LoggedIn = false;
+    //console.log("this is the pass that will be sent to login db: " + password)
     
     client.query("Select * from user_info Where username='" + username + "' and user_password='" + password + "'", function(error, sqlinfo) {
 
