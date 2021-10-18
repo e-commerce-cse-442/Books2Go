@@ -17,7 +17,7 @@ export default function Button() {
     e.preventDefault();
     try {
       const body = { username, firstName, lastName, password, email };
-      const response = await fetch("http://0.0.0.0:5000/signup", {
+      const response = await fetch("/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -34,15 +34,15 @@ export default function Button() {
     e.preventDefault();
     try {
       const body = { username, password};
-      const response = await fetch("http://0.0.0.0:5000/login", {
-        method: "GET",
+      const response = await fetch("/login", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),  //will need to get data from database and compare ithe username and pass if same; succes if same
       });
 
-      console.log("this is the " + response);
+      console.log(response);
     } catch (err) {
-      console.error(err.message);   //had this as error in console when trying to log in
+      console.log(err);   //had this as error in console when trying to log in //err says "request with GET/HEAD cannot have body"
     }
   };
 

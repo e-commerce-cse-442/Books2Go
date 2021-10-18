@@ -34,37 +34,34 @@ app.post("/signup", async(req, res) =>{
         console.error(err.message);
     }
 });
-//maybe should change to post instead
-app.get("/login", async(req, res) =>{
-    //async: wait for the function
-    ///*
-    try{
-        const username = req.body.username;
-        const password = req.body.password;
-        const isValid = false;  //may have to change from const to else...    will change to true if valid
 
-        client.query(
-            "SELECT * FROM users WHERE username = ? AND password = ?",
-            [username, password],
-            (err, result) => {
-                if (err) {
-                    res.send({err: err});
-                }
-                if (result) {
-                    res.send(result);
-                } else {
-                    res.send({message: "Invalid Credentials!"});
-                }  
-            }
-        )
-    } catch(err){
-        console.error(err.message);
-    }
-    //*/
+app.post('/login', function(req, res) {
+    let username = req.body.username;
+    let password = req.body.password;
+    let LoggedIn = false;
+    
+    client.query("Select * from user_info Where username='" + username + "' and user_password='" + password + "'", function(error, sqlinfo) {
+
+        //console.log(rows);
+        var size = Object.keys(sqlinfo["rows"]).length;  //0 is no user,
+
+        if(size > 0) {
+          //the user is valid
+          LoggedIn = true;
+          //console.log("the size of keys is : " + JSON.stringify(size)) ;
+          console.log("LoggedIn is: " + LoggedIn);
+
+        } else {
+          //the user isn't valid
+          LoggedIn = false;
+          //console.log("LoggedIn is false");
+          console.log("LoggedIn is: " + LoggedIn);
+        }
+    });
+    res.send(LoggedIn);
 });
+
 //pass in db is plaintext
-
-
 
 const PORT = process.env.PORT || 8000;
 const HOST = '0.0.0.0';
