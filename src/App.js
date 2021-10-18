@@ -4,6 +4,38 @@ import Button from "./components/Button";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "./images/Logo.png";
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from  "react-router-dom";
+import { component } from "react";
+import "./App.css";
+
+import {
+ // BrowserRouter as Router,
+ // Route,
+ // Switch,
+//  Link,
+ // Redirect,
+} from "react-router-dom";
+
+//Pages
+import AllProducts from "./components/HomeProducts";
+import NotFoundPage from "./components/404";
+import UserPage from "./components/users"
+
+class App extends component {
+  render() {
+    return <Router>
+      <Switch>
+      <Router exact Path="/HomeProducts"Component={AllProducts} />
+      <Route exact path="/404"component={NotFoundPage}/>
+      <Route exact path="/users"component={UserPage}/>
+
+      <Redirect to="/404"/> 
+
+      </Switch>
+    </Router>
+  }
+}
+
 
 function HomeBackground() {
   return (
@@ -31,7 +63,7 @@ function SearchBar() {
   );
 }
 
-export default function App() {
+function Applm() {
   return (
     <div class="body">
       <HomeBackground />
@@ -39,3 +71,5 @@ export default function App() {
     </div>
   );
 }
+
+export default Applm;
