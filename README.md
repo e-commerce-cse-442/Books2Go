@@ -21,3 +21,5 @@ Postgresql: We used Postgresql as our database. We used heroku database to run o
 After you clone the repo, go to the root directroy and run `npm install` again to make sure you install all dependencies.
 
 After the dependencies install, you can run `npm start` to build and run the application. The website will be available on localhost:8000.
+
+Nonimportant change to make new push to developing to make equal with main.
