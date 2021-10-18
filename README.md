@@ -22,4 +22,8 @@ After you clone the repo, go to the root directroy and run `npm install` again t
 
 After the dependencies install, you can run `npm start` to build and run the application. The website will be available on localhost:8000.
 
-Nonimportant change to make new push to developing to make equal with main.
+## Security
+
+Passwords will be stored in the database using md5 encryption.
+
+Use "npm install md5" to have the encryption working.
