@@ -60,7 +60,7 @@ app.post('/login', function(req, res) {
           //console.log("the size of keys is : " + JSON.stringify(size)) ;
           console.log("LoggedIn is: " + LoggedIn);
 
-          res.send("Login Successful!");
+          res.send({message: "Login Successful!"});
 
         } else {
           //the user isn't valid
