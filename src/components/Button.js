@@ -38,12 +38,13 @@ export default function Button() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),  //will need to get data from database and compare ithe username and pass if same; succes if same
+      })
+      .then(function(response){ return response.json(); })
+      .then(function(thedata) {
+      const themessage = thedata;
+      console.log(themessage);
       });
-
-      //const data = await response.json(); //trying
-      let thedata = response.json(); //trying
-      console.log("this is from buttonjs, and data is: " + thedata); //trying
-      console.log("his is the response: " + response); //trying
+      let theresponse = response ;//trying
       
     } catch (err) {
       console.log(err);   //had this as error in console when trying to log in //err says "request with GET/HEAD cannot have body"

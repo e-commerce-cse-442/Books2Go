@@ -55,18 +55,22 @@ app.post('/login', function(req, res) {
           LoggedIn = true;
           //console.log("the size of keys is : " + JSON.stringify(size)) ;
           console.log("LoggedIn is: " + LoggedIn);
-          //loginmsg = " " + username + " is logged in!"; //trying
+          loginmsg = " " + username + " is logged in!"; //trying
+          //res.send(loginmsg) ;
+          res.json(loginmsg);
 
         } else {
           //the user isn't valid
           LoggedIn = false;
           //console.log("LoggedIn is false");
           console.log("LoggedIn is: " + LoggedIn);
-          //loginmsg = "Invalid credentials!"; //trying
+          loginmsg = "Invalid credentials!"; //trying
+          //res.send(loginmsg);
+          res.json(loginmsg);
         }
     });
     //console.log("loginmsg is : " + loginmsg);
-    res.json("this is the text from server :)")
+    //res.json("this is the text from server :)")
     //res.json(LoggedIn) ;//trying to send to frontend
     //res.send(LoggedIn);
 });
