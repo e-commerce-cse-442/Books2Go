@@ -55,13 +55,13 @@ app.post('/login', function(req, res) {
           //console.log("the size of keys is : " + JSON.stringify(size)) ;
           console.log("LoggedIn is: " + LoggedIn);
 
-          res.send("Login Successfull");
+          res.send({message: "Login Successful"})
 
         } else {
           //the user isn't valid
           LoggedIn = false;
           //console.log("LoggedIn is false");
-          res.sendStatus(404);
+          res.send({message: "Login Failed"})
           console.log("LoggedIn is: " + LoggedIn);
     
         }
