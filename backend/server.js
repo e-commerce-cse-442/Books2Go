@@ -41,27 +41,34 @@ app.post('/login', function(req, res) {
     let username = req.body.username;
     let password = md5(req.body.password); //encrypted
     let LoggedIn = false;
+    let loginmsg = "" ;
     //console.log("this is the pass that will be sent to login db: " + password)
     
     client.query("Select * from user_info Where username='" + username + "' and user_password='" + password + "'", function(error, sqlinfo) {
 
         //console.log(rows);
         var size = Object.keys(sqlinfo["rows"]).length;  //0 is no user,
+        //let loginmsg = "" ;
 
         if(size > 0) {
           //the user is valid
           LoggedIn = true;
           //console.log("the size of keys is : " + JSON.stringify(size)) ;
           console.log("LoggedIn is: " + LoggedIn);
+          //loginmsg = " " + username + " is logged in!"; //trying
 
         } else {
           //the user isn't valid
           LoggedIn = false;
           //console.log("LoggedIn is false");
           console.log("LoggedIn is: " + LoggedIn);
+          //loginmsg = "Invalid credentials!"; //trying
         }
     });
-    res.send(LoggedIn);
+    //console.log("loginmsg is : " + loginmsg);
+    res.json("this is the text from server :)")
+    //res.json(LoggedIn) ;//trying to send to frontend
+    //res.send(LoggedIn);
 });
 
 //pass in db is plaintext
