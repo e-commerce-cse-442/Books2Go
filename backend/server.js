@@ -27,10 +27,15 @@ app.post("/signup", async(req, res) =>{
         const email = req.body.email;
         const firstName = req.body.firstName;
         const lastName = req.body.lastName;
+        try {
         const post = await client.query(
             `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', '${firstName}', '${lastName}' , '${password}', '${email}') RETURNING *`
-        );
-        res.json(post.rows[0]);
+            );
+        res.send({message: "Sign-Up Successful"});
+
+        } catch(err){
+            res.send({message: 'Username Taken'});
+        };
     
     } catch(err){
         console.error(err.message);
@@ -41,6 +46,7 @@ app.post('/login', function(req, res) {
     let username = req.body.username;
     let password = md5(req.body.password); //encrypted
     let LoggedIn = false;
+ 
     //console.log("this is the pass that will be sent to login db: " + password)
     
     client.query("Select * from user_info Where username='" + username + "' and user_password='" + password + "'", function(error, sqlinfo) {
@@ -54,14 +60,19 @@ app.post('/login', function(req, res) {
           //console.log("the size of keys is : " + JSON.stringify(size)) ;
           console.log("LoggedIn is: " + LoggedIn);
 
+          res.send({message: "Login Successful!"});
+
         } else {
           //the user isn't valid
           LoggedIn = false;
           //console.log("LoggedIn is false");
           console.log("LoggedIn is: " + LoggedIn);
+          res.send({message: "Login Failed"})
+    
         }
     });
-    res.send(LoggedIn);
+
+
 });
 
 //pass in db is plaintext
