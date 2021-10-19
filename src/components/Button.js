@@ -40,6 +40,7 @@ export default function Button() {
         body: JSON.stringify(body),  //will need to get data from database and compare ithe username and pass if same; succes if same
       });
 
+
       if(response.status == 200){
         alert("login Successfull");
       }
@@ -50,6 +51,7 @@ export default function Button() {
     } catch (err) {
       console.log(err);   //had this as error in console when trying to log in //err says "request with GET/HEAD cannot have body"
     }
+    
   };
 
   return (
