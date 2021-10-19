@@ -53,15 +53,17 @@ app.post('/login', function(req, res) {
           LoggedIn = true;
           //console.log("the size of keys is : " + JSON.stringify(size)) ;
           console.log("LoggedIn is: " + LoggedIn);
+          res.send("Login Successfull");
 
         } else {
           //the user isn't valid
           LoggedIn = false;
           //console.log("LoggedIn is false");
+          res.sendStatus(404);
           console.log("LoggedIn is: " + LoggedIn);
         }
     });
-    res.send(LoggedIn);
+    
 });
 
 //pass in db is plaintext
