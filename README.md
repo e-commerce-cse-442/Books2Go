@@ -1,11 +1,33 @@
-# Books2Go Documentation
+# Books2Go
 
-we used reactjs, Nodejs, express and Postgresql in this project.
+Books2Go is a E-Commerce website for everyone would like to sell their own books. This project uses Reactjs, Nodejs, Express and Postgresql to make books purchases possible by including carts, order tracking, user accounts, and book information.
 
-Nodejs: All of our backend stuff is running with node server. To get started with node, you have to install node and npm in you local machine. run "npm install -g npm" to do that. 
+## Installation
 
-Express: We used a node library express for our API stuff. install express by running "npm install express". You'll see we imported express on our server.js. And there is already a post and get request on server. 
+Clone this repo to your desktop and run `npm install` to get all dependencies.
 
-reactjs: All of our frontend stuff is with reactjs. To get started with reactjs you have to install react by running this command npm install create_react_app.
+Make sure to install packages and programs below:
 
-Postgresql: We used postgresql as our database. you can get the database credentials from our heroku app. Also download pgAdmin to see the tables. 
+Nodejs: All of our backend stuff is running with node server. To get started with node, you have to install node and npm in you local machine. run `npm install -g npm` to do that.
+
+Express: We used a node library express for our APIs. Install express by running `npm install express`. You'll see we imported express on our server.js. And there is already a post and get request on server.
+
+Reactjs: All of our frontend stuff is with reactjs. To get started with reactjs you have to install react by running this command `npm install create_react_app`.
+
+Postgresql: We used Postgresql as our database. We used heroku database to run our app. You could use Pgadmin to build your database.
+
+## Usage
+
+After you clone the repo, go to the root directroy and run `npm install` again to make sure you install all dependencies.
+
+After the dependencies install, you can run `npm start` to build and run the application. The website will be available on localhost:8000.
+
+## Security
+
+Passwords will be stored in the database using md5 encryption.
+
+Use "npm install md5" to have the encryption working.
+
+## Routing 
+
+Routing would work between Home Button and the Marketplace which create direct connection between pages and the Buttons which we are using to create different links from routs and pages.
