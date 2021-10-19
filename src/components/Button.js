@@ -40,11 +40,14 @@ export default function Button() {
         body: JSON.stringify(body),  //will need to get data from database and compare ithe username and pass if same; succes if same
       });
 
-      //const data = await response.json(); //trying
-      let thedata = response.json(); //trying
-      console.log("this is from buttonjs, and data is: " + thedata); //trying
-      console.log("his is the response: " + response); //trying
-      
+
+      if(response.status == 200){
+        alert("login Successfull");
+      }
+      else{
+        alert("login failed");
+      }
+      console.log(response);
     } catch (err) {
       console.log(err);   //had this as error in console when trying to log in //err says "request with GET/HEAD cannot have body"
     }
