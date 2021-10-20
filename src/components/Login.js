@@ -1,10 +1,12 @@
 import React from "react";
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import "./Signup.css";
+import {useHistory} from 'react-router-dom';
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
   //below function will be activated when login form submitted
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,7 +18,13 @@ function Login() {
         body: JSON.stringify(body),  //will need to get data from database and compare ithe username and pass if same; succes if same
       });
       const data = await response.json();
-      alert(data.message);
+
+      if(data.message == "Login Successful!"){
+        history.push('/home');
+      }
+      else{
+        alert(data.message);
+      }
 
       console.log(data.message);
     } catch (err) {
@@ -58,9 +66,9 @@ function Login() {
             </div>
 
             <div class="form-group">
-              <button type="submit" class="btn btn-success btn-lg btn-block">
-                Login Now
-              </button>
+                <button type="submit" class="btn btn-success btn-lg btn-block">
+                  Login Now
+                </button>
             </div>
           </form>
           <div class="text-center">

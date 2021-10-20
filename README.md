@@ -30,4 +30,5 @@ Use "npm install md5" to have the encryption working.
 
 ## Routing 
 
-Routing would work between Home Button and the Marketplace which create direct connection between pages and the Buttons which we are using to create different links from routs and pages.
+we'll be using routing to route from landing page to marketpace.
+Use "npm install --save react-router-dom" to have the routing working.
