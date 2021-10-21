@@ -14,10 +14,8 @@
   position: relative;
   padding: 40px;
   width: 100%;
-  max-width: 520px;
-  max-height: 750px;
-  background-color: black;
-  opacity: .95;
+  max-width: 900px;
+  background-color:  #ffffff;
 }
 
 .popup-inner .close-btn {

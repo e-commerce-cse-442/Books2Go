@@ -5,15 +5,20 @@ import { useState } from "react";
 import Popup from "./Popup";
 import Signup from "./Signup";
 import Login from "./Login";
+import {useHistory} from 'react-router-dom';
 
 export default function Button() {
   const [LoginPopup, setLoginPopup] = useState(false);
   const [SignUpPopup, setSignUpPopup] = useState(false);
+  const history = useHistory();
+  const handleRouting = () => history.push('/home');
 
   return (
     <div class="container">
       <div class="row">
-        <button class="black col">Home</button>
+    
+        <button onClick={handleRouting} class="black col">Home</button>
+  
 
         {/* login  */}
         <button class="col blue" onClick={() => setLoginPopup(true)}>

@@ -1,17 +1,19 @@
 import React from "react";
 import "./Signup.css";
 import { useState } from "react";
+import Navbar from "./Navbar";
+import {useHistory} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 
 
 function Signup() {
-  const [LoginPopup, setLoginPopup] = useState(false);
-  const [SignUpPopup, setSignUpPopup] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const history = useHistory();
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
@@ -23,13 +25,17 @@ function Signup() {
       });
   
       const data = await response.json();
-      console.log(data);
+      alert(data.message);
+      if (data.message = "Sign-Up Successful"){
+        history.push('/login');
+      }
     } catch (err) {
       console.error(err.message);
     }
   };
   return (
     <div>
+      <Navbar />
       <body>
         <div class="signup-form">
           <form onSubmit={handleSignup}>
@@ -128,7 +134,7 @@ function Signup() {
             </div>
           </form>
           <div class="text-center">
-            Already have an account? <a href="#">Sign in</a>
+            Already have an account? <Link to="/login">Sign in</Link>
           </div>
         </div>
       </body>
