@@ -27,3 +27,8 @@ After the dependencies install, you can run `npm start` to build and run the app
 Passwords will be stored in the database using md5 encryption.
 
 Use "npm install md5" to have the encryption working.
+
+## Routing 
+
+we'll be using routing to route from landing page to marketpace.
+Use "npm install --save react-router-dom" to have the routing working.
