@@ -1,6 +1,6 @@
 import React from "react";
 import Marketplace from "./Marketplace";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar"
 
 
 

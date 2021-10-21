@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import "./Signup.css";
 import {useHistory} from 'react-router-dom';
+import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -35,6 +37,7 @@ function Login() {
 
   return (
     <div>
+      <Navbar />
       <body>
         <div class="signup-form">
           <form onSubmit={handleLogin}>
@@ -72,7 +75,7 @@ function Login() {
             </div>
           </form>
           <div class="text-center">
-            Don't have account yet? <a href="#">Create an account</a>
+            Don't have account yet? <Link to="/signup">Create an account</Link>
           </div>
         </div>
       </body>
