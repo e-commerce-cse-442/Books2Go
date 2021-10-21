@@ -60,7 +60,7 @@ function Navbar() {
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
               <Link to="/signup" class="nav-link" href="#">
-                Sign in
+                Sign up
               </Link>
             </li>
             <li class="nav-item active">
