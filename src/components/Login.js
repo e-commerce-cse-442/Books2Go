@@ -38,7 +38,7 @@ function Login() {
   return (
     <div>
       <Navbar />
-      <body>
+      <body class="login_body">
         <div class="signup-form">
           <form onSubmit={handleLogin}>
             <h2>Login</h2>
