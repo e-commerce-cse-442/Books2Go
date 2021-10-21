@@ -1,9 +1,11 @@
 /* signup and login*/
 
 body {
-  /* color: #fff; */
-  background-color: #ffffff;
+  background-color: #eee;
   font-family: "Roboto", sans-serif;
+}
+.login_body{
+  margin-top: 100px;
 }
 .form-control {
   height: 40px;
