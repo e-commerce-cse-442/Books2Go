@@ -26,7 +26,7 @@ function Signup() {
   
       const data = await response.json();
       alert(data.message);
-      if (data.message = "Sign-Up Successful"){
+      if (data.message == "Sign-Up Successful"){
         history.push('/login');
       }
     } catch (err) {
@@ -126,9 +126,7 @@ function Signup() {
                 Register Now
               </button>
 
-              {/* <Popup trigger={LoginPopup} setTrigger={setLoginPopup}>
-                <Login />
-              </Popup> */}
+             
 
 
             </div>
