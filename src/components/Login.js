@@ -22,7 +22,7 @@ function Login() {
       const data = await response.json();
 
       if(data.message == "Login Successful!"){
-        history.push('/home');
+        history.push('/shop');
       }
       else{
         alert(data.message);
