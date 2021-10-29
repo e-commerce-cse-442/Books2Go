@@ -10,24 +10,35 @@ import { Link } from "react-router-dom";
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm_password, setconfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const history = useHistory();
+  const [error, setError] = useState("");
+
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const body = { username, firstName, lastName, password, email };
+      const body = { username, firstName, lastName, password, confirm_password, email };
       const response = await fetch("/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-  
+
+      const resetPasswordFields = () => {
+        setPassword("");
+        setconfirmPassword("");
+      };
       const data = await response.json();
-      alert(data.message);
+      //alert(data.message);   data.message might not be string, need convert
       if (data.message == "Sign-Up Successful"){
         history.push('/login');
+      } else {
+        setError(data.message);
+        //Need to reset fields so user can try again.
+        {resetPasswordFields()}
       }
     } catch (err) {
       console.error(err.message);
@@ -112,6 +123,8 @@ function Signup() {
                 name="confirm_password"
                 placeholder="Confirm Password"
                 required="required"
+                value={confirm_password}
+                onChange={(e) => setconfirmPassword(e.target.value)}
               />
             </div>
             <div class="form-group">
@@ -126,9 +139,8 @@ function Signup() {
                 Register Now
               </button>
 
-             
-
-
+              {(error != "") ? ( <div class="error">{error}</div>) : ""}
+              
             </div>
           </form>
           <div class="text-center">
