@@ -92,3 +92,9 @@ body {
 .signup-form form a:hover {
   text-decoration: underline;
 }
+.signup-form .error {
+  color: #ec0e0e;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+}

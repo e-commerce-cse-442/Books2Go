@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import "./Signup.css";
+import "./Signup.css"; //Will use same css as in the sign up css file
 import {useHistory} from 'react-router-dom';
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const history = useHistory();
-  //below function will be activated when login form submitted
+  //below function will be activated when login form submitted, 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -17,22 +18,21 @@ function Login() {
       const response = await fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),  //will need to get data from database and compare ithe username and pass if same; succes if same
+        body: JSON.stringify(body),
       });
       const data = await response.json();
 
       if(data.message == "Login Successful!"){
-        history.push('/shop');
+        history.push('/shop'); //If login successful, page will log in and open the /shop
+        //Later I may want to incorporate cookies upon login
       }
       else{
-        alert(data.message);
+        setError(data.message); //Will set the error message to the msg in data
       }
-
       console.log(data.message);
     } catch (err) {
-      console.log(err);   //had this as error in console when trying to log in //err says "request with GET/HEAD cannot have body"
+      console.log(err);
     }
-    
   };
 
   return (
@@ -73,6 +73,8 @@ function Login() {
                   Login Now
                 </button>
             </div>
+            {/*The below line is the error msg for when login unsuccessful */}
+            {(error != "") ? ( <div class="error">{error}</div>) : ""}
           </form>
           <div class="text-center">
             Don't have account yet? <Link to="/signup">Create an account</Link>
