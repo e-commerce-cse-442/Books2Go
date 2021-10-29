@@ -47,7 +47,7 @@ app.post("/signup", async (req, res) => {
       res.send({ message: "Sign-Up Successful" });
     } catch (err) {
       //Account not made because a user with that username exists.
-      res.send({ message: "Username is Taken!" });
+      res.send({ message: "Username already exists!" });
     }
   } catch (err) {
     console.log("Server Error!");
