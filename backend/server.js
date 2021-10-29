@@ -5,8 +5,7 @@ const client = require("./db");
 const md5 = require("md5");
 
 const app = express();
-
-client.connect();
+client.connect(); //Connects to the SQL database.
 
 app.use(express.static("../build"));
 app.get("*", (req, res) => {
@@ -14,30 +13,44 @@ app.get("*", (req, res) => {
 });
 
 //middleware
-
 app.use(cors());
 app.use(express.json()); //req.body
 
-//create
 app.post("/signup", async (req, res) => {
   //async: wait for the function
   try {
+    //mayybe change back to const
     const name = req.body.username;
-    const password = md5(req.body.password); //encrypted
-    //console.log("this is the signup passs being sent: " + password) ;
+    const password = md5(req.body.password); //Encrypted
     const email = req.body.email;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
+    //Checks that pass and confirmpass in form are the same.
+    if (req.body.password != req.body.confirm_password) { 
+      res.send({ message: "Passwords do not match!" });
+      return;
+    }
+    //Require passwords with at least 8 characters.
+    if (req.body.password.length < 8) { 
+      res.send({message: "Password must be more than 8 characters!"});
+      return;
+    }
+
     try {
       const post = await client.query(
-        `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', '${firstName}', '${lastName}' , '${password}', '${email}') RETURNING *`
+        `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', 
+        '${firstName}', 
+        '${lastName}' , 
+        '${password}', 
+        '${email}') RETURNING *`
       );
       res.send({ message: "Sign-Up Successful" });
     } catch (err) {
-      res.send({ message: "Username Taken" });
+      //Account not made because a user with that username exists.
+      res.send({ message: "Username is Taken!" });
     }
   } catch (err) {
-    console.error(err.message);
+    console.log("Server Error!");
   }
 });
 
@@ -46,8 +59,7 @@ app.post("/login", function (req, res) {
   let password = md5(req.body.password); //encrypted
   let LoggedIn = false;
 
-  //console.log("this is the pass that will be sent to login db: " + password)
-
+  //Below is the request sent to the SQL database.
   client.query(
     "Select * from user_info Where username='" +
       username +
@@ -56,27 +68,18 @@ app.post("/login", function (req, res) {
       "'",
     function (error, sqlinfo) {
       //console.log(rows);
-      var size = Object.keys(sqlinfo["rows"]).length; //0 is no user,
+      var size = Object.keys(sqlinfo["rows"]).length; //0 results means there is no such user with those credentials.
 
       if (size > 0) {
-        //the user is valid
-        LoggedIn = true;
-        //console.log("the size of keys is : " + JSON.stringify(size)) ;
-        console.log("LoggedIn is: " + LoggedIn);
-
+        LoggedIn = true; //The user exists.
         res.send({ message: "Login Successful!" });
       } else {
-        //the user isn't valid
-        LoggedIn = false;
-        //console.log("LoggedIn is false");
-        console.log("LoggedIn is: " + LoggedIn);
-        res.send({ message: "Login Failed" });
+        LoggedIn = false; //The user with those credentials does not exist.
+        res.send({ message: "Login Failed!" });
       }
     }
   );
 });
-
-//pass in db is plaintext
 
 const PORT = process.env.PORT || 8000;
 const HOST = "0.0.0.0";
