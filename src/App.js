@@ -3,6 +3,7 @@ import Product from "./components/Product";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
+import { useCookies } from 'react-cookie';
 
 function HomeBackground() {
   return (

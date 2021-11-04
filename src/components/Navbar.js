@@ -2,6 +2,8 @@ import React from "react";
 import logo from "../images/Logo.png";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import { useCookies } from 'react-cookie';
+import username from "./Login";
 
 
 function Navbar() {
@@ -49,6 +51,10 @@ function Navbar() {
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
+            {/*The below line is to welcome the user if logged in */}
+            
+            {(username != "") ? ( <div class="error">Hi, {username}! </div>) : ""}
+
             <input
               class="form-control mr-sm-2"
               type="search"
