@@ -1,3 +1,4 @@
+import { ifStatement } from "@babel/types";
 import React, { useEffect, useState } from "react";
 import "./Marketplace.css";
 
@@ -5,6 +6,9 @@ import "./Marketplace.css";
 function Marketplace() {
   const [books, setBooks] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [subGenres, setSubGenres] = useState([]);
+  const [bookData, setBookData] = useState(false);
+  const [genreData, setGenreData] = useState(false);
   const listingBooks = async () => {
     try {
       const response = await fetch("/books");
@@ -14,14 +18,10 @@ function Marketplace() {
     } catch (err) {
       console.log(err);
     }
-  };
+    setBookData(true);
+  };  
 
-  useEffect(() => {
-    listingBooks();
-  }, []);
-  
-
-  const listingGenre = () =>{
+  const listingGenre = async () => {
     var genreList = [];
     var holdingList = [];
     for (var i = 0; i < books.length; i++){
@@ -38,11 +38,39 @@ function Marketplace() {
       }
     }
     setGenres(genreList);
+    setGenreData(true);
   }
+  const listingSubGenre = async () => {
+    var subGenreList = [];
+    var exploredList = [];
+    for( var k = 0; k < books.length; k++){
+      if(!exploredList.includes(books[k].sub_genre)){
+        subGenreList.push([books[k].genre, books[k].sub_genre,1]);
+        exploredList.push(books[k].sub_genre);
+      }
+      else{
+        for( var j = 0; j < subGenreList.length; j++ ){
+          if(subGenreList[j][1] === books[k].sub_genre){
+            console.log(subGenreList[j][1]);
+            subGenreList[j][2] = subGenreList[j][2] + 1;
+          }
+        }
+      }
+    }
+    setSubGenres(subGenreList);
+  }
+
   useEffect(() => {
-    listingGenre();
-  });
+    listingBooks();
+    if (bookData === true){
+      listingGenre();
+    }
+    if (genreData === true){
+      listingSubGenre();
+    }
+  }, [bookData, genreData] );
   
+  console.log(subGenres);
 
   return (
     <div>
@@ -76,8 +104,7 @@ function Marketplace() {
 
               {/* loop through length */}
 
-              {Array.apply(null, Array(genre[1])).map((i) => (
-  
+              {subGenres.map((subGenre) => (
               <div class="d-flex justify-content-between mt-2">
                 <div class="form-check">
                   {" "}
@@ -89,12 +116,12 @@ function Marketplace() {
                   />{" "}
                   <label class="form-check-label" for="flexCheckDefault">
                     {" "}
-                    {/* implementation to left */}
-                    math
+                    {/* need to have an if condition */}
+                    {subGenre[1]}
                     {" "}
                   </label>{" "}
                 </div>{" "}
-                <span>3</span>
+                <span>{subGenre[2]}</span>
               </div>
               ))}
           </div>
