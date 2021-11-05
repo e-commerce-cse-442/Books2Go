@@ -60,6 +60,30 @@ function Marketplace() {
     setSubGenres(subGenreList);
   }
 
+  function helperforGen(gen, subGen){
+    if(gen[0] === subGen[0]){
+      return subGen[1];
+    }
+    else{
+      return "documentary";
+    }
+  }
+
+  function helperforNum(gen, subGen){
+    if(gen[0] === subGen[0]){
+      return subGen[2];
+    }
+    else{
+      return 0;
+    }
+  }
+
+  // function breakHelper(gen, subGen){
+  //   if(gen[0] === subGen[0]){
+  //     break;
+  //   }
+  // }
+
   useEffect(() => {
     listingBooks();
     if (bookData === true){
@@ -117,11 +141,11 @@ function Marketplace() {
                   <label class="form-check-label" for="flexCheckDefault">
                     {" "}
                     {/* need to have an if condition */}
-                    {subGenre[1]}
+                    {helperforGen(genre, subGenre)}
                     {" "}
                   </label>{" "}
                 </div>{" "}
-                <span>{subGenre[2]}</span>
+                <span>{helperforNum(genre, subGenre)}</span>
               </div>
               ))}
           </div>

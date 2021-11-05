@@ -22,10 +22,10 @@ function Product() {
             </div>
             <div class="text-center">
               {" "}
-              <img src="images/book1.jpg" alt="" width="250" />{" "}
+              <img src="images/Classical Myth.jpg" alt="" width="250" />{" "}
             </div>
             <div class="text-center">
-              <h5>Fundamentals of Python</h5>{" "}
+              <h5>Classical Myth</h5>{" "}
               <span class="text-success">$20 value</span>
             </div>
           </div>
