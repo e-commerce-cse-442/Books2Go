@@ -38,9 +38,9 @@ function Navbar() {
               </Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                Free PDF Books
-              </a>
+              <Link to="/pdfBook" class="nav-link" href="#">
+                PDF Books
+              </Link>
             </li>
             <li class="nav-item">
               <Link to="/cart"class="nav-link" href="#">
