@@ -33,12 +33,12 @@ function Signup() {
       };
       const data = await response.json();
       //alert(data.message);   data.message might not be string, need convert
-      if (data.message == "Sign-Up Successful"){
+      if (data.message === "Sign-Up Successful"){
         history.push('/login');
       } else {
         setError(data.message);
         //Need to reset fields so user can try again.
-        {resetPasswordFields()}
+        resetPasswordFields();
       }
     } catch (err) {
       console.error(err.message);

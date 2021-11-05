@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../images/Logo.png";
+// import logo from "images/Logo.png";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,7 @@ function Navbar() {
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
           <Link to="/shop">
-            <img class="logo" src={logo} alt="Logo" />
+            <img class="logo" src="images/Logo.png" alt="Logo" />
           </Link>
         </a>
         <button
