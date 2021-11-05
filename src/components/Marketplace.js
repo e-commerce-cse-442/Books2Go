@@ -1,4 +1,3 @@
-import { ifStatement } from "@babel/types";
 import React, { useEffect, useState } from "react";
 import "./Marketplace.css";
 
@@ -60,13 +59,15 @@ function Marketplace() {
     setSubGenres(subGenreList);
   }
 
+  //need to change it
+
   function helperforGen(gen, subGen){
     if(gen[0] === subGen[0]){
       return subGen[1];
     }
-    else{
-      return "documentary";
-    }
+    // else{
+    //   return fakeData[iteration] ;
+    // }
   }
 
   function helperforNum(gen, subGen){
@@ -89,9 +90,9 @@ function Marketplace() {
     if (bookData === true){
       listingGenre();
     }
-    if (genreData === true){
-      listingSubGenre();
-    }
+    // if (genreData === true){
+    //   listingSubGenre();
+    // }
   }, [bookData, genreData] );
   
   console.log(subGenres);
@@ -120,17 +121,17 @@ function Marketplace() {
 
 
             {/* filtering starts*/}
-            {genres.map((genre) => (
+            
             <div class="processor p-2">
               <div class="heading d-flex justify-content-between align-items-center">
-                <h6 class="text-uppercase">{genre[0]}</h6> <span>--</span>
+                <h6 class="text-uppercase">Filter</h6> <span>--</span>
               </div>
 
               {/* loop through length */}
 
-              {subGenres.map((subGenre) => (
+              {genres.map((genre) => (
               <div class="d-flex justify-content-between mt-2">
-                <div class="form-check">
+                <div class="form-check" >
                   {" "}
                   <input
                     class="form-check-input"
@@ -141,15 +142,17 @@ function Marketplace() {
                   <label class="form-check-label" for="flexCheckDefault">
                     {" "}
                     {/* need to have an if condition */}
-                    {helperforGen(genre, subGenre)}
+                    {genre[0]}
+                    
                     {" "}
                   </label>{" "}
                 </div>{" "}
-                <span>{helperforNum(genre, subGenre)}</span>
+                <span>{genre[1]}</span>
               </div>
-              ))}
-          </div>
+        
           ))}
+          </div>
+          
           </div>
           {/* filtering stuff ends here*/}
 
