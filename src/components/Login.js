@@ -22,7 +22,11 @@ function Login() {
       });
       const data = await response.json();
 
+<<<<<<< HEAD
+      if(data.message === "Login Successful!"){
+=======
       if(data.message == "Login Successful!"){
+>>>>>>> mohammedsprint3main
         history.push('/shop'); //If login successful, page will log in and open the /shop
         //Later I may want to incorporate cookies upon login
       }
@@ -74,7 +78,11 @@ function Login() {
                 </button>
             </div>
             {/*The below line is the error msg for when login unsuccessful */}
+<<<<<<< HEAD
+            {(error !== "") ? ( <div class="error">{error}</div>) : ""}
+=======
             {(error != "") ? ( <div class="error">{error}</div>) : ""}
+>>>>>>> mohammedsprint3main
           </form>
           <div class="text-center">
             Don't have account yet? <Link to="/signup">Create an account</Link>

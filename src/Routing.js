@@ -6,7 +6,10 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Cart from './components/Cart';
 import PDFBooks from './components/PDFBooks';
+<<<<<<< HEAD
+=======
 import Checkout from './components/Checkout';
+>>>>>>> mohammedsprint3main
 
 
 function Routing() {
@@ -20,7 +23,10 @@ function Routing() {
                     <Route path = "/signup" component={Signup} />
                     <Route path = "/cart" component={Cart} />
                     <Route path = "/pdfBook" component={PDFBooks} />
+<<<<<<< HEAD
+=======
                     <Route path = "/checkout" component={Checkout} />
+>>>>>>> mohammedsprint3main
                 </Switch>
             </div>
         </Router>   

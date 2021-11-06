@@ -1,8 +1,5 @@
 import React from "react";
 import "./Product.css";
-import book1 from "../images/book1.jpg";
-import book2 from "../images/book2.jpg";
-import book4 from "../images/book4.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Product() {
@@ -25,10 +22,10 @@ function Product() {
             </div>
             <div class="text-center">
               {" "}
-              <img src={book1} alt="" width="250" />{" "}
+              <img src="images/Classical Myth.jpg" alt="" width="250" />{" "}
             </div>
             <div class="text-center">
-              <h5>Fundamentals of Python</h5>{" "}
+              <h5>Classical Myth</h5>{" "}
               <span class="text-success">$20 value</span>
             </div>
           </div>
@@ -45,7 +42,7 @@ function Product() {
             </div>
             <div class="text-center">
               {" "}
-              <img src={book4} alt="" width="250" />{" "}
+              <img src="images/book4.jpg" alt="" width="250" />{" "}
             </div>
             <div class="text-center">
               <h5>Think and grow rich</h5>{" "}
@@ -64,7 +61,7 @@ function Product() {
             </div>
             <div class="text-center">
               {" "}
-              <img src={book2} alt="" width="250" />{" "}
+              <img src="images/book2.jpg" alt="" width="250" />{" "}
             </div>
             <div class="text-center">
               <h5>Algorithm Design</h5> <span class="text-success">FREE</span>

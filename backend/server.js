@@ -12,10 +12,6 @@ const Stripe = require("stripe");
 const app = express();
 client.connect(); //Connects to the SQL database.
 
-app.use(express.static("../build"));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../build", "index.html"));
-});
 
 //middleware
 app.use(cors());
@@ -116,7 +112,7 @@ app.post("/signup", async (req, res) => {
       res.send({ message: "Sign-Up Successful" });
     } catch (err) {
       //Account not made because a user with that username exists.
-      res.send({ message: "Username is Taken!" });
+      res.send({ message: "Username already exists!" });
     }
   } catch (err) {
     console.log("Server Error!");
@@ -149,6 +145,24 @@ app.post("/login", function (req, res) {
     }
   );
 });
+
+//get all books
+app.get("/books", async(req, res) =>{
+  try{
+    const allBooks = await client.query("SELECT * FROM books");
+    // res.send({"books": "hi"});
+    res.json(allBooks.rows);
+  } catch (err){
+    console.error(err.message);
+  }
+});
+
+// * means it's going to serve any path the client request
+app.use(express.static("../build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../build", "index.html"));
+});
+
 
 const PORT = process.env.PORT || 8000;
 const HOST = "0.0.0.0";
