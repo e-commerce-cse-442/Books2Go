@@ -1,8 +1,13 @@
+const stripe = require('stripe')(process.env.SECRET_KEY);
+
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const client = require("./db");
 const md5 = require("md5");
+const Stripe = require("stripe");
+
+
 
 const app = express();
 client.connect(); //Connects to the SQL database.
@@ -15,6 +20,70 @@ app.get("*", (req, res) => {
 //middleware
 app.use(cors());
 app.use(express.json()); //req.body
+
+const YOUR_DOMAIN = 'http://0.0.0.0:8000/checkout';
+
+app.post('/create-checkout-session', async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        // TODO: replace this with the `price` of the product you want to sell
+        price: '{{PRICE_ID}}',
+        quantity: 1,
+      },
+    ],
+    payment_method_types: [
+      'card',
+    ],
+    mode: 'payment',
+    success_url: `${YOUR_DOMAIN}?success=true`,
+    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+  });
+
+  res.redirect(303, session.url);
+});
+
+// app.listen(4242, () => console.log('Running on port 4242'));
+
+
+// app.post("/payment-intent/create", async (req, res) => {
+//   try {
+//     const {number, cvv, exp_year, exp_month, email, amount, currency} = req.body;
+
+//     const payment_method = await({
+//       type: 'card',
+//       card: {
+//         exp_month: exp_month,
+//         exp_year: exp_year,
+//         number: number,
+//         cvc: cvv
+//       }
+//     });
+
+// //     console.log('payment_method', payment_method);
+
+// //     // const customer = await stripe.customers.create({
+// //     //   email: email,
+// //     //   payment_method: payment_method.id,
+// //     // });
+
+// //     // console.log('customer', customer);
+
+// //     // const paymentIntent = await stripe.paymentIntents.create({
+// //     //   amount: amount,
+// //     //   currency: currency,
+// //     //   payment_method_types: ['card'],
+// //     //   confirm: true,
+// //     //   receipt_email: email,
+// //     //   paymenth_method: payment_method.id,
+// //     //   customer: customer.id
+// //     // });
+
+// //     // console.log('payment_intent', paymentIntent)
+// //   } catch (err) {
+// //     console.log('err', err);
+// //   }
+// // })
 
 app.post("/signup", async (req, res) => {
   //async: wait for the function
