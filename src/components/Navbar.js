@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../images/Logo.png";
+// import logo from "images/Logo.png";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
@@ -12,7 +12,7 @@ function Navbar() {
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
           <Link to="/shop">
-            <img class="logo" src={logo} alt="Logo" />
+            <img class="logo" src="images/Logo.png" alt="Logo" />
           </Link>
         </a>
         <button
@@ -40,9 +40,9 @@ function Navbar() {
               </Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                Free PDF Books
-              </a>
+              <Link to="/pdfBook" class="nav-link" href="#">
+                PDF Books
+              </Link>
             </li>
             <li class="nav-item">
               <Link to="/cart"class="nav-link" href="#">
@@ -51,10 +51,6 @@ function Navbar() {
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            {/*The below line is to welcome the user if logged in */}
-            
-            {(username != "") ? ( <div class="error">Hi, {username}! </div>) : ""}
-
             <input
               class="form-control mr-sm-2"
               type="search"
