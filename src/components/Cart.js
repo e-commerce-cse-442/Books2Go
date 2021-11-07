@@ -7,6 +7,8 @@ function Cart() {
 
 
   const [cookies, setCookie] = useCookies(['user']);
+
+
     return (
         <div>
             <Navbar />
