@@ -2,10 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Routing from "./Routing";
 import { BrowserRouter } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 
-ReactDOM.render(<BrowserRouter>
+ReactDOM.render(
+  <CookiesProvider>
+  <BrowserRouter>
   <Routing/>
-</BrowserRouter>, document.getElementById("root"));
+  </BrowserRouter>
+  </CookiesProvider>,
+  document.getElementById("root"));
 
 
 //below may help in fixing the "you need to enable javascript" in browser error
