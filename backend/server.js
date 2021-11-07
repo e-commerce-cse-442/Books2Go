@@ -88,7 +88,7 @@ app.get("/books", async(req, res) =>{
     console.error(err.message);
   }
 });
-
+// Check if cart exists for user
 app.get("/cart", async(req, res) =>{
   try{
     const user_id_json = req.body.user_id
@@ -96,6 +96,12 @@ app.get("/cart", async(req, res) =>{
     res.send({ message: "Cart Exists", dict: current_cart})
   } catch (err){
     res.send({ message: "No Cart Exists"})
+  }
+})
+
+app.post("/cart", async(req, res) =>{
+  try{
+
   }
 })
 
