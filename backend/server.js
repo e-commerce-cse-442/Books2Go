@@ -23,22 +23,22 @@ app.post("/signup", async (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     //Checks that pass and confirmpass in form are the same.
-    if (req.body.password != req.body.confirm_password) { 
+    if (req.body.password != req.body.confirm_password) {
       res.send({ message: "Passwords do not match!" });
       return;
     }
     //Require passwords with at least 8 characters.
-    if (req.body.password.length < 8) { 
+    if (req.body.password.length < 8) {
       res.send({message: "Password must be more than 8 characters!"});
       return;
     }
 
     try {
       const post = await client.query(
-        `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', 
-        '${firstName}', 
-        '${lastName}' , 
-        '${password}', 
+        `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}',
+        '${firstName}',
+        '${lastName}' ,
+        '${password}',
         '${email}') RETURNING *`
       );
       res.send({ message: "Sign-Up Successful" });
@@ -88,6 +88,16 @@ app.get("/books", async(req, res) =>{
     console.error(err.message);
   }
 });
+
+app.get("/cart", async(req, res) =>{
+  try{
+    const user_id_json = req.body.user_id
+    const current_cart = await client.query("SELECT * FROM cart WHERE user_id =" + user_id_json)
+    res.send({ message: "Cart Exists", dict: current_cart})
+  } catch (err){
+    res.send({ message: "No Cart Exists"})
+  }
+})
 
 // * means it's going to serve any path the client request
 app.use(express.static("../build"));
