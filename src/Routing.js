@@ -5,7 +5,7 @@ import Shop from "./components/Shop";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Cart from './components/Cart';
-import PDFBooks from './components/PDFBooks';
+
 
 
 function Routing() {
@@ -18,7 +18,6 @@ function Routing() {
                     <Route path = "/login" component={Login} />
                     <Route path = "/signup" component={Signup} />
                     <Route path = "/cart" component={Cart} />
-                    <Route path = "/pdfBook" component={PDFBooks} />
                 </Switch>
             </div>
         </Router>   
