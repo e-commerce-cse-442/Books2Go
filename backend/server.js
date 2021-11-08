@@ -45,7 +45,7 @@ app.post("/signup", async (req, res) => {
       // Create instance of cart during user account creation
       const cart_insert = await client.query('INSERT INTO cart(cart_id) SELECT cart_id FROM user_info WHERE username = ' + name);
       const cart_total_insert = await client.query('INSERT INTO cart(cart_total) VALUES (0) WHERE cart_id = ' + '0');
-      
+
       res.send({ message: "Sign-Up Successful" });
     } catch (err) {
       //Account not made because a user with that username exists.
@@ -105,9 +105,6 @@ app.get("/cart", async(req, res) =>{
 })
 
 app.post("/cart", async(req, res) =>{
-  try{
-
-  }
 })
 
 // * means it's going to serve any path the client request

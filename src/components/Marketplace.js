@@ -18,7 +18,7 @@ function Marketplace() {
       console.log(err);
     }
     setBookData(true);
-  };  
+  };
 
   const listingGenre = async () => {
     var genreList = [];
@@ -94,11 +94,12 @@ function Marketplace() {
     //   listingSubGenre();
     // }
   }, [bookData, genreData] );
-  
+
   console.log(subGenres);
 
   return (
     <div>
+    <script src="Button_Function.js" defer></script>
       <div class="container-fluid mt-5 mb-5">
         <div class="row g-2">
           <div class="col-md-3">
@@ -106,7 +107,7 @@ function Marketplace() {
               <h6 class="text-uppercase">Genres</h6>
 
               {/* rendering genre starts here */}
-              
+
               {genres.map((genre) => (
 
                 <div class="p-lists">
@@ -121,7 +122,7 @@ function Marketplace() {
 
 
             {/* filtering starts*/}
-            
+
             <div class="processor p-2">
               <div class="heading d-flex justify-content-between align-items-center">
                 <h6 class="text-uppercase">Filter</h6> <span>--</span>
@@ -143,16 +144,16 @@ function Marketplace() {
                     {" "}
                     {/* need to have an if condition */}
                     {genre[0]}
-                    
+
                     {" "}
                   </label>{" "}
                 </div>{" "}
                 <span>{genre[1]}</span>
               </div>
-        
+
           ))}
           </div>
-          
+
           </div>
           {/* filtering stuff ends here*/}
 
@@ -161,13 +162,14 @@ function Marketplace() {
             <div class="row g-2">
               {/* work start here */}
                 {books.map((book) => (
-                  <div class="col-md-4">
+                  <div class="col-md-4 book-data" data-book-id="<%= book.id %>">
                     <div class="product py-4">
                       {" "}
                       {/* <span class="off bg-success">-25% OFF</span> */}
                       <div class="text-center">
                         {" "}
-                        <img 
+                        <img
+                          class= "book-image"
                           src= {`images/${book.name}.jpg`}
                           alt=""
                           width="200"
@@ -175,28 +177,28 @@ function Marketplace() {
                         />{" "}
                       </div>
                       <div class="about text-center">
-                        <h5>{book.name}</h5> <span>{`$${book.price}`}</span>
+                        <span class="book-name">{book.name}</span> <span class="book-price">{`$${book.price}`}</span>
                       </div>
                       <div class="cart-button mt-3 px-2 d-flex justify-content-between align-items-center">
                         {" "}
                         <button class="btn btn-primary text-uppercase">
                           Buy Now
                         </button>
-                        <button class="btn btn-primary text-uppercase">
+                        <button class="btn btn-primary text-uppercase add-to-cart-btn">
                           Add to cart
                         </button>
                       </div>
                     </div>
                   </div>
                 ))}
-             
+
               {/* end here */}
             </div>
           </div>
         </div>
       </div>
     </div>
-  
+
   );
 }
 

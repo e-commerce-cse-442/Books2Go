@@ -7,7 +7,7 @@ function Cart() {
 
 
   const [cookies, setCookie] = useCookies(['user']);
-
+  console.log("CART ENTERED")
 
     return (
         <div>
