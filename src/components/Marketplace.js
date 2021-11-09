@@ -97,9 +97,37 @@ function Marketplace() {
 
   console.log(subGenres);
 
+  function hi(){
+    console.log("HI")
+  }
+
+  function buttons() {
+    console.log("button ran")
+    var addToCartButtons = document.getElementsByClassName('add-to-cart-btn')
+      for (var i = 0; i < addToCartButtons.length; i++) {
+          var button = addToCartButtons[i]
+          button.addEventListener('click', addToCart)
+      }
+  }
+
+  function addToCart(event) {
+      var button = event.target
+      var bookData = button.parentElement.parentElement
+      console.log(bookData)
+      var book_name = bookData.getElementsByClassName('book-name')[0].innerText
+      var book_price = bookData.getElementsByClassName('book-price')[0].innerText
+      var imageSrc = bookData.getElementsByClassName('book-image')[0].src
+      var id = bookData.dataset.bookId
+
+      console.log(book_name)
+      console.log(book_price)
+  }
+
+
   return (
+
     <div>
-    <script src="Button_Function.js" defer></script>
+      <script> {buttons()} </script>
       <div class="container-fluid mt-5 mb-5">
         <div class="row g-2">
           <div class="col-md-3">
@@ -161,8 +189,11 @@ function Marketplace() {
           <div class="col-md-9">
             <div class="row g-2">
               {/* work start here */}
+
                 {books.map((book) => (
+
                   <div class="col-md-4 book-data" data-book-id="<%= book.id %>">
+
                     <div class="product py-4">
                       {" "}
                       {/* <span class="off bg-success">-25% OFF</span> */}
@@ -197,6 +228,7 @@ function Marketplace() {
           </div>
         </div>
       </div>
+
     </div>
 
   );
