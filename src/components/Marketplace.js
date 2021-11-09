@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Marketplace.css";
 
-
 function Marketplace() {
   const [books, setBooks] = useState([]);
   const [genres, setGenres] = useState([]);
@@ -97,6 +96,11 @@ function Marketplace() {
   
   console.log(subGenres);
 
+  // Book Description Function
+  function bookDescription(book_desc) {
+    alert(book_desc);
+  }
+
   return (
     <div>
       <div class="container-fluid mt-5 mb-5">
@@ -167,12 +171,14 @@ function Marketplace() {
                       {/* <span class="off bg-success">-25% OFF</span> */}
                       <div class="text-center">
                         {" "}
-                        <img 
+                        <button type={"submit"} onClick={() => bookDescription(`${book.book_desc}`)} >
+                        <img
                           src= {`images/${book.name}.jpg`}
                           alt=""
                           width="200"
                           height="250"
                         />{" "}
+                        </button>
                       </div>
                       <div class="about text-center">
                         <h5>{book.name}</h5> <span>{`$${book.price}`}</span>
