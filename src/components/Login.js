@@ -4,13 +4,21 @@ import "./Signup.css"; //Will use same css as in the sign up css file
 import {useHistory} from 'react-router-dom';
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [cookies, setCookie] = useCookies(['user']); //cookies stuff
   const history = useHistory();
-  //below function will be activated when login form submitted, 
+
+  const setUserCookies = () => {
+    //sets cookie to have the username
+    setCookie('userName', username, { path: '/' , sameSite: 'strict'});
+ };
+
+  //below function will be activated when login form submitted,
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -25,6 +33,8 @@ function Login() {
       if(data.message === "Login Successful!"){
         history.push('/shop'); //If login successful, page will log in and open the /shop
         //Later I may want to incorporate cookies upon login
+        //can set cookies here
+        setUserCookies() ;
       }
       else{
         setError(data.message); //Will set the error message to the msg in data
@@ -42,7 +52,7 @@ function Login() {
         <div class="signup-form">
           <form onSubmit={handleLogin}>
             <h2>Login</h2>
-            <p class="hint-text">Login to sell or buy books.</p>
+            <p class="hint-text">Login to buy books.</p>
 
             <div class="form-group">
               <input

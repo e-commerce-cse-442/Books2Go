@@ -1,13 +1,17 @@
 import React from 'react'
 import Navbar from './Navbar'
 import "./Cart.css"
+import { useCookies } from 'react-cookie';
 
 function Cart() {
+
+
+  const [cookies, setCookie] = useCookies(['user']);
     return (
         <div>
             <Navbar />
             <div class="your-cart">
-              <h1 class="cart-head">Your Cart</h1>
+              <h1 class="cart-head">{cookies.userName}'s Cart</h1>
               <span class= "item-count">(0 Items)</span>
             </div>
             <div class="cart-row">
@@ -20,7 +24,9 @@ function Cart() {
                 <strong class="cart-total-title">Total</strong>
                 <span class="cart-total-price">$0</span>
             </div>
+            <form action='../Checkout'>
             <button class="button-checkout">Checkout</button>
+            </form>
             </div>
     )
 }

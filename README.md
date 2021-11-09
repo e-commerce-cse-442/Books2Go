@@ -33,6 +33,11 @@ Use "npm install md5" to have the encryption working.
 we'll be using routing to route from landing page to marketpace.
 Use "npm install --save react-router-dom" to have the routing working.
 
+## Cookies
+
+Cookie implementation in this site uses the react-cookie library.
+Can be downloaded:  "npm install react-cookie"
+Will create a session cookie for the user once they are logged in. 
 ## add products on marketplace
 
 To add more books on the marketplace, add the book on database(table name is "books"), then download an image and put it on public/images. Image name has to be same name as the book name then .jpg
