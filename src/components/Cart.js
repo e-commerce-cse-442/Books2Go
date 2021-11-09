@@ -14,12 +14,19 @@ function Cart() {
   }
   console.log(cart.cart)
   var total = 0
+  var book_name = ""
 
   if (cart.cart != undefined){
     for (const num of Object.values(cart.cart)) {
         total += num.quantity
+
+    }
+    for (const num of Object.keys(cart.cart)) {
+      book_name = num
+      console.log("book names: ", num)
     }
   }
+
 
   function render_cart() {
     var cartRow = document.createElement('div');
@@ -27,7 +34,7 @@ function Cart() {
 
     var cartRowData = `
       <div class="cart-item cart-column">
-          <span class="cart-item-title">${name}</span>
+          <span class="cart-item-title">${book_name}</span>
       </div>
       <span class="cart-price cart-column">${1}</span>
       <div class="cart-quantity cart-column">
@@ -35,9 +42,20 @@ function Cart() {
       </div>`
     cartRow.innerHTML = cartRowData;
 
-    var cartItems = document.getElementsByClassName('cart-items')[0];
-    cartItems.append(cartRow);
+    console.log(cartRow.innerHTML);
+
+    document.getElementsByClassName('cart-items')[0].appendChild(cartRow);
+
+    // document.body.appendChild(cartRow);
+    // var cartItems = document.getElementsByClassName('cart-items')[0];
+    // cartItems.insertBefore(cartRow, null)
+    // console.log(cartItems.innerHTML)
+    //
+    // console.log('CART ITEMS', cartItems);
+    // cartItems.append(cartRow);
+    // document.body.insertBefore(cartRow, cartItems);
   }
+  // document.body.onload(render_cart());
 
     return (
         <div>
@@ -53,9 +71,9 @@ function Cart() {
             </div>
 
             <div class="cart-items">
-                <script> {render_cart()} </script>
 
             </div>
+            <script> {render_cart()} </script>
             <div class="cart-total">
                 <strong class="cart-total-title">Total</strong>
                 <span class="cart-total-price">$0</span>
