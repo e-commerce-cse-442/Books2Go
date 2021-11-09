@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from 'react'
 import Navbar from './Navbar'
 import "./Cart.css"
@@ -29,20 +28,6 @@ function Cart() {
             <button class="button-checkout">Checkout</button>
             </form>
             </div>
-=======
-import React from 'react';
-import Navbar from './Navbar';
-import { useCookies } from 'react-cookie';
-
-function Cart() {
-    const [cookies, setCookie] = useCookies(['user']); //cookies stuff
-    return (
-        <div>
-            <Navbar />
-
-            <h1>{cookies.userName}</h1>
-        </div>
->>>>>>> 2063104d347de747f3f4ed62f06d6a9e9fab81f7
     )
 }
 

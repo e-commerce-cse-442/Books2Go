@@ -8,7 +8,7 @@ const app = express();
 
 const Stripe = require("stripe")
 const stripe = Stripe("sk_test_51JqpJoDhds8qO6YdDdyzTW9ALoDsnqWpc242vNJZe2vHKQx4QtDSJ4GqXNxh5l3pz1cdwIZEvVRjfyQi8NR1qc8H00oYPe95ve");
-// client.connect(); //Connects to the SQL database.
+client.connect(); //Connects to the SQL database.
 
 
 

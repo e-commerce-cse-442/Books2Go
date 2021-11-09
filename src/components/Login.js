@@ -18,11 +18,8 @@ function Login() {
     setCookie('userName', username, { path: '/' , sameSite: 'strict'});
  };
 
-<<<<<<< HEAD
   //below function will be activated when login form submitted,
-=======
-  //below function will be activated when login form submitted, 
->>>>>>> 2063104d347de747f3f4ed62f06d6a9e9fab81f7
+  //below function will be activated when login form submitted,
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
