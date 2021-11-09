@@ -1,8 +1,7 @@
-import React from 'react'
-import Navbar from './Navbar'
-import "./Cart.css"
+import React, { useEffect, useState } from "react";
+import Navbar from './Navbar';
+import "./Cart.css";
 import { useCookies } from 'react-cookie';
-import "./Cart.css"
 
 
 
