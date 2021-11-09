@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Marketplace.css";
+import { useCookies } from 'react-cookie';
 
 
 function Marketplace() {
@@ -9,6 +10,8 @@ function Marketplace() {
   const [subGenres, setSubGenres] = useState([]);
   const [bookData, setBookData] = useState(false);
   const [genreData, setGenreData] = useState(false);
+  const [cookies, setCookie] = useCookies(['user']);
+
   const listingBooks = async () => {
     try {
       const response = await fetch("/books");
@@ -66,25 +69,67 @@ function Marketplace() {
     if (bookData === true){
       listingGenre();
     }
+
+    cartSetup();
     // if (genreData === true){
     //   listingSubGenre();
     // }
   }, [bookData] );
 
   // add to cart fnctionality
+
+  const cartSetup = async () => {
+    try {
+      var holder = "";
+      const response = await fetch("/cartList");
+      const data = await response.json();
+      for(var i = 0; i<data.length; i++){
+          if(data[i].username === cookies.userName){
+            holder = data[i].cart_list;
+          }
+      }
+      setBookList(holder);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   
   function cartList (b){
     var holder = bookList;
-
     if(holder.includes(b.name) === false){
       holder+=b.name;
       holder+=';';
     }
-
     setBookList(holder);
   }
+
   
+
+  /// update user_info
   console.log(bookList);
+
+  const updateInfo = async () => {
+    try {
+      var user_name = cookies.userName;
+      const body = { user_name, bookList };
+      const response = await fetch("/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+      //alert(data.message);   data.message might not be string, need convert
+      console.log(data);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  if(bookList !== ""){
+    updateInfo();
+  }
+
 
   return (
     <div>
