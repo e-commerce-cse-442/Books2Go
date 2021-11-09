@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from './Navbar'
+import { useCookies } from 'react-cookie';
 
 function Cart() {
     return (
