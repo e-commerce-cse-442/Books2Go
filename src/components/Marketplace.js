@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./Marketplace.css";
+import { useCookies } from 'react-cookie';
 
 function Marketplace() {
   const [books, setBooks] = useState([]);
+  const [bookList, setBookList] = useState("");
   const [genres, setGenres] = useState([]);
   const [subGenres, setSubGenres] = useState([]);
   const [bookData, setBookData] = useState(false);
   const [genreData, setGenreData] = useState(false);
+  const [cookies, setCookie] = useCookies(['user']);
+
   const listingBooks = async () => {
     try {
       const response = await fetch("/books");
@@ -58,43 +62,73 @@ function Marketplace() {
     setSubGenres(subGenreList);
   }
 
-  //need to change it
-
-  function helperforGen(gen, subGen){
-    if(gen[0] === subGen[0]){
-      return subGen[1];
-    }
-    // else{
-    //   return fakeData[iteration] ;
-    // }
-  }
-
-  function helperforNum(gen, subGen){
-    if(gen[0] === subGen[0]){
-      return subGen[2];
-    }
-    else{
-      return 0;
-    }
-  }
-
-  // function breakHelper(gen, subGen){
-  //   if(gen[0] === subGen[0]){
-  //     break;
-  //   }
-  // }
 
   useEffect(() => {
     listingBooks();
     if (bookData === true){
       listingGenre();
     }
+
+    cartSetup();
     // if (genreData === true){
     //   listingSubGenre();
     // }
   }, [bookData] );
+
+  // add to cart fnctionality
+
+  const cartSetup = async () => {
+    try {
+      var holder = "";
+      const response = await fetch("/cartList");
+      const data = await response.json();
+      for(var i = 0; i<data.length; i++){
+          if(data[i].username === cookies.userName){
+            holder = data[i].cart_list;
+          }
+      }
+      setBookList(holder);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   
-  console.log(subGenres);
+  function cartList (b){
+    var holder = bookList;
+    if(holder.includes(b.name) === false){
+      holder+=b.name;
+      holder+=';';
+    }
+    setBookList(holder);
+  }
+
+  
+
+  /// update user_info
+  console.log(bookList);
+
+  const updateInfo = async () => {
+    try {
+      var user_name = cookies.userName;
+      const body = { user_name, bookList };
+      const response = await fetch("/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+      //alert(data.message);   data.message might not be string, need convert
+      console.log(data);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  if(bookList !== ""){
+    updateInfo();
+  }
+
 
   // Book Description Function
   function bookDescription(book_desc) {
@@ -188,7 +222,7 @@ function Marketplace() {
                         <button class="btn btn-primary text-uppercase">
                           Buy Now
                         </button>
-                        <button class="btn btn-primary text-uppercase">
+                        <button onClick={() => cartList(book)} class="btn btn-primary text-uppercase">
                           Add to cart
                         </button>
                       </div>

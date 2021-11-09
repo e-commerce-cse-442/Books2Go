@@ -206,6 +206,35 @@ app.post("/cart", async(req, res) =>{
   }
 })
 
+// update user_info
+app.post("/update", function (req, res) {
+  let cart = req.body.bookList;
+  let user_name = req.body.user_name;
+
+  console.log("cart "+cart);
+  console.log(user_name);
+  
+
+  //Below is the request sent to the SQL database.
+  
+  client.query(
+    `UPDATE user_info SET cart_list = '${cart}' WHERE username = '${user_name}'`);
+
+    res.send({ message: cart });
+});
+
+//get books for cart
+app.get("/cartList", async(req, res) =>{
+  try{
+    const allBooks = await client.query("SELECT user_info.username, user_info.cart_list FROM user_info");
+    // res.send({"books": "hi"});
+    res.json(allBooks.rows);
+  } catch (err){
+    console.error(err.message);
+  }
+});
+    
+
 // * means it's going to serve any path the client request
 app.use(express.static("../build"));
 app.get("*", (req, res) => {
