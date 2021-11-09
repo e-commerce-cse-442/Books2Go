@@ -1,8 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import Routing from "./Routing";
+import { BrowserRouter } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <CookiesProvider>
+  <BrowserRouter>
+  <Routing/>
+  </BrowserRouter>
+  </CookiesProvider>,
+  document.getElementById("root"));
+
 
 //below may help in fixing the "you need to enable javascript" in browser error
 /*
