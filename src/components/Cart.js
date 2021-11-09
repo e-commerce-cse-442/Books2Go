@@ -8,7 +8,8 @@ function Cart() {
         <div>
             <Navbar />
 
-            <h1>{cookies.userName}</h1>
+            <h1>{cookies.userName}'s cart</h1>
+
         </div>
     )
 }

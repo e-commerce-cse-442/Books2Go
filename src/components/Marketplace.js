@@ -4,6 +4,7 @@ import "./Marketplace.css";
 
 function Marketplace() {
   const [books, setBooks] = useState([]);
+  const [bookList, setBookList] = useState("");
   const [genres, setGenres] = useState([]);
   const [subGenres, setSubGenres] = useState([]);
   const [bookData, setBookData] = useState(false);
@@ -59,31 +60,6 @@ function Marketplace() {
     setSubGenres(subGenreList);
   }
 
-  //need to change it
-
-  function helperforGen(gen, subGen){
-    if(gen[0] === subGen[0]){
-      return subGen[1];
-    }
-    // else{
-    //   return fakeData[iteration] ;
-    // }
-  }
-
-  function helperforNum(gen, subGen){
-    if(gen[0] === subGen[0]){
-      return subGen[2];
-    }
-    else{
-      return 0;
-    }
-  }
-
-  // function breakHelper(gen, subGen){
-  //   if(gen[0] === subGen[0]){
-  //     break;
-  //   }
-  // }
 
   useEffect(() => {
     listingBooks();
@@ -94,8 +70,21 @@ function Marketplace() {
     //   listingSubGenre();
     // }
   }, [bookData] );
+
+  // add to cart fnctionality
   
-  console.log(subGenres);
+  function cartList (b){
+    var holder = bookList;
+
+    if(holder.includes(b.name) === false){
+      holder+=b.name;
+      holder+=';';
+    }
+
+    setBookList(holder);
+  }
+  
+  console.log(bookList);
 
   return (
     <div>
@@ -182,7 +171,7 @@ function Marketplace() {
                         <button class="btn btn-primary text-uppercase">
                           Buy Now
                         </button>
-                        <button class="btn btn-primary text-uppercase">
+                        <button onClick={() => cartList(book)} class="btn btn-primary text-uppercase">
                           Add to cart
                         </button>
                       </div>
