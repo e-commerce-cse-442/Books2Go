@@ -69,7 +69,8 @@ function Marketplace() {
       listingGenre();
     }
 
-    cartSetup();
+// Will implement later
+    // cartSetup();
     // if (genreData === true){
     //   listingSubGenre();
     // }
