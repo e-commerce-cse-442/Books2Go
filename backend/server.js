@@ -93,19 +93,8 @@ app.get("/books", async(req, res) =>{
     console.error(err.message);
   }
 });
-// Check if cart exists for user
-app.get("/cart", async(req, res) =>{
-  try{
-    const user_id_json = req.body.user_id
-    const current_cart = await client.query("SELECT * FROM cart WHERE user_id =" + user_id_json)
-    res.send({ message: "Cart Exists", dict: current_cart})
-  } catch (err){
-    res.send({ message: "No Cart Exists"})
-  }
-})
 
-app.post("/cart", async(req, res) =>{
-})
+
 
 // * means it's going to serve any path the client request
 app.use(express.static("../build"));

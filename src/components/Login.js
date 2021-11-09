@@ -10,7 +10,8 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [cookies, setCookie] = useCookies(['user']); //cookies stuff
+  const [cookies, setCookie] = useCookies(['user']);
+  const [cart, setCart, removeCart] = useCookies(['cart']) //cookies stuff
   const history = useHistory();
 
   const setUserCookies = () => {
@@ -35,6 +36,7 @@ function Login() {
         //Later I may want to incorporate cookies upon login
         //can set cookies here
         setUserCookies() ;
+        removeCart('cart');
       }
       else{
         setError(data.message); //Will set the error message to the msg in data

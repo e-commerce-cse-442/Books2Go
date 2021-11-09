@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Marketplace.css";
+import { useCookies } from 'react-cookie';
 
 
 function Marketplace() {
@@ -8,6 +9,8 @@ function Marketplace() {
   const [subGenres, setSubGenres] = useState([]);
   const [bookData, setBookData] = useState(false);
   const [genreData, setGenreData] = useState(false);
+  const [cart, setCart] = useState([]);
+  const [cookies, setCookie] = useCookies(['cart']); //cookies stuff
   const listingBooks = async () => {
     try {
       const response = await fetch("/books");
@@ -50,7 +53,7 @@ function Marketplace() {
       else{
         for( var j = 0; j < subGenreList.length; j++ ){
           if(subGenreList[j][1] === books[k].sub_genre){
-            console.log(subGenreList[j][1]);
+            // console.log(subGenreList[j][1]);
             subGenreList[j][2] = subGenreList[j][2] + 1;
           }
         }
@@ -95,39 +98,49 @@ function Marketplace() {
     // }
   }, [bookData, genreData] );
 
-  console.log(subGenres);
 
-  function hi(){
-    console.log("HI")
-  }
-
-  function buttons() {
-    console.log("button ran")
-    var addToCartButtons = document.getElementsByClassName('add-to-cart-btn')
-      for (var i = 0; i < addToCartButtons.length; i++) {
-          var button = addToCartButtons[i]
-          button.addEventListener('click', addToCart)
+  const addToCart = (book_data) => {
+      // console.log(book_data);
+      // console.log(book_data.name);
+      // console.log(book_data.price);
+      console.log(cart)
+      if (cart.hasOwnProperty(book_data.name)){
+        // console.log("update")
+        const updatedQuantity = {}
+        updatedQuantity[book_data.name] = {"quantity": cart[book_data.name].quantity + 1, "price": book_data.price}
+        setCart({...cart, ...updatedQuantity})
+      } else {
+        // console.log("new")
+        const updatedQuantity = {}
+        updatedQuantity[book_data.name] = {"quantity": 1, "price": book_data.price}
+        // updateQuantity[book_data.]
+        setCart({...cart, ...updatedQuantity})
       }
-  }
 
-  function addToCart(event) {
-      var button = event.target
-      var bookData = button.parentElement.parentElement
-      console.log(bookData)
-      var book_name = bookData.getElementsByClassName('book-name')[0].innerText
-      var book_price = bookData.getElementsByClassName('book-price')[0].innerText
-      var imageSrc = bookData.getElementsByClassName('book-image')[0].src
-      var id = bookData.dataset.bookId
+      // if (cookies.cart == undefined){
+      //   cookies.cart = cart[book_data.name]
+      // }
 
-      console.log(book_name)
-      console.log(book_price)
+        // cart[book_data.name].quantity = values[book_data.name].quantity + cart[book_data.name].quantity
+        // setCookie('cart', cart, { path: '/' , sameSite: 'strict'});
+        // console.log("COOKIES CART", cookies.cart)
+        // if (cookies.cart[book_data.name] == undefined){
+        //   cookies.cart[book_data.name] = cart[book_data.name];
+        // } else {
+        //   cookies.cart[book_data.name].quantity = cart[book_data.name].quantity;
+        // }
+
+        // setCookie('cart', cookies, { path: '/' , sameSite: 'strict'});
+
+      // console.log("COOKIES: ", cookies)
+      // console.log(cookies.cart)
+      setCookie('cart', cart, { path: '/' , sameSite: 'strict'});
   }
 
 
   return (
 
     <div>
-      <script> {buttons()} </script>
       <div class="container-fluid mt-5 mb-5">
         <div class="row g-2">
           <div class="col-md-3">
@@ -215,7 +228,7 @@ function Marketplace() {
                         <button class="btn btn-primary text-uppercase">
                           Buy Now
                         </button>
-                        <button class="btn btn-primary text-uppercase add-to-cart-btn">
+                        <button onClick={() => addToCart(book)} class="btn btn-primary text-uppercase add-to-cart-btn">
                           Add to cart
                         </button>
                       </div>
