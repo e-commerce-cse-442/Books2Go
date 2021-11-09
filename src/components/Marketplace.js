@@ -220,9 +220,11 @@ function Marketplace() {
                       </div>
                       <div class="cart-button mt-3 px-2 d-flex justify-content-between align-items-center">
                         {" "}
-                        <button class="btn btn-primary text-uppercase">
-                          Buy Now
-                        </button>
+
+                        {/*<button class="btn btn-primary text-uppercase">*/}
+                        {/*  Buy Now*/}
+                        {/*</button>*/}
+
                         <button onClick={() => cartList(book)} class="btn btn-primary text-uppercase">
                           Add to cart
                         </button>
