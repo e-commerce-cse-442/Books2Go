@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Navbar from './Navbar';
+import React from 'react'
+import Navbar from './Navbar'
+import "./Cart.css"
 import { useCookies } from 'react-cookie';
 import "./Cart.css"
 
 
 
 function Cart() {
+
     const [books, setBooks] = useState([]);
     const [booksData, setBooksData] = useState([]);
     const [bookPrice, setBookPrice] = useState([]);
@@ -156,6 +158,7 @@ function Cart() {
 
 
         </div>
+
     )
 }
 

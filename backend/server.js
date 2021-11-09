@@ -3,8 +3,11 @@ const path = require("path");
 const cors = require("cors");
 const client = require("./db");
 const md5 = require("md5");
-
+const dotenv = require("dotenv/config");
 const app = express();
+
+const Stripe = require("stripe")
+const stripe = Stripe("sk_test_51JqpJoDhds8qO6YdDdyzTW9ALoDsnqWpc242vNJZe2vHKQx4QtDSJ4GqXNxh5l3pz1cdwIZEvVRjfyQi8NR1qc8H00oYPe95ve");
 client.connect(); //Connects to the SQL database.
 
 
@@ -23,22 +26,22 @@ app.post("/signup", async (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     //Checks that pass and confirmpass in form are the same.
-    if (req.body.password != req.body.confirm_password) { 
+    if (req.body.password != req.body.confirm_password) {
       res.send({ message: "Passwords do not match!" });
       return;
     }
     //Require passwords with at least 8 characters.
-    if (req.body.password.length < 8) { 
+    if (req.body.password.length < 8) {
       res.send({message: "Password must be more than 8 characters!"});
       return;
     }
 
     try {
       const post = await client.query(
-        `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}', 
-        '${firstName}', 
-        '${lastName}' , 
-        '${password}', 
+        `INSERT INTO User_Info (username, user_first_name, user_last_name, user_password, user_email) VALUES('${name}',
+        '${firstName}',
+        '${lastName}' ,
+        '${password}',
         '${email}') RETURNING *`
       );
       res.send({ message: "Sign-Up Successful" });
@@ -50,6 +53,102 @@ app.post("/signup", async (req, res) => {
     console.log("Server Error!");
   }
 });
+
+app.post('/payment/post', async (req, res) => {
+  const {email,  number, exp_month, exp_year, cvc, city, country, postal_code, state, line1, user_id, callingCode } = req.body;
+
+  try {
+    const paymentMethod = await stripe.paymentMethods.create({
+      type: 'card',
+        card: {
+          number: number,
+          exp_month: exp_month,
+          exp_year: exp_year,
+          cvc: cvc,
+        }
+      ,
+    })
+
+    console.log(paymentMethod)
+    
+    const customer = await stripe.customers.create({
+      // payment_method: payment_method,
+      email: email,
+      payment_method: paymentMethod.id,
+      invoice_settings: {
+        default_payment_method: paymentMethod.id
+      }
+    });
+
+    console.log(customer);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: 200,
+      currency: 'usd',
+      customer: customer.id,
+      payment_method: paymentMethod.id,
+    })
+
+    const confirm_payment = await stripe.paymentIntents.confirm(
+      paymentIntent.id,
+      {return_url: `http://localhost:8000/Payment`}
+    )
+
+    console.log(confirm_payment)
+
+    console.log(paymentIntent)
+
+    // const setupIntent = await stripe.setupIntents.create({
+    //   confirm:true,
+    //   customer: customer.id,
+    //   payment_method: paymentMethod.id,
+    //   payment_method_types: ['card'],
+    // });
+  
+    // const paymentIntent = await stripe.paymentIntents.create({
+    //   amount: 24000,
+    //   currency: 'inr',
+    //   payment_method_types: ['card'],
+    //   payment_method: paymentMethod.id,
+    //   receipt_email: email,
+    //   confirm: true,
+    //   customer: customer.id
+    // });
+    const status = confirm_payment['status'];
+
+    if (status === 'requires_action') {
+      const url = confirm_payment['next_action']['redirect_to_url']['url'];
+      res.send({ 'status': status, 'url': url})
+    } else {
+      res.send({ 'status': status })
+    }
+    
+  } catch (err) {
+    // const error = res.json({ error: {message: err.message }})
+    console.log('err', err);
+  }
+})
+
+
+app.post('/payment-intent/get', async (req, res) => {
+  const {payment_intent_id} = req.body;
+  // console.log('req', req.params)
+  try {
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      payment_intent_id
+    );
+
+    console.log(paymentIntent)
+
+    const status = paymentIntent['status'];
+
+    console.log(status);
+
+    res.json({ 'status': status})
+  } catch (err) {
+    console.log(err);
+  }
+})
 
 app.post("/login", function (req, res) {
   let username = req.body.username;
@@ -88,6 +187,24 @@ app.get("/books", async(req, res) =>{
     console.error(err.message);
   }
 });
+// Check if cart exists for user
+app.get("/cart", async(req, res) =>{
+  try{
+    const user_id_json = req.body.user_id
+    const current_cart = await client.query("SELECT * FROM cart WHERE user_id =" + user_id_json)
+    res.send({ message: "Cart Exists", dict: current_cart})
+  } catch (err){
+    res.send({ message: "No Cart Exists"})
+  }
+})
+
+app.post("/cart", async(req, res) =>{
+  try{
+     console.log('cart');
+  } catch (err) {
+     console.log(err);
+  }
+})
 
 // update user_info
 app.post("/update", function (req, res) {
