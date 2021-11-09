@@ -54,49 +54,49 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.post('/payment/post', async (req, res) => {
-  const {email,  number, exp_month, exp_year, cvc, city, country, postal_code, state, line1, user_id, callingCode } = req.body;
+// app.post('/payment/post', async (req, res) => {
+//   const {email,  number, exp_month, exp_year, cvc, city, country, postal_code, state, line1, user_id, callingCode } = req.body;
 
-  try {
-    const paymentMethod = await stripe.paymentMethods.create({
-      type: 'card',
-        card: {
-          number: number,
-          exp_month: exp_month,
-          exp_year: exp_year,
-          cvc: cvc,
-        }
-      ,
-    })
+//   try {
+//     const paymentMethod = await stripe.paymentMethods.create({
+//       type: 'card',
+//         card: {
+//           number: number,
+//           exp_month: exp_month,
+//           exp_year: exp_year,
+//           cvc: cvc,
+//         }
+//       ,
+//     })
 
-    console.log(paymentMethod)
+//     console.log(paymentMethod)
     
-    const customer = await stripe.customers.create({
-      // payment_method: payment_method,
-      email: email,
-      payment_method: paymentMethod.id,
-      invoice_settings: {
-        default_payment_method: paymentMethod.id
-      }
-    });
+    // const customer = await stripe.customers.create({
+    //   // payment_method: payment_method,
+    //   email: email,
+    //   payment_method: paymentMethod.id,
+    //   invoice_settings: {
+    //     default_payment_method: paymentMethod.id
+    //   }
+    // });
 
-    console.log(customer);
+    // console.log(customer);
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: 200,
-      currency: 'usd',
-      customer: customer.id,
-      payment_method: paymentMethod.id,
-    })
+    // const paymentIntent = await stripe.paymentIntents.create({
+    //   amount: 200,
+    //   currency: 'usd',
+    //   customer: customer.id,
+    //   payment_method: paymentMethod.id,
+    // })
 
-    const confirm_payment = await stripe.paymentIntents.confirm(
-      paymentIntent.id,
-      {return_url: `http://localhost:8000/Payment`}
-    )
+    // const confirm_payment = await stripe.paymentIntents.confirm(
+    //   paymentIntent.id,
+    //   {return_url: `http://localhost:8000/Payment`}
+    // )
 
-    console.log(confirm_payment)
+    // console.log(confirm_payment)
 
-    console.log(paymentIntent)
+    // console.log(paymentIntent)
 
     // const setupIntent = await stripe.setupIntents.create({
     //   confirm:true,
@@ -114,41 +114,41 @@ app.post('/payment/post', async (req, res) => {
     //   confirm: true,
     //   customer: customer.id
     // });
-    const status = confirm_payment['status'];
+//     const status = confirm_payment['status'];
 
-    if (status === 'requires_action') {
-      const url = confirm_payment['next_action']['redirect_to_url']['url'];
-      res.send({ 'status': status, 'url': url})
-    } else {
-      res.send({ 'status': status })
-    }
+//     if (status === 'requires_action') {
+//       const url = confirm_payment['next_action']['redirect_to_url']['url'];
+//       res.send({ 'status': status, 'url': url})
+//     } else {
+//       res.send({ 'status': status })
+//     }
     
-  } catch (err) {
-    // const error = res.json({ error: {message: err.message }})
-    console.log('err', err);
-  }
-})
+//   } catch (err) {
+//     // const error = res.json({ error: {message: err.message }})
+//     console.log('err', err);
+//   }
+// })
 
 
-app.post('/payment-intent/get', async (req, res) => {
-  const {payment_intent_id} = req.body;
-  // console.log('req', req.params)
-  try {
-    const paymentIntent = await stripe.paymentIntents.retrieve(
-      payment_intent_id
-    );
+// app.post('/payment-intent/get', async (req, res) => {
+//   const {payment_intent_id} = req.body;
+//   // console.log('req', req.params)
+//   try {
+//     const paymentIntent = await stripe.paymentIntents.retrieve(
+//       payment_intent_id
+//     );
 
-    console.log(paymentIntent)
+//     console.log(paymentIntent)
 
-    const status = paymentIntent['status'];
+//     const status = paymentIntent['status'];
 
-    console.log(status);
+//     console.log(status);
 
-    res.json({ 'status': status})
-  } catch (err) {
-    console.log(err);
-  }
-})
+//     res.json({ 'status': status})
+//   } catch (err) {
+//     console.log(err);
+//   }
+// })
 
 app.post("/login", function (req, res) {
   let username = req.body.username;

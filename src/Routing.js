@@ -19,8 +19,8 @@ function Routing() {
                     <Route path = "/login" component={Login} />
                     <Route path = "/signup" component={Signup} />
                     <Route path = "/cart" component={Cart} />
-                    <Route path = "/Checkout" component={CheckoutForm} />
-                    <Route path = "/Payment" component={ProcessingPayment} />
+                    {/* <Route path = "/Checkout" component={CheckoutForm} />
+                    <Route path = "/Payment" component={ProcessingPayment} /> */}
                 </Switch>
             </div>
         </Router>   
