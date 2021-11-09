@@ -93,7 +93,7 @@ function Marketplace() {
     // if (genreData === true){
     //   listingSubGenre();
     // }
-  }, [bookData, genreData] );
+  }, [bookData] );
   
   console.log(subGenres);
 

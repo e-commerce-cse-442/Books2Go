@@ -39,11 +39,11 @@ function Navbar() {
                   Shop
               </Link>
             </li>
-            <li class="nav-item">
+            {/* <li class="nav-item">
               <Link to="/pdfBook" class="nav-link" href="#">
                 PDF Books
               </Link>
-            </li>
+            </li> */}
             <li class="nav-item">
               <Link to="/cart"class="nav-link" href="#">
                 Cart
