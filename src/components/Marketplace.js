@@ -103,38 +103,68 @@ function Marketplace() {
       // console.log(book_data);
       // console.log(book_data.name);
       // console.log(book_data.price);
-      console.log(cart)
-      if (cart.hasOwnProperty(book_data.name)){
-        // console.log("update")
-        const updatedQuantity = {}
-        updatedQuantity[book_data.name] = {"quantity": cart[book_data.name].quantity + 1, "price": book_data.price}
-        setCart({...cart, ...updatedQuantity})
-      } else {
-        // console.log("new")
-        const updatedQuantity = {}
-        updatedQuantity[book_data.name] = {"quantity": 1, "price": book_data.price}
-        // updateQuantity[book_data.]
-        setCart({...cart, ...updatedQuantity})
+      // console.log(typeof cookies)
+      if (cookies.hasOwnProperty("cart")) {
+        console.log("existing cart");
+        console.log("check before", cookies);
+        if (cookies.cart.hasOwnProperty(book_data.name)) {
+          console.log("increase cart")
+          cookies.cart[book_data.name]["quantity"] += 1;
+        } else {
+          console.log("new book existing cart");
+          cookies["cart"][book_data.name] = {"quantity": 1, "price": book_data.price};
+        }
+        console.log("Cookies after alter", cookies)
+        setCookie('cart', cookies.cart, { path: '/' , sameSite: 'strict'});
+      } else{
+        console.log("new");
+        var object = {};
+        object[book_data.name] = {"quantity": 1, "price": book_data.price};
+        // cookies[book_data.name] = {"quantity": 1, "price": book_data.price};
+        setCookie('cart', object, { path: '/' , sameSite: 'strict'})
       }
 
-      // if (cookies.cart == undefined){
-      //   cookies.cart = cart[book_data.name]
+      // console.log("just cookies", cookies);
+      // console.log("cookie cart", cookies["cart"]);
+
+      // var object = cookies["cart"];
+      // console.log(cart)
+      // if (((cookies || {})["cart"] || {})[book_data.name] !== undefined){
+      //   console.log("update");
+      //
+      //   // const updatedQuantity = {}
+      //   // console.log("update")
+      //   // cookies["cart"][book_data.name]["quantity"] += 1
+      //   // console.log(cookies["cart"][book_data.name]);
+      //   // setCookie('cart', cookies, { path: '/' , sameSite: 'strict'})
+      // } else {
+      //   console.log("new");
+      //   // const updatedQuantity = {}
+      //   // console.log("new", cookies);
+      //   // if (cookies["cart"] === undefined){
+      //   //   cookies[book_data.name] = {"quantity": 1, "price": book_data.price};
+      //   // } else {
+      //   // cookies["cart"][book_data.name] = {"quantity": 1, "price": book_data.price};
+      //   // }
+      //
+      //   // updateQuantity[book_data.]
+      //   setCookie('cart', cookies, { path: '/' , sameSite: 'strict'});
       // }
 
-        // cart[book_data.name].quantity = values[book_data.name].quantity + cart[book_data.name].quantity
-        // setCookie('cart', cart, { path: '/' , sameSite: 'strict'});
-        // console.log("COOKIES CART", cookies.cart)
-        // if (cookies.cart[book_data.name] == undefined){
-        //   cookies.cart[book_data.name] = cart[book_data.name];
-        // } else {
-        //   cookies.cart[book_data.name].quantity = cart[book_data.name].quantity;
-        // }
 
-        // setCookie('cart', cookies, { path: '/' , sameSite: 'strict'});
+      // if (cookies.hasOwnProperty("cart")){
+      //   // console.log("COOKIES", cookies["cart"])
+      //   for (const book in cookies["cart"]) {
+      //     if (book in cart){
+      //       cookies["cart"][book]["quantity"] += cart[book]["quantity"]
+      //     }
+      //   }
+      // }
 
-      // console.log("COOKIES: ", cookies)
-      // console.log(cookies.cart)
-      setCookie('cart', cart, { path: '/' , sameSite: 'strict'});
+
+
+      // setCookie('cart', cart, { path: '/' , sameSite: 'strict'});
+      // cookies.set({path:})
   }
 
 
