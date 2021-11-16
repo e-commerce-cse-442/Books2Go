@@ -34,7 +34,7 @@ const CheckoutFormView = () => {
 
     axios({
       method: 'POST',
-      url: 'http://localhost:8000/payment/post',
+      url:"http://books2go.herokuapp.com/payment/post",
       data: {
         email: email,
         exp_month: exp_month,

@@ -8,7 +8,7 @@ const app = express();
 
 const Stripe = require("stripe")
 const stripe = Stripe(process.env.SECRET_KEY);
-client.connect(); //Connects to the SQL database.
+//client.connect(); //Connects to the SQL database.
 
 
 
@@ -91,7 +91,7 @@ app.post('/payment/post', async (req, res) => {
 
     const confirm_payment = await stripe.paymentIntents.confirm(
       paymentIntent.id,
-      {return_url: `http://localhost:8000/Payment`}
+      {return_url: `http://books2go.herokuapp.com/Payment`}
     )
 
     console.log(confirm_payment)
@@ -245,5 +245,6 @@ app.get("*", (req, res) => {
 const PORT = process.env.PORT || 8000;
 const HOST = "0.0.0.0";
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Running on ${PORT}`);
+});

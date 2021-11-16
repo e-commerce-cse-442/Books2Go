@@ -6,7 +6,7 @@ const ProcessingPayment = () => {
   useEffect(() => {
     console.log('url', window.location.href);
     const url = window.location.href;
-    const url1 = url.split('http://localhost:3000/Payment?payment_intent=')[1];
+    const url1 = url.split('http://books2go.herokuapp.com/Payment?payment_intent=')[1];
     const url2 = url1.split('&payment_intent_client_secret')[0];
     console.log(url1);
     console.log(url2);
