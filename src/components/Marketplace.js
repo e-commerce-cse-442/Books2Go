@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Marketplace.css";
 import { useCookies } from 'react-cookie';
+import song from '../music/ambient-piano-amp-strings-10711.mp3';
 
 function Marketplace() {
   const [books, setBooks] = useState([]);
@@ -62,7 +63,6 @@ function Marketplace() {
     setSubGenres(subGenreList);
   }
 
-
   useEffect(() => {
     listingBooks();
     if (bookData === true){
@@ -103,8 +103,6 @@ function Marketplace() {
     setBookList(holder);
   }
 
-  
-
   /// update user_info
   console.log(bookList);
 
@@ -130,11 +128,25 @@ function Marketplace() {
     updateInfo();
   }
 
-
   // Book Description Function
   function bookDescription(book_desc) {
     alert(book_desc);
   }
+
+  const useAudio = song => {
+    const [audio] = useState(new Audio(song));
+    const [playing, setPlaying] = useState(false);
+
+    const status = () => setPlaying(!playing);
+  
+    useEffect(() => {
+        playing ? audio.play() : audio.pause();
+      },
+      [playing]
+    );
+    return [playing, status];
+  };
+  const [playing, status] = useAudio(song);
 
   return (
     <div>
@@ -189,12 +201,14 @@ function Marketplace() {
                 <span>{genre[1]}</span>
               </div>
         
-          ))}
+          )
+          )}
           </div>
-          
+          <div>
+          <button class="btn btn-primary text-uppercase" onClick={status}>{playing ? "Pause Music" : "Play Music"}</button>
+          </div>
           </div>
           {/* filtering stuff ends here*/}
-
 
           <div class="col-md-9">
             <div class="row g-2">
