@@ -73,23 +73,53 @@ function Cart() {
               <h1 class="cart-head">{name} Cart</h1>
               <span class= "item-count">({total} Items)</span>
             </div>
-            <div class="cart-row">
-                <span class="cart-item cart-header cart-column">Item</span>
-                <span class="cart-price cart-header cart-column">Price</span>
-                <span class="cart-quantity cart-header cart-column">Quantity</span>
-            </div>
+            <div style={{marginLeft:25 + 'px'}}>
+              <table class= "book-table">
+                <thead>
+                  <tr>
+                    <th class="item-header">Item</th>
+                    <th class="price-header">Price</th>
+                    <th class="quantity-header">Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    Object.keys(cart.cart).map(function (key, index) {
+                      return(
+                        <tr>
+                          <td>{cart.cart[key]}</td>
+                          <td>{cart.cart[key]["price"]}</td>
+                          <td>{cart.cart[key]["quantity"]}</td>
+                          <td>
+                            <form action="/quantity-change">
+                              <input type="number" id="quantity" name="quantity" min="1" max="5"></input>
+                              <button class= "remove-btn" type="button">REMOVE</button>
+                            </form>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  }
 
-            <div class="cart-items">
 
+                  // <tr>
+                  //   <td>Cow</td>
+                  //   <td>14</td>
+                  //   <td>
+                  //     <form action="/quantity-change">
+                  //       <input type="number" id="quantity" name="quantity" min="1" max="5"></input>
+                  //       <button class= "remove-btn" type="button">REMOVE</button>
+                  //     </form>
+                  //   </td>
+                  // </tr>
+                </tbody>
+              </table>
             </div>
-            <script> {render_cart()} </script>
             <div class="cart-total">
                 <strong class="cart-total-title">Total</strong>
                 <span class="cart-total-price">$0</span>
             </div>
-
             <form action='../Checkout'>
-            <button class="btn button-remove" type="button">REMOVE ALL</button>
             <button class="button-checkout">Checkout</button>
             </form>
         </div>
