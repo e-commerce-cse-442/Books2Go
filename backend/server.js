@@ -6,7 +6,7 @@ const md5 = require("md5");
 const dotenv = require("dotenv/config");
 const app = express();
 
-const Stripe = require("stripe")
+const Stripe = require("stripe");
 const stripe = Stripe(process.env.SECRET_KEY);
 client.connect(); //Connects to the SQL database.
 
@@ -91,7 +91,7 @@ app.post('/payment/post', async (req, res) => {
 
     const confirm_payment = await stripe.paymentIntents.confirm(
       paymentIntent.id,
-      {return_url: `http://localhost:8000/Payment`}
+      {return_url: `http://books2go.herokuapp.com/Payment`}
     )
 
     console.log(confirm_payment)

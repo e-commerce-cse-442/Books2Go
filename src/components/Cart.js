@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './Navbar'
-import "./Cart.css"
+import "./cart.css"
 import { useCookies } from 'react-cookie';
 import react, {useState, useEffect} from "react";
 
