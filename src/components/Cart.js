@@ -42,12 +42,21 @@ function Cart() {
       </div>`
     cartRow.innerHTML = cartRowData;
 
-    console.log(cartRow.innerHTML);
+    // console.log(cartRow.innerHTML);
+    console.log("cart row data", cartRow);
 
-    document.getElementsByClassName('cart-items')[0].appendChild(cartRow);
+    // document.getElementsByClassName('cart-items')[0].appendChild(cartRow);
 
-    // document.body.appendChild(cartRow);
+    // document.body.appendChild(cartRow);\
+
+
     // var cartItems = document.getElementsByClassName('cart-items')[0];
+    // console.log(typeof cartItems);
+    // console.log(cartItems);
+    // cartItems.appendChild(cartRow);
+    // console.log(cartItems);
+
+
     // cartItems.insertBefore(cartRow, null)
     // console.log(cartItems.innerHTML)
     //
