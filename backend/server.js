@@ -30,7 +30,7 @@ app.post("/signup", async (req, res) => {
       res.send({ message: "Passwords do not match!" });
       return;
     }
-    //Require passwords with at least 8 characters.
+    //Require a password with at least 8 characters.
     if (req.body.password.length < 8) {
       res.send({message: "Password must be more than 8 characters!"});
       return;
@@ -72,7 +72,7 @@ app.post('/payment/post', async (req, res) => {
     console.log(paymentMethod)
     
     const customer = await stripe.customers.create({
-      // payment_method: payment_method,
+      // payment_method: Stripe API payment_method,
       email: email,
       payment_method: paymentMethod.id,
       invoice_settings: {
