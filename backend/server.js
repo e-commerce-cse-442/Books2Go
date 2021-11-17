@@ -6,9 +6,9 @@ const md5 = require("md5");
 const dotenv = require("dotenv/config");
 const app = express();
 
-const Stripe = require("stripe")
+const Stripe = require("stripe");
 const stripe = Stripe(process.env.SECRET_KEY);
-//client.connect(); //Connects to the SQL database.
+client.connect(); //Connects to the SQL database.
 
 
 
@@ -245,6 +245,5 @@ app.get("*", (req, res) => {
 const PORT = process.env.PORT || 8000;
 const HOST = "0.0.0.0";
 
-app.listen(PORT, () => {
-  console.log(`Running on ${PORT}`);
-});
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);
