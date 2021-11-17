@@ -12,7 +12,10 @@ function Cart() {
   } else {
     name += "'s"
   }
-  console.log(cart.cart)
+  console.log(cart.cart);
+  console.log(Object.keys(cart))
+  console.log(Object.keys(cart.cart))
+  console.log(Object.keys(cart.cart).map((item, i) => (i)))
   var total = 0
   var book_name = ""
 
@@ -87,12 +90,11 @@ function Cart() {
                     Object.keys(cart.cart).map(function (key, index) {
                       return(
                         <tr>
-                          <td>{cart.cart[key]}</td>
+                          <td>{key}</td>
                           <td>{cart.cart[key]["price"]}</td>
-                          <td>{cart.cart[key]["quantity"]}</td>
                           <td>
                             <form action="/quantity-change">
-                              <input type="number" id="quantity" name="quantity" min="1" max="5"></input>
+                              <input type="number" id="quantity" name="quantity" min="1" value={cart.cart[key]["quantity"]}></input>
                               <button class= "remove-btn" type="button">REMOVE</button>
                             </form>
                           </td>
@@ -100,18 +102,6 @@ function Cart() {
                       );
                     })
                   }
-
-
-                  // <tr>
-                  //   <td>Cow</td>
-                  //   <td>14</td>
-                  //   <td>
-                  //     <form action="/quantity-change">
-                  //       <input type="number" id="quantity" name="quantity" min="1" max="5"></input>
-                  //       <button class= "remove-btn" type="button">REMOVE</button>
-                  //     </form>
-                  //   </td>
-                  // </tr>
                 </tbody>
               </table>
             </div>
