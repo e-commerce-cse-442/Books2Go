@@ -6,8 +6,8 @@ const md5 = require("md5");
 const dotenv = require("dotenv/config");
 const app = express();
 
-const Stripe = require("stripe")
-const stripe = Stripe("sk_test_51JqpJoDhds8qO6YdDdyzTW9ALoDsnqWpc242vNJZe2vHKQx4QtDSJ4GqXNxh5l3pz1cdwIZEvVRjfyQi8NR1qc8H00oYPe95ve");
+const Stripe = require("stripe");
+const stripe = Stripe(process.env.SECRET_KEY);
 client.connect(); //Connects to the SQL database.
 
 
@@ -19,7 +19,7 @@ app.use(express.json()); //req.body
 app.post("/signup", async (req, res) => {
   //async: wait for the function
   try {
-    //mayybe change back to const
+    //maybe change back to const
     const name = req.body.username;
     const password = md5(req.body.password); //Encrypted
     const email = req.body.email;
@@ -91,7 +91,7 @@ app.post('/payment/post', async (req, res) => {
 
     const confirm_payment = await stripe.paymentIntents.confirm(
       paymentIntent.id,
-      {return_url: `http://localhost:8000/Payment`}
+      {return_url: `http://books2go.herokuapp.com/Payment`}
     )
 
     console.log(confirm_payment)

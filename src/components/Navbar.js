@@ -11,7 +11,7 @@ function Navbar() {
     <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-          <Link to="/shop">
+          <Link to="/">
             <img class="logo" src="images/Logo.png" alt="Logo" />
           </Link>
         </a>
@@ -30,9 +30,9 @@ function Navbar() {
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <Link to="/" class="nav-link" href="#">
-                Home <span class="sr-only">(current)</span>
-              </Link>
+              {/*<Link to="/" class="nav-link" href="#">*/}
+              {/*  Home <span class="sr-only">(current)</span>*/}
+              {/*</Link>*/}
             </li>
             <li class="nav-item">
               <Link to = "/shop" class="nav-link" href="#">
@@ -51,14 +51,14 @@ function Navbar() {
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <input
+            {/* <input
               class="form-control mr-sm-2"
               type="search"
               placeholder="Search"
             />
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
               Search
-            </button>
+            </button> */}
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
               <Link to="/signup" class="nav-link" href="#">

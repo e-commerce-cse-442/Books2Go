@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from './Navbar'
 import "./Cart.css"
 import { useCookies } from 'react-cookie';
-
-
+import {useState, useEffect} from "react";
 
 function Cart() {
 
@@ -106,7 +105,7 @@ function Cart() {
                             <thead>
                             <tr>
                                 <th>Product</th>
-                                <th>Description</th>
+                                <th>Book Title</th>
                                 <th>Price</th>
                             </tr>
                             </thead>
@@ -148,7 +147,9 @@ function Cart() {
                     </div>
                 </div>
                 </div>
-                <a href="#" class="btn btn-primary pull-right">checkout<span class="glyphicon glyphicon-chevron-right"></span></a>
+                <form action='../Checkout'>
+                    <button className="button-checkout">Checkout</button>
+                </form>
             </div>
         </div>
     </div>
