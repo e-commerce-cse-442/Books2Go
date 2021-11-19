@@ -3,10 +3,14 @@ import "./Marketplace.css";
 import { useCookies } from "react-cookie";
 import song from "../music/ambient-piano-amp-strings-10711.mp3";
 import Popup from "./Popup";
+import { useHistory } from "react-router-dom";
 
 function Marketplace() {
+  const history = useHistory();
   const [buttonPopup, setButtonPopup] = useState(false);
   const [books, setBooks] = useState([]);
+  const [filter, setFilter] = useState([]);
+  const [track, setTrack] = useState([]);
   const [bookList, setBookList] = useState("");
   const [genres, setGenres] = useState([]);
   const [subGenres, setSubGenres] = useState([]);
@@ -20,6 +24,7 @@ function Marketplace() {
       const data = await response.json();
 
       setBooks(data);
+      setFilter(data);
     } catch (err) {
       console.log(err);
     }
@@ -95,13 +100,13 @@ function Marketplace() {
   };
 
   function cartList(b) {
-    setButtonPopup(true);
     var holder = bookList;
     if (holder.includes(b.name) === false) {
       holder += b.name;
       holder += ";";
     }
     setBookList(holder);
+    setButtonPopup(true);
   }
 
   /// update user_info
@@ -146,6 +151,44 @@ function Marketplace() {
   };
   const [playing, status] = useAudio(song);
 
+  // filtering
+  function filtering(event) {
+    var filters = [];
+    if (event.target.checked) {
+      
+      // setFilter([])
+      var genree = event.target.value;
+      track.push(genree);
+      for(var j = 0; j <track.length; j++){
+        for (var i = 0; i < books.length; i++) {
+          if (books[i].genre === track[j]) {
+            filters.push(books[i]);
+          }
+        }
+      }
+      // event.target.checked = false;
+    } else {
+      var index = track.indexOf(event.target.value);
+      if (index > -1) {
+        track.splice(index, 1);
+      }
+      if(track.length === 0){
+        filters = books;
+      }
+      else{
+        for(var j = 0; j <track.length; j++){
+          for (var i = 0; i < books.length; i++) {
+            if (books[i].genre === track[j]) {
+              filters.push(books[i]);
+            }
+          }
+        }
+      }
+    }
+    console.log(filters);
+    setFilter(filters);
+  }
+
   return (
     <div>
       <div class="container-fluid mt-5 mb-5">
@@ -183,8 +226,13 @@ function Marketplace() {
                     <input
                       class="form-check-input"
                       type="checkbox"
-                      value=""
+                      value={genre[0]}
                       id="flexCheckDefault"
+                      onClick={(e) => {
+                        if (bookData === true) {
+                          filtering(e);
+                        }
+                      }}
                     />{" "}
                     <label class="form-check-label" for="flexCheckDefault">
                       {" "}
@@ -207,7 +255,7 @@ function Marketplace() {
           <div class="col-md-9">
             <div class="row g-2">
               {/* work start here */}
-              {books.map((book) => (
+              {filter.map((book) => (
                 <div class="col-md-4">
                   <div class="product py-4">
                     {" "}
@@ -241,7 +289,7 @@ function Marketplace() {
                         Add to cart
                       </button>
                       <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-                        Added to cart
+                        <p>Added to cart</p>
                       </Popup>
                     </div>
                   </div>
