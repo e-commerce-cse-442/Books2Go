@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import song from "../music/ambient-piano-amp-strings-10711.mp3";
 import Popup from "./Popup";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Marketplace() {
   const history = useHistory();
@@ -289,7 +290,21 @@ function Marketplace() {
                         Add to cart
                       </button>
                       <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-                        <p>Added to cart</p>
+                        <p class = "textStyle">Added to cart</p>
+                        <div class="cart-button mt-3 px-2 d-flex justify-content-between align-items-center">
+                        {" "}
+
+                        <Link to="/cart"class="nav-link" href="#">
+                          <button class="btn btn-primary text-uppercase">
+                            Go to cart
+                          </button>
+                        </Link>
+                        
+
+                        {/* <button class="btn btn-primary text-uppercase">
+                          Continue Shopping
+                        </button> */}
+                      </div>
                       </Popup>
                     </div>
                   </div>

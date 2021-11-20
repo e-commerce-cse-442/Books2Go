@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Navbar from './Navbar'
 import "./Cart.css"
 import { useCookies } from 'react-cookie';
-import {useState, useEffect} from "react";
 
 function Cart() {
 

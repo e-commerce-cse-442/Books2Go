@@ -5,12 +5,12 @@ function Popup(props) {
   return props.trigger ? (
     <div className="popup">
       <div className="popup-inner">
-        {/* <button className="close-btn" onClick={() => props.setTrigger(false)}>
-          X
-        </button> */}
-        {setTimeout(() => {
+        <button className="close-btn btn btn-primary text-uppercase" onClick={() => props.setTrigger(false)}>
+          Continue Shopping
+        </button>
+        {/* {setTimeout(() => {
           props.setTrigger(false);
-        }, 1000)}
+        }, 1000)} */}
 
         {props.children}
       </div>
