@@ -94,6 +94,31 @@ app.get("/books", async(req, res) =>{
   }
 });
 
+app.get("/cart", async(req, res) => {
+  // try{
+  //   const cart = await client.query("SELECT cart_json FROM user_info WHERE cart_id=" + "some string")
+  // }
+});
+
+app.post("/update_cart", async(req, res) => {
+  try {
+    let username = req.body.name
+    let cart = req.body.cart
+    console.log(JSON.stringify(username))
+    console.log(JSON.stringify(cart))
+
+    update_query = "UPDATE user_info SET cart_json=" + "'" + JSON.stringify(cart) + "'" + " WHERE username=" + JSON.stringify(username)
+
+    client.query("UPDATE user_info SET cart_json=" + "'" + JSON.stringify(cart) + "'" + `WHERE username='${username}'`)
+    data = client.query(`SELECT * FROM user_info WHERE username='${username}'`)
+    // res.send({ message: data });
+    console.log(update_query)
+    res.send({ message: data });
+  } catch (err){
+    console.error(err.message);
+  }
+});
+
 
 
 // * means it's going to serve any path the client request

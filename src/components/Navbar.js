@@ -7,12 +7,46 @@ import username from "./Login";
 
 
 function Navbar() {
+  const [user, setUser] = useCookies(['user']);
+  const [cart, setCart] = useCookies(['cart']);
+
+  var name = user.userName
+  if (name == undefined) {
+    name = "Your";
+  } else {
+    name += "'s"
+  }
+
+  if (cart.cart == undefined) {
+    cart.cart = {}
+  }
+  const cur_cart = cart.cart
+  const change_input = async (event) => {
+    if (name != "Your" && name != undefined) {
+      try {
+        const body = { name: user.userName, cart: cur_cart };
+        const response = await fetch("/update_cart", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        console.log(response)
+        const data = await response.json();
+        console.log("DATA FROM SERVER", data.message)
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+  };
+
+
+
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
           <Link to="/shop">
-            <img class="logo" src="images/Logo.png" alt="Logo" />
+            <img class="logo" src="images/Logo.png" alt="Logo" onClick={change_input} />
           </Link>
         </a>
         <button
@@ -35,7 +69,7 @@ function Navbar() {
               </Link>
             </li>
             <li class="nav-item">
-              <Link to = "/shop" class="nav-link" href="#">
+              <Link to = "/shop" class="nav-link" href="#" onClick={change_input}>
                   Shop
               </Link>
             </li>
@@ -45,7 +79,7 @@ function Navbar() {
               </Link>
             </li>
             <li class="nav-item">
-              <Link to="/cart"class="nav-link" href="#">
+              <Link to="/cart"class="nav-link" href="#" onClick={change_input}>
                 Cart
               </Link>
             </li>
