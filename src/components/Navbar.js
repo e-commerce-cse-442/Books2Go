@@ -3,7 +3,6 @@ import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
-import username from "./Login";
 
 
 function Navbar() {
@@ -64,9 +63,9 @@ function Navbar() {
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <Link to="/" class="nav-link" href="#">
-                Home <span class="sr-only">(current)</span>
-              </Link>
+              {/*<Link to="/" class="nav-link" href="#">*/}
+              {/*  Home <span class="sr-only">(current)</span>*/}
+              {/*</Link>*/}
             </li>
             <li class="nav-item">
               <Link to = "/shop" class="nav-link" href="#" onClick={change_input}>
@@ -85,14 +84,6 @@ function Navbar() {
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <input
-              class="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-            />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-              Search
-            </button>
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
               <Link to="/signup" class="nav-link" href="#">
@@ -100,9 +91,12 @@ function Navbar() {
               </Link>
             </li>
             <li class="nav-item active">
+              { cookies.userName ? <Link to="/shop" class="nav-link" href="#">
+                {cookies.userName.toString()}
+              </Link> :
               <Link to="/login" class="nav-link" href="#">
                 Login
-              </Link>
+              </Link>}
             </li>
           </ul>
           </form>

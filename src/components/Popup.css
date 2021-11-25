@@ -12,17 +12,16 @@
 
 .popup-inner {
   position: relative;
-  padding: 40px;
+  padding: 20px;
   width: 100%;
-  max-width: 900px;
+  max-width: 400px;
   background-color:  #ffffff;
 }
 
 .popup-inner .close-btn {
   position: absolute;
-  margin-left: 88%;
-  top: 10px;
-  background-color: #212121;
+  top:50%;
+  margin-left: 50%;
   cursor: pointer;
 }
 

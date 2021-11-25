@@ -3,8 +3,11 @@ const path = require("path");
 const cors = require("cors");
 const client = require("./db");
 const md5 = require("md5");
-
+const dotenv = require("dotenv/config");
 const app = express();
+
+const Stripe = require("stripe");
+const stripe = Stripe(process.env.SECRET_KEY);
 client.connect(); //Connects to the SQL database.
 
 
@@ -16,7 +19,7 @@ app.use(express.json()); //req.body
 app.post("/signup", async (req, res) => {
   //async: wait for the function
   try {
-    //mayybe change back to const
+    //maybe change back to const
     const name = req.body.username;
     const password = md5(req.body.password); //Encrypted
     const email = req.body.email;
@@ -56,6 +59,102 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post('/payment/post', async (req, res) => {
+  const {email,  number, exp_month, exp_year, cvc, city, country, postal_code, state, line1, user_id, callingCode } = req.body;
+
+  try {
+    const paymentMethod = await stripe.paymentMethods.create({
+      type: 'card',
+        card: {
+          number: number,
+          exp_month: exp_month,
+          exp_year: exp_year,
+          cvc: cvc,
+        }
+      ,
+    })
+
+    console.log(paymentMethod)
+    
+    const customer = await stripe.customers.create({
+      // payment_method: payment_method,
+      email: email,
+      payment_method: paymentMethod.id,
+      invoice_settings: {
+        default_payment_method: paymentMethod.id
+      }
+    });
+
+    console.log(customer);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: 200,
+      currency: 'usd',
+      customer: customer.id,
+      payment_method: paymentMethod.id,
+    })
+
+    const confirm_payment = await stripe.paymentIntents.confirm(
+      paymentIntent.id,
+      {return_url: `http://books2go.herokuapp.com/Payment`}
+    )
+
+    console.log(confirm_payment)
+
+    console.log(paymentIntent)
+
+    // const setupIntent = await stripe.setupIntents.create({
+    //   confirm:true,
+    //   customer: customer.id,
+    //   payment_method: paymentMethod.id,
+    //   payment_method_types: ['card'],
+    // });
+  
+    // const paymentIntent = await stripe.paymentIntents.create({
+    //   amount: 24000,
+    //   currency: 'inr',
+    //   payment_method_types: ['card'],
+    //   payment_method: paymentMethod.id,
+    //   receipt_email: email,
+    //   confirm: true,
+    //   customer: customer.id
+    // });
+    const status = confirm_payment['status'];
+
+    if (status === 'requires_action') {
+      const url = confirm_payment['next_action']['redirect_to_url']['url'];
+      res.send({ 'status': status, 'url': url})
+    } else {
+      res.send({ 'status': status })
+    }
+    
+  } catch (err) {
+    // const error = res.json({ error: {message: err.message }})
+    console.log('err', err);
+  }
+})
+
+
+app.post('/payment-intent/get', async (req, res) => {
+  const {payment_intent_id} = req.body;
+  // console.log('req', req.params)
+  try {
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      payment_intent_id
+    );
+
+    console.log(paymentIntent)
+
+    const status = paymentIntent['status'];
+
+    console.log(status);
+
+    res.json({ 'status': status})
+  } catch (err) {
+    console.log(err);
+  }
+})
+
 app.post("/login", function (req, res) {
   let username = req.body.username;
   let password = md5(req.body.password); //encrypted
@@ -93,6 +192,53 @@ app.get("/books", async(req, res) =>{
     console.error(err.message);
   }
 });
+// Check if cart exists for user
+app.get("/cart", async(req, res) =>{
+  try{
+    const user_id_json = req.body.user_id
+    const current_cart = await client.query("SELECT * FROM cart WHERE user_id =" + user_id_json)
+    res.send({ message: "Cart Exists", dict: current_cart})
+  } catch (err){
+    res.send({ message: "No Cart Exists"})
+  }
+})
+
+app.post("/cart", async(req, res) =>{
+  try{
+     console.log('cart');
+  } catch (err) {
+     console.log(err);
+  }
+})
+
+// update user_info
+app.post("/update", function (req, res) {
+  let cart = req.body.bookList;
+  let user_name = req.body.user_name;
+
+  console.log("cart "+cart);
+  console.log(user_name);
+  
+
+  //Below is the request sent to the SQL database.
+  
+  client.query(
+    `UPDATE user_info SET cart_list = '${cart}' WHERE username = '${user_name}'`);
+
+    res.send({ message: cart });
+});
+
+//get books for cart
+app.get("/cartList", async(req, res) =>{
+  try{
+    const allBooks = await client.query("SELECT user_info.username, user_info.cart_list FROM user_info");
+    // res.send({"books": "hi"});
+    res.json(allBooks.rows);
+  } catch (err){
+    console.error(err.message);
+  }
+});
+    
 
 app.post("/get_cart", async(req, res) => {
   try{

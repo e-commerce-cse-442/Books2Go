@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import "./Signup.css"; //Will use same css as in the sign up css file
+import "./Signup.css";
 import {useHistory} from 'react-router-dom';
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
@@ -52,6 +52,7 @@ function Login() {
       const data = await response.json();
 
       if(data.message === "Login Successful!"){
+        setUserCookies() ;
         history.push('/shop'); //If login successful, page will log in and open the /shop
         //Later I may want to incorporate cookies upon login
         //can set cookies here

@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./Marketplace.css";
-import { useCookies } from 'react-cookie';
-
+import { useCookies } from "react-cookie";
+import song from "../music/ambient-piano-amp-strings-10711.mp3";
+import Popup from "./Popup";
+import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Marketplace() {
+  const history = useHistory();
+  const [buttonPopup, setButtonPopup] = useState(false);
   const [books, setBooks] = useState([]);
+  const [filter, setFilter] = useState([]);
+  const [track, setTrack] = useState([]);
+  const [bookList, setBookList] = useState("");
   const [genres, setGenres] = useState([]);
   const [subGenres, setSubGenres] = useState([]);
   const [bookData, setBookData] = useState(false);
@@ -17,6 +25,7 @@ function Marketplace() {
       const data = await response.json();
 
       setBooks(data);
+      setFilter(data);
     } catch (err) {
       console.log(err);
     }
@@ -26,14 +35,13 @@ function Marketplace() {
   const listingGenre = async () => {
     var genreList = [];
     var holdingList = [];
-    for (var i = 0; i < books.length; i++){
-      if (holdingList.includes(books[i].genre) === false){
-        holdingList.push(books[i].genre)
-        genreList.push([books[i].genre, 1])
-      }
-      else{
-        for( var j = 0; j < genreList.length; j++ ){
-          if(genreList[j][0] === books[i].genre){
+    for (var i = 0; i < books.length; i++) {
+      if (holdingList.includes(books[i].genre) === false) {
+        holdingList.push(books[i].genre);
+        genreList.push([books[i].genre, 1]);
+      } else {
+        for (var j = 0; j < genreList.length; j++) {
+          if (genreList[j][0] === books[i].genre) {
             genreList[j][1] = genreList[j][1] + 1;
           }
         }
@@ -41,57 +49,83 @@ function Marketplace() {
     }
     setGenres(genreList);
     setGenreData(true);
-  }
+  };
   const listingSubGenre = async () => {
     var subGenreList = [];
     var exploredList = [];
-    for( var k = 0; k < books.length; k++){
-      if(!exploredList.includes(books[k].sub_genre)){
-        subGenreList.push([books[k].genre, books[k].sub_genre,1]);
+    for (var k = 0; k < books.length; k++) {
+      if (!exploredList.includes(books[k].sub_genre)) {
+        subGenreList.push([books[k].genre, books[k].sub_genre, 1]);
         exploredList.push(books[k].sub_genre);
-      }
-      else{
-        for( var j = 0; j < subGenreList.length; j++ ){
-          if(subGenreList[j][1] === books[k].sub_genre){
-            // console.log(subGenreList[j][1]);
+      } else {
+        for (var j = 0; j < subGenreList.length; j++) {
+          if (subGenreList[j][1] === books[k].sub_genre) {
+            console.log(subGenreList[j][1]);
             subGenreList[j][2] = subGenreList[j][2] + 1;
           }
         }
       }
     }
     setSubGenres(subGenreList);
-  }
-
-  //need to change it
-
-  function helperforGen(gen, subGen){
-    if(gen[0] === subGen[0]){
-      return subGen[1];
-    }
-    // else{
-    //   return fakeData[iteration] ;
-    // }
-  }
-
-  function helperforNum(gen, subGen){
-    if(gen[0] === subGen[0]){
-      return subGen[2];
-    }
-    else{
-      return 0;
-    }
-  }
-
-  // function breakHelper(gen, subGen){
-  //   if(gen[0] === subGen[0]){
-  //     break;
-  //   }
-  // }
+  };
 
   useEffect(() => {
     listingBooks();
-    if (bookData === true){
+    if (bookData === true) {
       listingGenre();
+    }
+
+    // Will implement later
+    // cartSetup();
+    // if (genreData === true){
+    //   listingSubGenre();
+    // }
+  }, [bookData]);
+
+  // add to cart fnctionality
+
+  const cartSetup = async () => {
+    try {
+      var holder = "";
+      const response = await fetch("/cartList");
+      const data = await response.json();
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].username === cookies.userName) {
+          holder = data[i].cart_list;
+        }
+      }
+      setBookList(holder);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  function cartList(b) {
+    var holder = bookList;
+    if (holder.includes(b.name) === false) {
+      holder += b.name;
+      holder += ";";
+    }
+    setBookList(holder);
+    setButtonPopup(true);
+  }
+
+  /// update user_info
+  const updateInfo = async () => {
+    try {
+      var user_name = cookies.userName;
+      const body = { user_name, bookList };
+      const response = await fetch("/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+      //alert(data.message);   data.message might not be string, need convert
+      console.log(data);
+    } catch (err) {
+      console.error(err.message);
     }
     // if (genreData === true){
     //   listingSubGenre();
@@ -100,13 +134,7 @@ function Marketplace() {
 
 
   const addToCart = (book_data) => {
-      // console.log(book_data);
-      // console.log(book_data.name);
-      // console.log(book_data.price);
-      // console.log(typeof cookies)
       if (cookies.hasOwnProperty("cart")) {
-        console.log("existing cart");
-        console.log("check before", cookies);
         if (cookies.cart.hasOwnProperty(book_data.name)) {
           console.log("increase cart")
           cookies.cart[book_data.name]["quantity"] += 1;
@@ -123,50 +151,66 @@ function Marketplace() {
         // cookies[book_data.name] = {"quantity": 1, "price": book_data.price};
         setCookie('cart', object, { path: '/' , sameSite: 'strict'})
       }
-
-      // console.log("just cookies", cookies);
-      // console.log("cookie cart", cookies["cart"]);
-
-      // var object = cookies["cart"];
-      // console.log(cart)
-      // if (((cookies || {})["cart"] || {})[book_data.name] !== undefined){
-      //   console.log("update");
-      //
-      //   // const updatedQuantity = {}
-      //   // console.log("update")
-      //   // cookies["cart"][book_data.name]["quantity"] += 1
-      //   // console.log(cookies["cart"][book_data.name]);
-      //   // setCookie('cart', cookies, { path: '/' , sameSite: 'strict'})
-      // } else {
-      //   console.log("new");
-      //   // const updatedQuantity = {}
-      //   // console.log("new", cookies);
-      //   // if (cookies["cart"] === undefined){
-      //   //   cookies[book_data.name] = {"quantity": 1, "price": book_data.price};
-      //   // } else {
-      //   // cookies["cart"][book_data.name] = {"quantity": 1, "price": book_data.price};
-      //   // }
-      //
-      //   // updateQuantity[book_data.]
-      //   setCookie('cart', cookies, { path: '/' , sameSite: 'strict'});
-      // }
-
-
-      // if (cookies.hasOwnProperty("cart")){
-      //   // console.log("COOKIES", cookies["cart"])
-      //   for (const book in cookies["cart"]) {
-      //     if (book in cart){
-      //       cookies["cart"][book]["quantity"] += cart[book]["quantity"]
-      //     }
-      //   }
-      // }
-
-
-
-      // setCookie('cart', cart, { path: '/' , sameSite: 'strict'});
-      // cookies.set({path:})
   }
 
+  };
+
+  if (bookList !== "") {
+    updateInfo();
+  }
+
+  // Book Description Function
+  function bookDescription(book_desc) {
+    alert(book_desc);
+  }
+
+  const useAudio = (song) => {
+    const [audio] = useState(new Audio(song));
+    const [playing, setPlaying] = useState(false);
+
+    const status = () => setPlaying(!playing);
+
+    useEffect(() => {
+      playing ? audio.play() : audio.pause();
+    }, [playing]);
+    return [playing, status];
+  };
+  const [playing, status] = useAudio(song);
+
+  // filtering
+  function filtering(event) {
+    var filters = [];
+    if (event.target.checked) {
+      var genree = event.target.value;
+      track.push(genree);
+      for(var j = 0; j <track.length; j++){
+        for (var i = 0; i < books.length; i++) {
+          if (books[i].genre === track[j]) {
+            filters.push(books[i]);
+          }
+        }
+      }
+    } else {
+      var index = track.indexOf(event.target.value);
+      if (index > -1) {
+        track.splice(index, 1);
+      }
+      if(track.length === 0){
+        filters = books;
+      }
+      else{
+        for(var j = 0; j <track.length; j++){
+          for (var i = 0; i < books.length; i++) {
+            if (books[i].genre === track[j]) {
+              filters.push(books[i]);
+            }
+          }
+        }
+      }
+    }
+    console.log(filters);
+    setFilter(filters);
+  }
 
   return (
 
@@ -180,17 +224,15 @@ function Marketplace() {
               {/* rendering genre starts here */}
 
               {genres.map((genre) => (
-
                 <div class="p-lists">
                   <div class="d-flex justify-content-between mt-2">
                     {" "}
                     <span>{genre[0]}</span> <span>{genre[1]}</span>{" "}
-                    </div>
+                  </div>
                 </div>
               ))}
             </div>
             {/* rendering genre ends here */}
-
 
             {/* filtering starts*/}
 
@@ -202,69 +244,95 @@ function Marketplace() {
               {/* loop through length */}
 
               {genres.map((genre) => (
-              <div class="d-flex justify-content-between mt-2">
-                <div class="form-check" >
-                  {" "}
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="flexCheckDefault"
-                  />{" "}
-                  <label class="form-check-label" for="flexCheckDefault">
+                <div class="d-flex justify-content-between mt-2">
+                  <div class="form-check">
                     {" "}
-                    {/* need to have an if condition */}
-                    {genre[0]}
-
-                    {" "}
-                  </label>{" "}
-                </div>{" "}
-                <span>{genre[1]}</span>
-              </div>
-
-          ))}
-          </div>
-
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value={genre[0]}
+                      id="flexCheckDefault"
+                      onClick={(e) => {
+                        if (bookData === true) {
+                          filtering(e);
+                        }
+                      }}
+                    />{" "}
+                    <label class="form-check-label" for="flexCheckDefault">
+                      {" "}
+                      {/* need to have an if condition */}
+                      {genre[0]}{" "}
+                    </label>{" "}
+                  </div>{" "}
+                  <span>{genre[1]}</span>
+                </div>
+              ))}
+            </div>
+            <div>
+              <button class="btn btn-primary text-uppercase" onClick={status}>
+                {playing ? "Pause Music" : "Play Music"}
+              </button>
+            </div>
           </div>
           {/* filtering stuff ends here*/}
-
 
           <div class="col-md-9">
             <div class="row g-2">
               {/* work start here */}
-
-                {books.map((book) => (
-
-                  <div class="col-md-4 book-data" data-book-id="<%= book.id %>">
-
-                    <div class="product py-4">
+              {filter.map((book) => (
+                <div class="col-md-4">
+                  <div class="product py-4">
+                    {" "}
+                    {/* <span class="off bg-success">-25% OFF</span> */}
+                    <div class="text-center">
                       {" "}
-                      {/* <span class="off bg-success">-25% OFF</span> */}
-                      <div class="text-center">
-                        {" "}
+                      <button
+                        type={"submit"}
+                        onClick={() => bookDescription(`${book.book_desc}`)}
+                      >
                         <img
-                          class= "book-image"
-                          src= {`images/${book.name}.jpg`}
+                          src={`images/${book.name}.jpg`}
                           alt=""
                           width="200"
                           height="250"
                         />{" "}
-                      </div>
-                      <div class="about text-center">
-                        <span class="book-name">{book.name}</span> <span class="book-price">{`$${book.price}`}</span>
-                      </div>
-                      <div class="cart-button mt-3 px-2 d-flex justify-content-between align-items-center">
+                      </button>
+                    </div>
+                    <div class="about text-center">
+                      <h5>{book.name}</h5> <span>{`$${book.price}`}</span>
+                    </div>
+                    <div class="cart-button mt-3 px-2 d-flex justify-content-center">
+                      {" "}
+                      {/*<button class="btn btn-primary text-uppercase">*/}
+                      {/*  Buy Now*/}
+                      {/*</button>*/}
+                      <button
+                        onClick={() => addToCart(book)}
+                        class="btn btn-default text-uppercase"
+                      >
+                        Add to cart
+                      </button>
+                      <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+                        <p class = "textStyle">Added to cart</p>
+                        <div class="cart-button mt-3 px-2 d-flex justify-content-between align-items-center">
                         {" "}
-                        <button class="btn btn-primary text-uppercase">
-                          Buy Now
-                        </button>
-                        <button onClick={() => addToCart(book)} class="btn btn-primary text-uppercase add-to-cart-btn">
-                          Add to cart
-                        </button>
+
+                        <Link to="/cart"class="nav-link" href="#">
+                          <button class="btn btn-primary text-uppercase">
+                            Go to cart
+                          </button>
+                        </Link>
+
+
+                        {/* <button class="btn btn-primary text-uppercase">
+                          Continue Shopping
+                        </button> */}
                       </div>
+                      </Popup>
                     </div>
                   </div>
-                ))}
+                </div>
+              ))}
 
               {/* end here */}
             </div>
@@ -273,7 +341,6 @@ function Marketplace() {
       </div>
 
     </div>
-
   );
 }
 

@@ -5,9 +5,9 @@ import Shop from "./components/Shop";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Cart from './components/Cart';
-import PDFBooks from './components/PDFBooks';
-
-
+// import PDFBooks from './components/PDFBooks';
+import CheckoutForm from './components/ChecoutForm';
+import ProcessingPayment from './components/ProcessingPayment'
 function Routing() {
     return (
         <Router>
@@ -18,7 +18,9 @@ function Routing() {
                     <Route path = "/login" component={Login} />
                     <Route path = "/signup" component={Signup} />
                     <Route path = "/cart" component={Cart} />
-                    <Route path = "/pdfBook" component={PDFBooks} />
+                    {/* <Route path = "/pdfBook" component={PDFBooks} /> */}
+                    <Route path = "/Checkout" component={CheckoutForm} />
+                    <Route path = "/Payment" component={ProcessingPayment} />
                 </Switch>
             </div>
         </Router>   
