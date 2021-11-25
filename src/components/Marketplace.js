@@ -111,7 +111,6 @@ function Marketplace() {
   }
 
   /// update user_info
-
   const updateInfo = async () => {
     try {
       var user_name = cookies.userName;
@@ -156,8 +155,6 @@ function Marketplace() {
   function filtering(event) {
     var filters = [];
     if (event.target.checked) {
-      
-      // setFilter([])
       var genree = event.target.value;
       track.push(genree);
       for(var j = 0; j <track.length; j++){
@@ -167,7 +164,6 @@ function Marketplace() {
           }
         }
       }
-      // event.target.checked = false;
     } else {
       var index = track.indexOf(event.target.value);
       if (index > -1) {
