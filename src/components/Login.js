@@ -30,10 +30,11 @@ function Login() {
       const data = await response.json();
 
       if(data.message === "Login Successful!"){
+        setUserCookies() ;
         history.push('/shop'); //If login successful, page will log in and open the /shop
         //Later I may want to incorporate cookies upon login
         //can set cookies here
-        setUserCookies() ;
+
       }
       else{
         setError(data.message); //Will set the error message to the msg in data

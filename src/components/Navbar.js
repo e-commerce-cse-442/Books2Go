@@ -7,6 +7,8 @@ import username from "./Login";
 
 
 function Navbar() {
+  const [cookies, setCookie] = useCookies(["user"]);
+
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -66,9 +68,12 @@ function Navbar() {
               </Link>
             </li>
             <li class="nav-item active">
+              { cookies.userName ? <Link to="/shop" class="nav-link" href="#">
+                {cookies.userName.toString()}
+              </Link> : 
               <Link to="/login" class="nav-link" href="#">
                 Login
-              </Link>
+              </Link>}
             </li>
           </ul>
           </form>
