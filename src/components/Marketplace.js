@@ -19,6 +19,7 @@ function Marketplace() {
   const [genreData, setGenreData] = useState(false);
   const [cart, setCart] = useState([]);
   const [cookies, setCookie] = useCookies(['cart']); //cookies stuff
+  const [user, setUser] = useCookies(['user']);
   const listingBooks = async () => {
     try {
       const response = await fetch("/books");
@@ -90,7 +91,7 @@ function Marketplace() {
       const response = await fetch("/cartList");
       const data = await response.json();
       for (var i = 0; i < data.length; i++) {
-        if (data[i].username === cookies.userName) {
+        if (data[i].username === user.userName) {
           holder = data[i].cart_list;
         }
       }
@@ -113,7 +114,7 @@ function Marketplace() {
   /// update user_info
   const updateInfo = async () => {
     try {
-      var user_name = cookies.userName;
+      var user_name = user.userName;
       const body = { user_name, bookList };
       const response = await fetch("/update", {
         method: "POST",
@@ -130,7 +131,8 @@ function Marketplace() {
     // if (genreData === true){
     //   listingSubGenre();
     // }
-  }, [bookData, genreData] );
+  }
+  // , [bookData, genreData]);
 
 
   const addToCart = (book_data) => {
@@ -153,7 +155,6 @@ function Marketplace() {
       }
   }
 
-  };
 
   if (bookList !== "") {
     updateInfo();

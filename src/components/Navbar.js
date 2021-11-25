@@ -91,8 +91,8 @@ function Navbar() {
               </Link>
             </li>
             <li class="nav-item active">
-              { cookies.userName ? <Link to="/shop" class="nav-link" href="#">
-                {cookies.userName.toString()}
+              { user.userName ? <Link to="/shop" class="nav-link" href="#">
+                { user.userName.toString()}
               </Link> :
               <Link to="/login" class="nav-link" href="#">
                 Login
