@@ -19,6 +19,26 @@ function Login() {
     setCookie('userName', username, { path: '/' , sameSite: 'strict'});
  };
 
+
+ async function get_cart(username) {
+   console.log("getting cart")
+     try {
+       console.log("inside")
+       const body = { name: username };
+       const response = await fetch("/get_cart", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(body),
+       });
+       // console.log(response)
+       const data = await response.json();
+       console.log("get cart from server", data.cart_json)
+       setCart('cart', data.cart_json, { path: '/' , sameSite: 'strict'});
+     } catch (err) {
+       console.error(err.message);
+     }
+ };
+
   //below function will be activated when login form submitted,
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -37,6 +57,7 @@ function Login() {
         //can set cookies here
         setUserCookies() ;
         removeCart('cart');
+        get_cart(username);
       }
       else{
         setError(data.message); //Will set the error message to the msg in data

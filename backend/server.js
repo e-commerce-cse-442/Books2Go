@@ -94,10 +94,14 @@ app.get("/books", async(req, res) =>{
   }
 });
 
-app.get("/cart", async(req, res) => {
-  // try{
-  //   const cart = await client.query("SELECT cart_json FROM user_info WHERE cart_id=" + "some string")
-  // }
+app.post("/get_cart", async(req, res) => {
+  try{
+    const cart = await client.query(`SELECT cart_json FROM user_info WHERE username='${req.body.name}'`)
+    console.log(cart.rows[0])
+    res.json(cart.rows[0])
+  } catch (err){
+    console.error(err.message);
+  }
 });
 
 app.post("/update_cart", async(req, res) => {
@@ -110,10 +114,10 @@ app.post("/update_cart", async(req, res) => {
     update_query = "UPDATE user_info SET cart_json=" + "'" + JSON.stringify(cart) + "'" + " WHERE username=" + JSON.stringify(username)
 
     client.query("UPDATE user_info SET cart_json=" + "'" + JSON.stringify(cart) + "'" + `WHERE username='${username}'`)
-    data = client.query(`SELECT * FROM user_info WHERE username='${username}'`)
+    // data = client.query(`SELECT * FROM user_info WHERE username='${username}'`)
     // res.send({ message: data });
-    console.log(update_query)
-    res.send({ message: data });
+    // console.log(update_query)
+    // res.send({ message: data });
   } catch (err){
     console.error(err.message);
   }

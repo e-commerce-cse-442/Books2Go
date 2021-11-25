@@ -30,9 +30,9 @@ function Navbar() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
-        console.log(response)
+        // console.log(response)
         const data = await response.json();
-        console.log("DATA FROM SERVER", data.message)
+        console.log("Cart updated")
       } catch (err) {
         console.error(err.message);
       }
