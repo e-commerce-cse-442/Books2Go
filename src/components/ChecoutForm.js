@@ -4,14 +4,14 @@ import Input from '@mui/material/Input';
 import "./CheckoutForm.css";
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import Card from '@mui/material/Card';
+import { Typography } from '@mui/material';
+
 function ChecoutForm() {
   return (
       <CheckoutFormView/>
-
   )
 }
-
-
 const CheckoutFormView = () => {
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   
@@ -22,7 +22,15 @@ const CheckoutFormView = () => {
   const [exp_year, setExpYear] = useState('');
   const [url, setURL] = useState('');
   const [status, setStatus] = useState('');
-  
+  const [message, setMessage] = useState(undefined);
+  const [name, setName] = useState('');
+  const [country, setCountry] = useState('');
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [postal_code, setPostalCode] = useState('');
+  const [address, setAddress] = useState('');
+
+
   const onPressPay = async () => {
 
     setIsPaymentLoading(true);
@@ -32,34 +40,66 @@ const CheckoutFormView = () => {
     console.log(exp_month)
     console.log(exp_year)
 
-    axios({
-      method: 'POST',
-      url:"https://books2go.herokuapp.com/payment/post",
-      data: {
-        email: email,
-        exp_month: exp_month,
-        exp_year: exp_year,
-        cvc: cvc,
-        number: number,
-      }
-    }).then((res) => {
-      console.log('res', res);
-      const { status, url } = res.data;
-      if (status === 'requires_action') {
-        console.log('url', url);
-        window.location.href = url;
-        setURL(url);
-      } else {
-        setStatus(status);
-      }
+    if (name === '' || email === '' || number === '' || exp_month === '' || exp_year === '' || country === '' || state === '' || city === '' || postal_code === '' || address === '') {
       setIsPaymentLoading(false);
-    }).catch((err) => {
-      console.log(err);
-    })
+    } else {
+      axios({
+        method: 'POST',
+        url:"http://localhost:5000/payment/post",
+        data: {
+          email: email,
+          exp_month: exp_month,
+          exp_year: exp_year,
+          cvc: cvc,
+          number: number,
+          address: address,
+          state: state,
+          country: country,
+          postal_code: postal_code,
+          city: city,
+          name: name,
+        },
+        // headers: {
+        //   "Access-Control-Allow-Origin": "*"
+        // }
+      }).then((res) => {
+        console.log('res', res);
+        const { status, url, message } = res.data;
+        if (message !== undefined) {
+          setIsPaymentLoading(false);
+          setMessage(message);
+        } else {
+          if (status === 'requires_action') {
+            console.log('url', url);
+            window.location.href = url;
+            setURL(url);
+            setIsPaymentLoading(false);
+          } else {
+            axios({
+              method: 'POST',
+              url: 'http://localhost:5000/mail/post',
+              data: {
+                email: email
+              }
+            }).then((res) => {
+              console.log('res', res);
+            }).catch((err) => {
+              console.log('err', err);
+            })
+            setStatus(status);
+            setIsPaymentLoading(false);
+          }
+        }
+      }).catch((err) => {
+        console.log(err);
+        setIsPaymentLoading(false);
+      })
+    }
     
   }
     return (
-      <div style={{
+      <Card sx={{ height: '80%', width: '80%', margin: 10,}}>
+        <div style={{
         padding: "3rem"
       }}>
         <div style={{
@@ -73,8 +113,27 @@ const CheckoutFormView = () => {
             <div style={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "center"
+              alignItems: "center",
+              marginTop: 5,
             }}>
+              <Typography variant="h6" component="h6" sx={{ display: 'flex', alignSelf: 'flex-start'}}>
+                Basic Details:-
+              </Typography>
+              <div style={{ 
+                display: 'flex',
+                flexDirection: 'row',
+                
+              }}>
+              <Input 
+              autoComplete={true}
+              autoFocus={true}
+              placeholder={'Name'}
+              value={name}
+              required
+              sx={{
+                marginRight: 10,
+              }}
+              onChange={(event) => setName(event.target.value)}/>
               <Input 
               autoComplete={true}
               autoFocus={true}
@@ -82,13 +141,26 @@ const CheckoutFormView = () => {
               value={email}
               required
               onChange={(event) => setEmail(event.target.value)}/>
+              </div>
+              <Typography variant="h6" component="h6" sx={{ marginTop: 5, display: 'flex', alignSelf: 'flex-start'}}>
+                Card Details:-
+              </Typography>
+              <div style={{ display: 'flex', flexDirection: 'column'}}>
               <Input 
               autoComplete={true}
               autoFocus={true}
               placeholder={'Card Number'}
               value={number}
+              sx={{
+                marginBottom: 5,
+                width: '100%'
+              }}
               required
               onChange={(event) => setNumber(event.target.value)}/>
+              <div style={{ 
+                display: 'flex',
+                flexDirection: 'row',
+              }}>
               <Input 
               autoComplete={true}
               autoFocus={true}
@@ -102,6 +174,9 @@ const CheckoutFormView = () => {
               autoFocus={true}
               value={exp_year}
               required
+              sx={{
+                marginLeft: 5,
+              }}
               onChange={(event) => setExpYear(event.target.value)}/>
               <Input 
               autoComplete={true}
@@ -109,7 +184,82 @@ const CheckoutFormView = () => {
               autoFocus={true}
               value={cvc}
               required
+              sx={{
+                marginLeft: 5,
+              }}
               onChange={(event) => setCVC(event.target.value)}/>
+              </div>
+              <Typography variant="h6" component="h6" style={{ marginTop: 10,}}>
+                Billing Details:-
+              </Typography>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'row'
+                }}>
+                <Input 
+              autoComplete={true}
+              placeholder={'Country'}
+              autoFocus={true}
+              value={country}
+              required
+              onChange={(event) => setCountry(event.target.value)}/>
+              <Input 
+              autoComplete={true}
+              placeholder={'State'}
+              autoFocus={true}
+              value={state}
+              required
+              sx={{
+                marginLeft: 5,
+              }}
+              onChange={(event) => setState(event.target.value)}/>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginTop: 15,
+                }}>
+                <Input 
+              autoComplete={true}
+              placeholder={'City'}
+              autoFocus={true}
+              value={city}
+              required
+              onChange={(event) => setCity(event.target.value)}/>
+              <Input 
+              autoComplete={true}
+              placeholder={'Postal Code'}
+              autoFocus={true}
+              value={postal_code}
+              required
+              sx={{
+                marginLeft: 5,
+              }}
+              onChange={(event) => setPostalCode(event.target.value)}/>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'row'
+                }}>
+                <Input 
+              autoComplete={true}
+              placeholder={'Address'}
+              autoFocus={true}
+              value={address}
+              sx={{
+                marginTop: 5,
+                marginBottom: 5,
+                width: '100%'
+              }}
+              required
+              onChange={(event) => setAddress(event.target.value)}/>
+                </div>
+              </div>
+              </div>
               {/* <CreditCardInput
   onError={({ inputName, err }) => console.log(`credit card input error: ${err}`)}
   cardCVCInputProps={{
@@ -144,6 +294,15 @@ const CheckoutFormView = () => {
               </button>
             </div>
           </form>
+          <div>
+            {message === undefined ? (
+              <div/>
+            ): (
+              <text>
+                {message}
+              </text>
+            )}
+          </div>
         </div>
         {status !== '' ?(
           <text>
@@ -153,6 +312,7 @@ const CheckoutFormView = () => {
           <div/>
         )}
       </div>
+      </Card>
     )
   
 }

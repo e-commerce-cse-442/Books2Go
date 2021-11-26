@@ -4,11 +4,12 @@ const cors = require("cors");
 const client = require("./db");
 const md5 = require("md5");
 const dotenv = require("dotenv/config");
+const nodemailer = require("nodemailer")
 const app = express();
 
 const Stripe = require("stripe");
 const stripe = Stripe(process.env.SECRET_KEY);
-client.connect(); //Connects to the SQL database.
+//client.connect(); //Connects to the SQL database.
 
 
 
@@ -30,7 +31,7 @@ app.post("/signup", async (req, res) => {
       res.send({ message: "Passwords do not match!" });
       return;
     }
-    //Require a password with at least 8 characters.
+    //Require passwords with at least 8 characters.
     if (req.body.password.length < 8) {
       res.send({message: "Password must be more than 8 characters!"});
       return;
@@ -54,8 +55,40 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post('/mail/post', async (req, res) => {
+  const {email} = req.body;
+  let testAccount = await nodemailer.createTestAccount();
+
+  console.log(testAccount)
+  try {
+    let transporter = nodemailer.createTransport({
+      host: "smtp.ethereal.email",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: testAccount.user, // generated ethereal user
+        pass: testAccount.pass, // generated ethereal password
+      },
+    });
+  
+    console.log('transporter', transporter)
+  
+    let info = await transporter.sendMail({
+      from: `"From Books2Go" ${testAccount.user}`, // sender address
+      to: `${email}`, // list of receivers
+      subject: "Payment Confirmation", // Subject line
+      text: "", // plain text body
+      html: "<b>This is a payment confirmation email.</b>", // html body
+    });
+  
+    console.log('info', info)
+  } catch (err) {
+    console.log(err);
+  }
+})
+
 app.post('/payment/post', async (req, res) => {
-  const {email,  number, exp_month, exp_year, cvc, city, country, postal_code, state, line1, user_id, callingCode } = req.body;
+  const {email,  number, name, exp_month, exp_year, cvc, city, country, postal_code, state, address } = req.body;
 
   try {
     const paymentMethod = await stripe.paymentMethods.create({
@@ -72,11 +105,23 @@ app.post('/payment/post', async (req, res) => {
     console.log(paymentMethod)
     
     const customer = await stripe.customers.create({
-      // payment_method: Stripe API payment_method,
+      // payment_method: payment_method,
+      name: name,
       email: email,
       payment_method: paymentMethod.id,
       invoice_settings: {
         default_payment_method: paymentMethod.id
+      },
+
+      shipping: {
+        address: {
+          city: city,
+          country: country,
+          line1: address,
+          postal_code: postal_code,
+          state: state,
+        },
+        name: name,
       }
     });
 
@@ -87,13 +132,12 @@ app.post('/payment/post', async (req, res) => {
       currency: 'usd',
       customer: customer.id,
       payment_method: paymentMethod.id,
+      receipt_email: email,
     })
 
-
-    //heroku web connection
     const confirm_payment = await stripe.paymentIntents.confirm(
       paymentIntent.id,
-      {return_url: `http://books2go.herokuapp.com/Payment`}
+      {return_url: `http://localhost:3000/Payment`}
     )
 
     console.log(confirm_payment)
@@ -128,6 +172,33 @@ app.post('/payment/post', async (req, res) => {
   } catch (err) {
     // const error = res.json({ error: {message: err.message }})
     console.log('err', err);
+    switch (err.type) {
+      case 'StripeCardError':
+        // A declined card error
+        console.log('err-message', err.message); 
+        res.send({ 'message' : err.message})// => e.g. "Your card's expiration year is invalid."
+        break;
+      case 'StripeRateLimitError':
+        // Too many requests made to the API too quickly
+        break;
+      case 'StripeInvalidRequestError':
+        console.log('err', err.message);
+        res.send({ 'message': err.message })
+        // Invalid parameters were supplied to Stripe's API
+        break;
+      case 'StripeAPIError':
+        // An error occurred internally with Stripe's API
+        break;
+      case 'StripeConnectionError':
+        // Some kind of error occurred during the HTTPS communication
+        break;
+      case 'StripeAuthenticationError':
+        // You probably used an incorrect API key
+        break;
+      default:
+        // Handle any other types of unexpected errors
+        break;
+    }
   }
 })
 
@@ -140,13 +211,16 @@ app.post('/payment-intent/get', async (req, res) => {
       payment_intent_id
     );
 
-    console.log(paymentIntent)
+    console.log('payment-intent', paymentIntent);
 
     const status = paymentIntent['status'];
+    const email = paymentIntent['receipt_email'];
 
     console.log(status);
 
-    res.json({ 'status': status})
+    console.log(email);
+
+    res.json({ 'status': status, 'email' : email })
   } catch (err) {
     console.log(err);
   }
@@ -244,8 +318,9 @@ app.get("*", (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 const HOST = "0.0.0.0";
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Running on http://localhost:${PORT}`);
+});
