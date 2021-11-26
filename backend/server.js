@@ -18,9 +18,9 @@ app.use(cors());
 app.use(express.json()); //req.body
 
 app.post("/signup", async (req, res) => {
-  //async: wait for the function
+  //async: wait for the function.
   try {
-    //maybe change back to const
+    //maybe change back to const.
     const name = req.body.username;
     const password = md5(req.body.password); //Encrypted
     const email = req.body.email;
@@ -64,7 +64,7 @@ app.post('/mail/post', async (req, res) => {
     let transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
       port: 587,
-      secure: false, // true for 465, false for other ports
+      secure: false, // true for 465, false for other ports.
       auth: {
         user: testAccount.user, // generated ethereal user
         pass: testAccount.pass, // generated ethereal password
@@ -179,18 +179,18 @@ app.post('/payment/post', async (req, res) => {
         res.send({ 'message' : err.message})// => e.g. "Your card's expiration year is invalid."
         break;
       case 'StripeRateLimitError':
-        // Too many requests made to the API too quickly
+        // Too many requests made to the API too quickly.
         break;
       case 'StripeInvalidRequestError':
         console.log('err', err.message);
         res.send({ 'message': err.message })
-        // Invalid parameters were supplied to Stripe's API
+        // Invalid parameters were supplied to Stripe's API.
         break;
       case 'StripeAPIError':
-        // An error occurred internally with Stripe's API
+        // An error occurred internally with Stripe's API.
         break;
       case 'StripeConnectionError':
-        // Some kind of error occurred during the HTTPS communication
+        // Some kind of error occurred during the HTTPS communication.
         break;
       case 'StripeAuthenticationError':
         // You probably used an incorrect API key

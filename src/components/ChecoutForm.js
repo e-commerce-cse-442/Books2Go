@@ -47,12 +47,12 @@ const CheckoutFormView = () => {
         method: 'POST',
         url:"http://localhost:5000/payment/post",
         data: {
-          email: email,
+          email: email,              //User will put their basic and card information here
           exp_month: exp_month,
           exp_year: exp_year,
           cvc: cvc,
           number: number,
-          address: address,
+          address: address,          //User will put their billing address here
           state: state,
           country: country,
           postal_code: postal_code,
