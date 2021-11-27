@@ -1,120 +1,165 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import Navbar from './Navbar'
 import "./Cart.css"
 import { useCookies } from 'react-cookie';
 
 function Cart() {
-  const [user, setUser] = useCookies(['user']);
-  const [cart, setCart] = useCookies(['cart']);
 
-  var name = user.userName
-  if (name == undefined) {
-    name = "Your";
-  } else {
-    name += "'s"
-  }
+    const [books, setBooks] = useState([]);
+    const [booksData, setBooksData] = useState([]);
+    const [bookPrice, setBookPrice] = useState([]);
+    const [listing, setListing] = useState(false);
+    const [cart, setCart] = useState(false);
 
-  var book_count = 0
-  var book_name = ""
-  var total = 0
+    const [cookies, setCookie] = useCookies(['user']); //cookies stuff
 
-  if (cart.cart != undefined){
-    for (const num of Object.values(cart.cart)) {
-        book_count += parseInt(num.quantity)
-        total += parseInt(num.quantity) * parseInt(num.price)
+    function totalPrice(){
+        var holder = 0;
+        for (var k = 0; k < bookPrice.length;k++){
+            holder+=Number(bookPrice[k][1]);
+        }
+        localStorage.setItem('total_price', holder);
+        return holder;
     }
-    for (const num of Object.keys(cart.cart)) {
-      book_name = num
-      console.log("book names: ", num)
+
+    const listingPrice = async() =>{
+        var holder = []
+          for (var i = 0; i < booksData.length;i++){
+              for (var j = 0; j < books.length; j++){
+                  if (booksData[i].name === books[j]){
+                      holder.push([booksData[i].name, booksData[i].price]);
+                  }
+              }
+          }
+        console.log(holder.length);
+
+        setBookPrice(holder);
     }
-    console.log(cart.cart);
-    // console.log(Object.keys(cart))
-    // console.log(Object.keys(cart.cart))
-    // console.log(Object.keys(cart.cart).map((item, i) => (i)))
-  } else {
-    cart.cart = {}
-  }
+    const listingBooks = async () => {
+        try {
+          const response = await fetch("/books");
+          const data = await response.json();
+    
+          setBooksData(data);
+          setListing(true);
+          console.log("first");
+          
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    const cartSetup = async () => {
+        try {
+          var holder = "";
+          var arrHolder = [];
+          const response = await fetch("/cartList");
+          const data = await response.json();
+          for(var i = 0; i<data.length; i++){
+              if(data[i].username === cookies.userName){
+                  holder = data[i].cart_list;
+              }
+          }
+          arrHolder = holder.split(";");
+          arrHolder.splice(-1);
 
+          setBooks(arrHolder);
+          setCart(true);
+          console.log("second");
+        } catch (err) {
+          console.log(err);
+        }
+      };
 
+    
+    useEffect(() => {
+        if(cart){
+            listingPrice();
+        }
+        if(listing){
+            cartSetup();
+        }
+        listingBooks();
+    }, [listing, cart] );
 
-  const change_input = async (key, event) => {
-    // console.log("change_input changed")
-    // console.log(event.target.value)
-    // console.log(key)
-    // console.log(cart.cart[key]["quantity"])
-    cart.cart[key]["quantity"] = event.target.value
-    setCart('cart', cart.cart, { path: '/' , sameSite: 'strict'})
-  };
-
-  function Remove_Books(key) {
-    delete cart.cart[key]
-    setCart('cart', cart.cart, { path: '/' , sameSite: 'strict'})
-  }
-
-  const update_database = async (event) => {
-    if (name != "Your" && name != undefined) {
-      try {
-        const body = { name: user.userName, cart: cart.cart };
-        const response = fetch("/update_cart", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-
-        const data = response.json();
-        console.log("DATA FROM SERVER", data.message)
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-  };
-
-
+    console.log("here" + bookPrice[0]);
+    
+    
     return (
         <div>
             <Navbar />
-            <div class="your-cart">
-              <h1 class="cart-head">{name} Cart</h1>
-              <span class= "item-count">({book_count} Items)</span>
-            </div>
-            <div style={{marginLeft:25 + 'px'}}>
-              <table class= "book-table">
-                <thead>
-                  <tr>
-                    <th class="item-header">Item</th>
-                    <th class="price-header">Price</th>
-                    <th class="quantity-header">Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    Object.keys(cart.cart).map(function (key, index) {
-                      return(
-                        <tr>
-                          <td style={{fontSize:"150%"}}><img src={'images/' + key + '.jpg'} height="100"/> { key} </td>
-                          <td style={{fontSize:"150%"}}>${cart.cart[key]["price"]}</td>
-                          <td>
-                            <form action="/quantity-change">
-                              <input type="number" id="quantity" name="quantity" min="1" value={cart.cart[key]["quantity"]} onChange={(event) => change_input(key, event)}/>
-                              <button class= "remove-btn" type="button" onClick={() => Remove_Books(key)}>REMOVE</button>
-                            </form>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  }
-                </tbody>
-              </table>
-            </div>
-            <div class="cart-total">
-                <strong class="cart-total-title">Total</strong>
-                <span class="cart-total-price">${total}</span>
-            </div>
-            <form action='../Checkout'>
-            <button class="button-checkout" onClick={update_database}>Checkout</button>
-            </form>
-        </div>
-)}
 
+            
+<div class="container bootstrap snippets bootdey">
+    <div class="col-md-9 col-sm-8 content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info panel-shadow">
+                    <div class="panel-heading">
+                        <h3>
+                        {cookies.userName}'s cart
+                        </h3>
+                    </div>
+                    <div class="panel-body"> 
+                        <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Book Title</th>
+                                <th>Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {bookPrice.map((book) => (
+                                <tr>
+                                    <td><img src= {`images/${book[0]}.jpg`} alt="" height="35" weight="35" class="img-cart"/></td>
+                                    {/* <td>
+                                    <form class="form-inline">
+                                        <input class="form-control" type="text" value="1"/>
+                                        <button rel="tooltip" class="btn btn-default"><i class="fa fa-pencil"></i></button>
+                                        <a href="#" class="btn btn-primary"><i class="fa fa-trash-o"></i></a>
+                                    </form>
+                                    </td> */}
+                                    <td>{book[0]}</td>
+                                    <td>{book[1]}</td>
+                                </tr>
+
+                                ))}
+
+                                {/*  */}
+                                <tr>
+                                    <td colspan="6">&nbsp;</td>
+                                </tr>
+                                {/* <tr>
+                                    <td colspan="4" class="text-right">Total Product</td>
+                                    <td>$86.00</td>
+                                </tr> */}
+                                {/* <tr>
+                                    <td colspan="4" class="text-right">Total Shipping</td>
+                                    <td>$2.00</td>
+                                </tr> */}
+                                <tr>
+                                    <td colspan="4" class="text-right"><strong>Total</strong></td>
+                                    <td>{totalPrice()}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+                <form action='../Checkout'>
+                    <button className="button-checkout">Checkout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+        </div>
+
+    )
+}
 
 export default Cart

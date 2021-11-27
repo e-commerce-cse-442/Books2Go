@@ -9,7 +9,7 @@ const app = express();
 
 const Stripe = require("stripe");
 const stripe = Stripe(process.env.SECRET_KEY);
-//client.connect(); //Connects to the SQL database.
+client.connect(); //Connects to the SQL database.
 
 
 
@@ -18,9 +18,9 @@ app.use(cors());
 app.use(express.json()); //req.body
 
 app.post("/signup", async (req, res) => {
-  //async: wait for the function.
+  //async: wait for the function
   try {
-    //maybe change back to const.
+    //maybe change back to const
     const name = req.body.username;
     const password = md5(req.body.password); //Encrypted
     const email = req.body.email;
@@ -57,27 +57,24 @@ app.post("/signup", async (req, res) => {
 
 app.post('/mail/post', async (req, res) => {
   const {email} = req.body;
-  let testAccount = await nodemailer.createTestAccount();
-
-  console.log(testAccount)
   try {
     let transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
+      host: "smtp.mailgun.org",
       port: 587,
-      secure: false, // true for 465, false for other ports.
+      secure: false, // true for 465, false for other ports
       auth: {
-        user: testAccount.user, // generated ethereal user
-        pass: testAccount.pass, // generated ethereal password
+        user: 'postmaster@sandboxeb34ccc3943540d29743bcc89961ebdc.mailgun.org', // generated ethereal user
+        pass: '61390df47976064038f43dd4a0573e0e-7dcc6512-7272f935', // generated ethereal password
       },
     });
   
     console.log('transporter', transporter)
   
     let info = await transporter.sendMail({
-      from: `"From Books2Go" ${testAccount.user}`, // sender address
+      from: `"From Books2Go" postmaster@sandboxeb34ccc3943540d29743bcc89961ebdc.mailgun.org`, // sender address
       to: `${email}`, // list of receivers
       subject: "Payment Confirmation", // Subject line
-      text: "", // plain text body
+      text: "Thank you for you purchase with Books2Go", // plain text body
       html: "<b>This is a payment confirmation email.</b>", // html body
     });
   
@@ -88,7 +85,7 @@ app.post('/mail/post', async (req, res) => {
 })
 
 app.post('/payment/post', async (req, res) => {
-  const {email,  number, name, exp_month, exp_year, cvc, city, country, postal_code, state, address } = req.body;
+  const {email,  number, name, exp_month, exp_year, cvc, city, country,price, postal_code, state, address } = req.body;
 
   try {
     const paymentMethod = await stripe.paymentMethods.create({
@@ -128,7 +125,7 @@ app.post('/payment/post', async (req, res) => {
     console.log(customer);
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 200,
+      amount: price*100,
       currency: 'usd',
       customer: customer.id,
       payment_method: paymentMethod.id,
@@ -137,7 +134,7 @@ app.post('/payment/post', async (req, res) => {
 
     const confirm_payment = await stripe.paymentIntents.confirm(
       paymentIntent.id,
-      {return_url: `http://localhost:3000/Payment`}
+      {return_url: `http://localhost:5000/Payment`}
     )
 
     console.log(confirm_payment)
@@ -179,18 +176,18 @@ app.post('/payment/post', async (req, res) => {
         res.send({ 'message' : err.message})// => e.g. "Your card's expiration year is invalid."
         break;
       case 'StripeRateLimitError':
-        // Too many requests made to the API too quickly.
+        // Too many requests made to the API too quickly
         break;
       case 'StripeInvalidRequestError':
         console.log('err', err.message);
         res.send({ 'message': err.message })
-        // Invalid parameters were supplied to Stripe's API.
+        // Invalid parameters were supplied to Stripe's API
         break;
       case 'StripeAPIError':
-        // An error occurred internally with Stripe's API.
+        // An error occurred internally with Stripe's API
         break;
       case 'StripeConnectionError':
-        // Some kind of error occurred during the HTTPS communication.
+        // Some kind of error occurred during the HTTPS communication
         break;
       case 'StripeAuthenticationError':
         // You probably used an incorrect API key

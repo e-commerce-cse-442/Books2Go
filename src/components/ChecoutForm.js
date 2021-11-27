@@ -29,6 +29,13 @@ const CheckoutFormView = () => {
   const [city, setCity] = useState('');
   const [postal_code, setPostalCode] = useState('');
   const [address, setAddress] = useState('');
+  const [total_price, setTotalPrice] = useState('');
+
+  useEffect(() => {
+    const total_price = localStorage.getItem('total_price');
+    console.log(total_price);
+    setTotalPrice(total_price);
+  })
 
 
   const onPressPay = async () => {
@@ -47,12 +54,13 @@ const CheckoutFormView = () => {
         method: 'POST',
         url:"http://localhost:5000/payment/post",
         data: {
-          email: email,              //User will put their basic and card information here
+          email: email,
           exp_month: exp_month,
           exp_year: exp_year,
+          price: total_price,
           cvc: cvc,
           number: number,
-          address: address,          //User will put their billing address here
+          address: address,
           state: state,
           country: country,
           postal_code: postal_code,
