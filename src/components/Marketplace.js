@@ -24,7 +24,7 @@ function Marketplace() {
     try {
       const response = await fetch("/books");
       const data = await response.json();
-
+      console.log(data)
       setBooks(data);
       setFilter(data);
     } catch (err) {

@@ -75,7 +75,7 @@ app.post('/payment/post', async (req, res) => {
     })
 
     console.log(paymentMethod)
-    
+
     const customer = await stripe.customers.create({
       // payment_method: payment_method,
       email: email,
@@ -109,7 +109,7 @@ app.post('/payment/post', async (req, res) => {
     //   payment_method: paymentMethod.id,
     //   payment_method_types: ['card'],
     // });
-  
+
     // const paymentIntent = await stripe.paymentIntents.create({
     //   amount: 24000,
     //   currency: 'inr',
@@ -127,7 +127,7 @@ app.post('/payment/post', async (req, res) => {
     } else {
       res.send({ 'status': status })
     }
-    
+
   } catch (err) {
     // const error = res.json({ error: {message: err.message }})
     console.log('err', err);
@@ -185,9 +185,11 @@ app.post("/login", function (req, res) {
 //get all books
 app.get("/books", async(req, res) =>{
   try{
+
     const allBooks = await client.query("SELECT * FROM books");
     // res.send({"books": "hi"});
     res.json(allBooks.rows);
+    console.log("GET ALL BOOKS SERVER SIDE")
   } catch (err){
     console.error(err.message);
   }
@@ -218,10 +220,10 @@ app.post("/update", function (req, res) {
 
   console.log("cart "+cart);
   console.log(user_name);
-  
+
 
   //Below is the request sent to the SQL database.
-  
+
   client.query(
     `UPDATE user_info SET cart_list = '${cart}' WHERE username = '${user_name}'`);
 
@@ -238,13 +240,14 @@ app.get("/cartList", async(req, res) =>{
     console.error(err.message);
   }
 });
-    
+
 
 app.post("/get_cart", async(req, res) => {
   try{
     const cart = await client.query(`SELECT cart_json FROM user_info WHERE username='${req.body.name}'`)
-    console.log(cart.rows[0])
+    // console.log(cart.rows[0])
     res.json(cart.rows[0])
+    console.log("GET CART SERVER SIDE")
   } catch (err){
     console.error(err.message);
   }
@@ -254,16 +257,18 @@ app.post("/update_cart", async(req, res) => {
   try {
     let username = req.body.name
     let cart = req.body.cart
-    console.log(JSON.stringify(username))
-    console.log(JSON.stringify(cart))
+    // console.log(JSON.stringify(username))
+    // console.log(JSON.stringify(cart))
 
     update_query = "UPDATE user_info SET cart_json=" + "'" + JSON.stringify(cart) + "'" + " WHERE username=" + JSON.stringify(username)
 
-    client.query("UPDATE user_info SET cart_json=" + "'" + JSON.stringify(cart) + "'" + `WHERE username='${username}'`)
+    await client.query("UPDATE user_info SET cart_json=" + "'" + JSON.stringify(cart) + "'" + `WHERE username='${username}'`)
     // data = client.query(`SELECT * FROM user_info WHERE username='${username}'`)
     // res.send({ message: data });
     // console.log(update_query)
     // res.send({ message: data });
+    // console.log("CART UPDATE SERVER SIDE")
+    res.send({ message: "CART UPDATE SERVER SIDE"})
   } catch (err){
     console.error(err.message);
   }

@@ -31,7 +31,7 @@ function Navbar() {
         });
         // console.log(response)
         const data = await response.json();
-        console.log("Cart updated")
+        console.log(data.message)
       } catch (err) {
         console.error(err.message);
       }
