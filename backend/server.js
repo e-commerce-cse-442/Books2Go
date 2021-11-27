@@ -141,22 +141,6 @@ app.post('/payment/post', async (req, res) => {
 
     console.log(paymentIntent)
 
-    // const setupIntent = await stripe.setupIntents.create({
-    //   confirm:true,
-    //   customer: customer.id,
-    //   payment_method: paymentMethod.id,
-    //   payment_method_types: ['card'],
-    // });
-  
-    // const paymentIntent = await stripe.paymentIntents.create({
-    //   amount: 24000,
-    //   currency: 'inr',
-    //   payment_method_types: ['card'],
-    //   payment_method: paymentMethod.id,
-    //   receipt_email: email,
-    //   confirm: true,
-    //   customer: customer.id
-    // });
     const status = confirm_payment['status'];
 
     if (status === 'requires_action') {
