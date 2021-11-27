@@ -73,11 +73,6 @@ function Navbar() {
               </Link>
             </li>
             <li class="nav-item">
-              <Link to="/pdfBook" class="nav-link" href="#">
-                PDF Books
-              </Link>
-            </li>
-            <li class="nav-item">
               <Link to="/cart"class="nav-link" href="#" onClick={change_input}>
                 Cart
               </Link>

@@ -153,6 +153,7 @@ function Marketplace() {
         // cookies[book_data.name] = {"quantity": 1, "price": book_data.price};
         setCookie('cart', object, { path: '/' , sameSite: 'strict'})
       }
+      setButtonPopup(true);
   }
 
 
