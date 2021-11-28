@@ -5,6 +5,7 @@ import {useHistory} from 'react-router-dom';
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
+//import axios from 'axios';
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -42,6 +43,7 @@ function Login() {
   //below function will be activated when login form submitted,
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const body = { username, password};
       const response = await fetch("/login", {

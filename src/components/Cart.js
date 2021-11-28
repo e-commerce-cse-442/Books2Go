@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import Navbar from './Navbar'
 import "./Cart.css"
 import { useCookies } from 'react-cookie';
@@ -6,6 +6,9 @@ import { useCookies } from 'react-cookie';
 function Cart() {
   const [user, setUser] = useCookies(['user']);
   const [cart, setCart] = useCookies(['cart']);
+  const [books, setBooks] = useState([]);
+  const [booksData, setBooksData] = useState([]);
+  const [bookPrice, setBookPrice] = useState([]);
 
   var name = user.userName
   if (name == undefined) {
@@ -17,6 +20,7 @@ function Cart() {
   var book_count = 0
   var book_name = ""
   var total = 0
+
 
   if (cart.cart != undefined){
     for (const num of Object.values(cart.cart)) {
@@ -36,6 +40,14 @@ function Cart() {
   }
 
 
+  function totalPrice(){
+    var holder = 0;
+    for (var k = 0; k < bookPrice.length;k++){
+        holder+=Number(bookPrice[k][1]);
+    }
+    localStorage.setItem('total_price', holder);
+    return holder;
+  }
 
   const change_input = async (key, event) => {
     // console.log("change_input changed")
