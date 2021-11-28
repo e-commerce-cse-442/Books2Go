@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import "./Signup.css"; //Will use same css as in the sign up css file
+import "./Signup.css";
 import {useHistory} from 'react-router-dom';
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
@@ -11,7 +11,8 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [cookies, setCookie] = useCookies(['user']); //cookies stuff
+  const [cookies, setCookie] = useCookies(['user']);
+  const [cart, setCart, removeCart] = useCookies(['cart']) //cookies stuff
   const history = useHistory();
 
   const setUserCookies = () => {
@@ -19,6 +20,27 @@ function Login() {
     setCookie('userName', username, { path: '/' , sameSite: 'strict'});
  };
 
+
+ async function get_cart(username) {
+   console.log("getting cart")
+     try {
+       console.log("inside")
+       const body = { name: username };
+       const response = await fetch("/get_cart", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(body),
+       });
+       // console.log(response)
+       const data = await response.json();
+       console.log("get cart from server", data.cart_json)
+       setCart('cart', data.cart_json, { path: '/' , sameSite: 'strict'});
+     } catch (err) {
+       console.error(err.message);
+     }
+ };
+
+  //below function will be activated when login form submitted,
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -32,10 +54,13 @@ function Login() {
       const data = await response.json();
 
       if(data.message === "Login Successful!"){
+        setUserCookies() ;
         history.push('/shop'); //If login successful, page will log in and open the /shop
         //Later I may want to incorporate cookies upon login
         //can set cookies here
         setUserCookies() ;
+        removeCart('cart');
+        get_cart(username);
       }
       else{
         setError(data.message); //Will set the error message to the msg in data
