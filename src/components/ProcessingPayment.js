@@ -8,7 +8,7 @@ const ProcessingPayment = () => {
   useEffect(() => {
     console.log('url', window.location.href);
     const url = window.location.href;
-    const url1 = url.split('http://localhost:5000/Payment?payment_intent=')[1];
+    const url1 = url.split('https://books2go.herokuapp.com/Payment?payment_intent=')[1];
     console.log(url1);
     const url2 = url1.split('&payment_intent_client_secret')[0];
     console.log(url2);
@@ -21,7 +21,7 @@ const ProcessingPayment = () => {
     });
     axios({
       method: 'POST',
-      url: 'http://localhost:5000/payment-intent/get',
+      url: 'https://books2go.herokuapp.com/payment-intent/get',
       data: {
         payment_intent_id: id
       },
@@ -30,7 +30,7 @@ const ProcessingPayment = () => {
       const { status, email } = res.data;
         axios({
           method: 'POST',
-          url: 'http://localhost:5000/mail/post',
+          url: 'https://books2go.herokuapp.com/mail/post',
           data: {
             email: email
           }
