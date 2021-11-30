@@ -17,13 +17,14 @@ function Marketplace() {
   const [subGenres, setSubGenres] = useState([]);
   const [bookData, setBookData] = useState(false);
   const [genreData, setGenreData] = useState(false);
-  const [cookies, setCookie] = useCookies(["user"]);
-
+  const [cart, setCart] = useState([]);
+  const [cookies, setCookie] = useCookies(['cart']); //cookies stuff
+  const [user, setUser] = useCookies(['user']);
   const listingBooks = async () => {
     try {
       const response = await fetch("/books");
       const data = await response.json();
-
+      console.log(data)
       setBooks(data);
       setFilter(data);
     } catch (err) {
@@ -90,7 +91,7 @@ function Marketplace() {
       const response = await fetch("/cartList");
       const data = await response.json();
       for (var i = 0; i < data.length; i++) {
-        if (data[i].username === cookies.userName) {
+        if (data[i].username === user.userName) {
           holder = data[i].cart_list;
         }
       }
@@ -113,7 +114,7 @@ function Marketplace() {
   /// update user_info
   const updateInfo = async () => {
     try {
-      var user_name = cookies.userName;
+      var user_name = user.userName;
       const body = { user_name, bookList };
       const response = await fetch("/update", {
         method: "POST",
@@ -127,7 +128,34 @@ function Marketplace() {
     } catch (err) {
       console.error(err.message);
     }
-  };
+    // if (genreData === true){
+    //   listingSubGenre();
+    // }
+  }
+  // , [bookData, genreData]);
+
+
+  const addToCart = (book_data) => {
+      if (cookies.hasOwnProperty("cart")) {
+        if (cookies.cart.hasOwnProperty(book_data.name)) {
+          console.log("increase cart")
+          cookies.cart[book_data.name]["quantity"] += 1;
+        } else {
+          console.log("new book existing cart");
+          cookies["cart"][book_data.name] = {"quantity": 1, "price": book_data.price};
+        }
+        console.log("Cookies after alter", cookies)
+        setCookie('cart', cookies.cart, { path: '/' , sameSite: 'strict'});
+      } else{
+        console.log("new");
+        var object = {};
+        object[book_data.name] = {"quantity": 1, "price": book_data.price};
+        // cookies[book_data.name] = {"quantity": 1, "price": book_data.price};
+        setCookie('cart', object, { path: '/' , sameSite: 'strict'})
+      }
+      setButtonPopup(true);
+  }
+
 
   if (bookList !== "") {
     updateInfo();
@@ -187,6 +215,7 @@ function Marketplace() {
   }
 
   return (
+
     <div>
       <div class="container-fluid mt-5 mb-5">
         <div class="row g-2">
@@ -280,7 +309,7 @@ function Marketplace() {
                       {/*  Buy Now*/}
                       {/*</button>*/}
                       <button
-                        onClick={() => cartList(book)}
+                        onClick={() => addToCart(book)}
                         class="btn btn-default text-uppercase"
                       >
                         Add to cart
@@ -295,7 +324,7 @@ function Marketplace() {
                             Go to cart
                           </button>
                         </Link>
-                        
+
 
                         {/* <button class="btn btn-primary text-uppercase">
                           Continue Shopping
@@ -312,6 +341,7 @@ function Marketplace() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }
