@@ -8,6 +8,12 @@ import { useCookies } from 'react-cookie';
 function Navbar() {
   const [user, setUser] = useCookies(['user']);
   const [cart, setCart] = useCookies(['cart']);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+
+  const logout = () => {
+    removeCookie("userName")
+    window.location.href = '/'
+  }
 
   var name = user.userName
   if (name == undefined) {
@@ -37,8 +43,6 @@ function Navbar() {
       }
     }
   };
-
-
 
   return (
     <div>
@@ -78,16 +82,21 @@ function Navbar() {
               </Link>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
+           <form class="form-inline my-2 my-lg-0">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
             <li class="nav-item active">
+              { cookies.userName ? <Link class="nav-link" href="#">
+                    {"Hello " + cookies.userName.toString()}
+                  </Link> :
               <Link to="/signup" class="nav-link" href="#">
                 Sign up
-              </Link>
+              </Link>}
             </li>
+
             <li class="nav-item active">
-              { user.userName ? <Link to="/shop" class="nav-link" href="#">
-                { user.userName.toString()}
+              { cookies.userName ? <Link to="/" class="nav-link" href="#">
+                {<form onClick={() => logout()}>Logout</form>}
               </Link> :
               <Link to="/login" class="nav-link" href="#">
                 Login
