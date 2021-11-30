@@ -6,6 +6,8 @@ import { useCookies } from 'react-cookie';
 
 
 function Navbar() {
+  const [user, setUser] = useCookies(['user']);
+  const [cart, setCart] = useCookies(['cart']);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const logout = () => {
@@ -13,12 +15,41 @@ function Navbar() {
     window.location.href = '/'
   }
 
+  var name = user.userName
+  if (name == undefined) {
+    name = "Your";
+  } else {
+    name += "'s"
+  }
+
+  if (cart.cart == undefined) {
+    cart.cart = {}
+  }
+  const cur_cart = cart.cart
+  const change_input = async (event) => {
+    if (name != "Your" && name != undefined) {
+      try {
+        const body = { name: user.userName, cart: cur_cart };
+        const response = await fetch("/update_cart", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        // console.log(response)
+        const data = await response.json();
+        console.log(data.message)
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+  };
+
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-          <Link to="/">
-            <img class="logo" src="images/Logo.png" alt="Logo" />
+          <Link to="/shop">
+            <img class="logo" src="images/Logo.png" alt="Logo" onClick={change_input} />
           </Link>
         </a>
         <button
@@ -41,17 +72,17 @@ function Navbar() {
               {/*</Link>*/}
             </li>
             <li class="nav-item">
-              <Link to = "/shop" class="nav-link" href="#">
+              <Link to = "/shop" class="nav-link" href="#" onClick={change_input}>
                   Shop
               </Link>
             </li>
             <li class="nav-item">
-              <Link to="/cart"class="nav-link" href="#">
+              <Link to="/cart"class="nav-link" href="#" onClick={change_input}>
                 Cart
               </Link>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
+           <form class="form-inline my-2 my-lg-0">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
             <li class="nav-item active">

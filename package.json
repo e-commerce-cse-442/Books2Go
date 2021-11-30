@@ -35,10 +35,10 @@
   },
   "scripts": {
     "start-client": "cd backend && npm start",
-    "build": "react-scripts build",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start": "npm run build && (cd backend && npm start)"
+    "start" : "react-scripts --openssl-legacy-provider start && (cd backend && npm start)"
   },
   "eslintConfig": {
     "extends": [
@@ -64,5 +64,5 @@
     "@babel/preset-env": "^7.15.6"
   },
   "proxy": "http://localhost:5000",
-  "homepage": "."
+  "homepage": "." 
 }
