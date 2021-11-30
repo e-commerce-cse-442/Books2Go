@@ -35,10 +35,10 @@
   },
   "scripts": {
     "start-client": "cd backend && npm start",
-    "build": "react-scripts --openssl-legacy-provider build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start" : "react-scripts --openssl-legacy-provider start && (cd backend && npm start)"
+    "start" : "npm run build && (cd backend && npm start)"
   },
   "eslintConfig": {
     "extends": [

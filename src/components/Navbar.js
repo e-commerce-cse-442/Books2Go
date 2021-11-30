@@ -48,7 +48,7 @@ function Navbar() {
     <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-          <Link to="/shop">
+          <Link to="/">
             <img class="logo" src="images/Logo.png" alt="Logo" onClick={change_input} />
           </Link>
         </a>
