@@ -72,9 +72,9 @@ app.post('/mail/post', async (req, res) => {
         pass: '61390df47976064038f43dd4a0573e0e-7dcc6512-7272f935', // generated ethereal password
       },
     });
-  
+
     console.log('transporter', transporter)
-  
+
     let info = await transporter.sendMail({
       from: `"From Books2Go" postmaster@sandboxeb34ccc3943540d29743bcc89961ebdc.mailgun.org`, // sender address
       to: `${email}`, // list of receivers
@@ -82,7 +82,7 @@ app.post('/mail/post', async (req, res) => {
       text: "Thank you for you purchase with Books2Go", // plain text body
       html: "<b>This is a payment confirmation email.</b>", // html body
     });
-  
+
     console.log('info', info)
   } catch (err) {
     console.log(err);
@@ -161,7 +161,7 @@ app.post('/payment/post', async (req, res) => {
     switch (err.type) {
       case 'StripeCardError':
         // A declined card error
-        console.log('err-message', err.message); 
+        console.log('err-message', err.message);
         res.send({ 'message' : err.message})// => e.g. "Your card's expiration year is invalid."
         break;
       case 'StripeRateLimitError':
@@ -340,9 +340,8 @@ app.get("*", (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 const HOST = "0.0.0.0";
 
-app.listen(PORT, () => {
-  console.log(`Running on http://localhost:${PORT}`);
-});
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);
