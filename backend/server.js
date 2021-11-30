@@ -275,8 +275,8 @@ app.post("/update", function (req, res) {
   let cart = req.body.bookList;
   let user_name = req.body.user_name;
 
-  // console.log("cart "+cart);
-  // console.log(user_name);
+  console.log("cart "+cart);
+  console.log(user_name);
 
 
   //Below is the request sent to the SQL database.
@@ -284,7 +284,7 @@ app.post("/update", function (req, res) {
   client.query(
     `UPDATE user_info SET cart_list = '${cart}' WHERE username = '${user_name}'`);
 
-    // res.send({ message: cart });
+    res.send({ message: cart });
 });
 
 //get books for cart
@@ -325,7 +325,7 @@ app.post("/update_cart", async(req, res) => {
     // console.log(update_query)
     // res.send({ message: data });
     // console.log("CART UPDATE SERVER SIDE")
-    // res.send({ message: "CART UPDATE SERVER SIDE"})
+    res.send({ message: "CART UPDATE SERVER SIDE"})
   } catch (err){
     console.error(err.message);
   }
