@@ -54,7 +54,7 @@ const CheckoutFormView = () => {
       console.log(total);
       axios({
         method: 'POST',
-        url:"http://localhost:5000/payment/post",
+        url:'http://0.0.0.0:' + window.location.port + '/payment/post',
         data: {
           email: email,
           exp_month: exp_month,
@@ -87,7 +87,7 @@ const CheckoutFormView = () => {
           } else {
             axios({
               method: 'POST',
-              url: 'http://localhost:5000/mail/post',
+              url: 'http://0.0.0.0:' + window.location.port + '/mail/post',
               data: {
                 email: email
               }
