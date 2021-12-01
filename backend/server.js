@@ -84,6 +84,7 @@ app.post('/mail/post', async (req, res) => {
     });
 
     console.log('info', info)
+    res.send({ message: info })
   } catch (err) {
     console.log(err);
   }
