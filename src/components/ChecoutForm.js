@@ -34,7 +34,7 @@ const CheckoutFormView = () => {
 
     axios({
       method: 'POST',
-      url:"'http://0.0.0.0:" + window.location.port + "/payment/post",
+      url:"https://0.0.0.0:" + window.location.port + "/payment/post",
       data: {
         email: email,
         exp_month: exp_month,
