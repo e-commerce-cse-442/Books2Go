@@ -30,15 +30,7 @@ const CheckoutFormView = () => {
   const [city, setCity] = useState('');
   const [postal_code, setPostalCode] = useState('');
   const [address, setAddress] = useState('');
-  const [total_price, setTotalPrice] = useState('');
   const [cart, setCart] = useCookies(['cart']);
-
-
-  useEffect(() => {
-    const total_price = localStorage.getItem('total_price');
-    console.log(total_price);
-    setTotalPrice(total_price);
-  })
 
 
   const onPressPay = async () => {
