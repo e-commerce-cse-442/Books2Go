@@ -8,6 +8,12 @@ import { useCookies } from 'react-cookie';
 function Navbar() {
   const [user, setUser] = useCookies(['user']);
   const [cart, setCart] = useCookies(['cart']);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+
+  const logout = () => {
+    removeCookie("userName")
+    window.location.href = '/'
+  }
 
   var name = user.userName
   if (name == undefined) {
@@ -44,7 +50,7 @@ function Navbar() {
     <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-          <Link to="/shop">
+          <Link to="/">
             <img class="logo" src="images/Logo.png" alt="Logo" onClick={change_input} />
           </Link>
         </a>
@@ -80,19 +86,23 @@ function Navbar() {
           </ul>
           <form class="form-inline my-2 my-lg-0">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <Link to="/signup" class="nav-link" href="#">
-                Sign up
-              </Link>
-            </li>
-            <li class="nav-item active">
-              { user.userName ? <Link to="/shop" class="nav-link" href="#">
-                { user.userName.toString()}
-              </Link> :
-              <Link to="/login" class="nav-link" href="#">
-                Login
-              </Link>}
-            </li>
+              <li className="nav-item active">
+                {cookies.userName ? <Link class="nav-link" href="#">
+                      {"Hello " + cookies.userName.toString()}
+                    </Link> :
+                    <Link to="/signup" class="nav-link" href="#">
+                      Sign up
+                    </Link>}
+              </li>
+
+              <li className="nav-item active">
+                {cookies.userName ? <Link to="/" class="nav-link" href="#">
+                      {<form onClick={() => logout()}>Logout</form>}
+                    </Link> :
+                    <Link to="/login" class="nav-link" href="#">
+                      Login
+                    </Link>}
+              </li>
           </ul>
           </form>
         </div>
