@@ -16,18 +16,18 @@ function Navbar() {
   }
 
   var name = user.userName
-  if (name == undefined) {
+  if (name === undefined) {
     name = "Your";
   } else {
     name += "'s"
   }
 
-  if (cart.cart == undefined) {
+  if (cart.cart === undefined) {
     cart.cart = {}
   }
   const cur_cart = cart.cart
   const change_input = async (event) => {
-    if (name != "Your" && name != undefined) {
+    if (name !== "Your" && name !== undefined) {
       try {
         const body = { name: user.userName, cart: cur_cart };
         const response = await fetch("/update_cart", {

@@ -11,7 +11,6 @@ function HomeBackground() {
       <h1 class="adv1"> Your Story Begins Here </h1>
       <h2 class="adv2"> Shop our collection of Books </h2>
       <h2 class="adv3"> Click shop to buy books </h2>
-      {/* <SearchBar /> */}
       <p class = "copyright">&copy; books2go</p>
     </div>
   );

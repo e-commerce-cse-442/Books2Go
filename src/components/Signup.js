@@ -139,8 +139,8 @@ function Signup() {
                 Register Now
               </button>
 
-              {(error != "") ? ( <div class="error">{error}</div>) : ""}
-              
+              {(error !== "") ? ( <div class="error">{error}</div>) : ""}
+
             </div>
           </form>
           <div class="text-center">
