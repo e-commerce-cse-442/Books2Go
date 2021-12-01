@@ -14,7 +14,7 @@ function ChecoutForm() {
 
 const CheckoutFormView = () => {
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
-  
+
   const [email, setEmail] = useState('');
   const [cvc, setCVC] = useState('');
   const [number, setNumber] = useState('');
@@ -22,7 +22,7 @@ const CheckoutFormView = () => {
   const [exp_year, setExpYear] = useState('');
   const [url, setURL] = useState('');
   const [status, setStatus] = useState('');
-  
+
   const onPressPay = async () => {
 
     setIsPaymentLoading(true);
@@ -34,7 +34,7 @@ const CheckoutFormView = () => {
 
     axios({
       method: 'POST',
-      url:"https://books2go.herokuapp.com/payment/post",
+      url:"'http://0.0.0.0:" + window.location.port + "/payment/post",
       data: {
         email: email,
         exp_month: exp_month,
@@ -56,7 +56,7 @@ const CheckoutFormView = () => {
     }).catch((err) => {
       console.log(err);
     })
-    
+
   }
     return (
       <div style={{
@@ -75,35 +75,35 @@ const CheckoutFormView = () => {
               flexDirection: "column",
               alignItems: "center"
             }}>
-              <Input 
+              <Input
               autoComplete={true}
               autoFocus={true}
               placeholder={'Email-Address'}
               value={email}
               required
               onChange={(event) => setEmail(event.target.value)}/>
-              <Input 
+              <Input
               autoComplete={true}
               autoFocus={true}
               placeholder={'Card Number'}
               value={number}
               required
               onChange={(event) => setNumber(event.target.value)}/>
-              <Input 
+              <Input
               autoComplete={true}
               autoFocus={true}
               placeholder={'Exp Month'}
               value={exp_month}
               required
               onChange={(event) => setExpMonth(event.target.value)}/>
-              <Input 
+              <Input
               autoComplete={true}
               placeholder={'Exp Year'}
               autoFocus={true}
               value={exp_year}
               required
               onChange={(event) => setExpYear(event.target.value)}/>
-              <Input 
+              <Input
               autoComplete={true}
               placeholder={'CVC/CVV'}
               autoFocus={true}
@@ -154,7 +154,7 @@ const CheckoutFormView = () => {
         )}
       </div>
     )
-  
+
 }
 
 // const InjectedCheckoutForm = () => {

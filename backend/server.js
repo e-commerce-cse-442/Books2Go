@@ -96,7 +96,7 @@ app.post('/payment/post', async (req, res) => {
 
     const confirm_payment = await stripe.paymentIntents.confirm(
       paymentIntent.id,
-      {return_url: `http://books2go.herokuapp.com/Payment`}
+      {return_url: 'http://0.0.0.0:'  + window.location.port + '/Payment'}
     )
 
     console.log(confirm_payment)
