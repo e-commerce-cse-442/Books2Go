@@ -7,11 +7,12 @@ import { useCookies } from 'react-cookie';
 
 function Navbar() {
   const [user, setUser] = useCookies(['user']);
-  const [cart, setCart] = useCookies(['cart']);
+  const [cart, setCart, removeCart] = useCookies(['cart']);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const logout = () => {
     removeCookie("userName")
+    removeCart("cart")
     window.location.href = '/'
   }
 

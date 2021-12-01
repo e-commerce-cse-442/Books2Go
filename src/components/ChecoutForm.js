@@ -85,17 +85,17 @@ const CheckoutFormView = () => {
             setURL(url);
             setIsPaymentLoading(false);
           } else {
-            axios({
-              method: 'POST',
-              url: 'http://0.0.0.0:' + window.location.port + '/mail/post',
-              data: {
-                email: email
-              }
-            }).then((res) => {
-              console.log('res', res);
-            }).catch((err) => {
-              console.log('err', err);
-            })
+            // axios({
+            //   method: 'POST',
+            //   url: 'http://0.0.0.0:' + window.location.port + '/mail/post',
+            //   data: {
+            //     email: email
+            //   }
+            // }).then((res) => {
+            //   console.log('res', res);
+            // }).catch((err) => {
+            //   console.log('err', err);
+            // })
             setStatus(status);
             setIsPaymentLoading(false);
           }
