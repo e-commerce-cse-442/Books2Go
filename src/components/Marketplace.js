@@ -201,8 +201,8 @@ function Marketplace() {
         filters = books;
       }
       else{
-        for(var j = 0; j <track.length; j++){
-          for (var i = 0; i < books.length; i++) {
+        for(j = 0; j <track.length; j++){
+          for (i = 0; i < books.length; i++) {
             if (books[i].genre === track[j]) {
               filters.push(books[i]);
             }

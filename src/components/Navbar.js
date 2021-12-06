@@ -7,27 +7,28 @@ import { useCookies } from 'react-cookie';
 
 function Navbar() {
   const [user, setUser] = useCookies(['user']);
-  const [cart, setCart] = useCookies(['cart']);
+  const [cart, setCart, removeCart] = useCookies(['cart']);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const logout = () => {
     removeCookie("userName")
+    removeCart("cart")
     window.location.href = '/'
   }
 
   var name = user.userName
-  if (name == undefined) {
+  if (name === undefined) {
     name = "Your";
   } else {
     name += "'s"
   }
 
-  if (cart.cart == undefined) {
+  if (cart.cart === undefined) {
     cart.cart = {}
   }
   const cur_cart = cart.cart
   const change_input = async (event) => {
-    if (name != "Your" && name != undefined) {
+    if (name !== "Your" && name !== undefined) {
       try {
         const body = { name: user.userName, cart: cur_cart };
         const response = await fetch("/update_cart", {
@@ -43,8 +44,6 @@ function Navbar() {
       }
     }
   };
-
-
 
   return (
     <div>
@@ -84,25 +83,26 @@ function Navbar() {
               </Link>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
+           <form class="form-inline my-2 my-lg-0">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-              <li className="nav-item active">
-                {cookies.userName ? <Link class="nav-link" href="#">
-                      {"Hello " + cookies.userName.toString()}
-                    </Link> :
-                    <Link to="/signup" class="nav-link" href="#">
-                      Sign up
-                    </Link>}
-              </li>
 
-              <li className="nav-item active">
-                {cookies.userName ? <Link to="/" class="nav-link" href="#">
-                      {<form onClick={() => logout()}>Logout</form>}
-                    </Link> :
-                    <Link to="/login" class="nav-link" href="#">
-                      Login
-                    </Link>}
-              </li>
+            <li class="nav-item active">
+              { cookies.userName ? <Link class="nav-link" href="#">
+                    {"Hello " + cookies.userName.toString()}
+                  </Link> :
+              <Link to="/signup" class="nav-link" href="#">
+                Sign up
+              </Link>}
+            </li>
+
+            <li class="nav-item active">
+              { cookies.userName ? <Link to="/" class="nav-link" href="#">
+                {<form onClick={() => logout()}>Logout</form>}
+              </Link> :
+              <Link to="/login" class="nav-link" href="#">
+                Login
+              </Link>}
+            </li>
           </ul>
           </form>
         </div>

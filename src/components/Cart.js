@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from "react";
 import Navbar from './Navbar'
 import "./Cart.css"
 import { useCookies } from 'react-cookie';
@@ -6,9 +6,12 @@ import { useCookies } from 'react-cookie';
 function Cart() {
   const [user, setUser] = useCookies(['user']);
   const [cart, setCart] = useCookies(['cart']);
+  const [books, setBooks] = useState([]);
+  const [booksData, setBooksData] = useState([]);
+  const [bookPrice, setBookPrice] = useState([]);
 
   var name = user.userName
-  if (name == undefined) {
+  if (name === undefined) {
     name = "Your";
   } else {
     name += "'s"
@@ -18,7 +21,8 @@ function Cart() {
   var book_name = ""
   var total = 0
 
-  if (cart.cart != undefined){
+
+  if (cart.cart !== undefined){
     for (const num of Object.values(cart.cart)) {
         book_count += parseInt(num.quantity)
         total += parseInt(num.quantity) * parseInt(num.price)
@@ -36,6 +40,14 @@ function Cart() {
   }
 
 
+  function totalPrice(){
+    var holder = 0;
+    for (var k = 0; k < bookPrice.length;k++){
+        holder+=Number(bookPrice[k][1]);
+    }
+    localStorage.setItem('total_price', holder);
+    return holder;
+  }
 
   const change_input = async (key, event) => {
     // console.log("change_input changed")
@@ -52,7 +64,7 @@ function Cart() {
   }
 
   const update_database = async (event) => {
-    if (name != "Your" && name != undefined) {
+    if (name !== "Your" && name !== undefined) {
       try {
         const body = { name: user.userName, cart: cart.cart };
         const response = fetch("/update_cart", {
@@ -91,7 +103,7 @@ function Cart() {
                     Object.keys(cart.cart).map(function (key, index) {
                       return(
                         <tr>
-                          <td style={{fontSize:"150%"}}><img src={'images/' + key + '.jpg'} height="100"/> { key} </td>
+                          <td style={{fontSize:"150%"}}><img src={'images/' + key + '.jpg'} alt="Book Item" height="100"/> { key} </td>
                           <td style={{fontSize:"150%"}}>${cart.cart[key]["price"]}</td>
                           <td>
                             <form action="/quantity-change">

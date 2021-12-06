@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import App from "./App";
 import Shop from "./components/Shop";
 import Login from "./components/Login";
@@ -23,7 +23,7 @@ function Routing() {
                     <Route path = "/Payment" component={ProcessingPayment} />
                 </Switch>
             </div>
-        </Router>   
+        </Router>
     )
 }
 
