@@ -10,11 +10,7 @@ function Navbar() {
   const [cart, setCart, removeCart] = useCookies(['cart']);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
-  const logout = () => {
-    removeCookie("userName")
-    removeCart("cart")
-    window.location.href = '/'
-  }
+
 
   var name = user.userName
   if (name === undefined) {
@@ -44,6 +40,13 @@ function Navbar() {
       }
     }
   };
+
+  const logout = () => {
+    change_input()
+    removeCookie("userName")
+    removeCart("cart")
+    window.location.href = '/'
+  }
 
   return (
     <div>
