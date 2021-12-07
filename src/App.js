@@ -3,7 +3,6 @@ import Product from "./components/Product";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
-import { useCookies } from 'react-cookie';
 
 function HomeBackground() {
   return (
@@ -11,7 +10,7 @@ function HomeBackground() {
       <Navbar />
       <h1 class="adv1"> Your Story Begins Here </h1>
       <h2 class="adv2"> Shop our collection of Books </h2>
-      <SearchBar />
+      <h2 class="adv3"> Click shop to buy books </h2>
       <p class = "copyright">&copy; books2go</p>
     </div>
   );

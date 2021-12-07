@@ -3,16 +3,57 @@ import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
-import username from "./Login";
 
 
 function Navbar() {
+  const [user, setUser] = useCookies(['user']);
+  const [cart, setCart, removeCart] = useCookies(['cart']);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+
+
+
+  var name = user.userName
+  if (name === undefined) {
+    name = "Your";
+  } else {
+    name += "'s"
+  }
+
+  if (cart.cart === undefined) {
+    cart.cart = {}
+  }
+  const cur_cart = cart.cart
+  const change_input = async (event) => {
+    if (name !== "Your" && name !== undefined) {
+      try {
+        const body = { name: user.userName, cart: cur_cart };
+        const response = await fetch("/update_cart", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        // console.log(response)
+        const data = await response.json();
+        console.log(data.message)
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+  };
+
+  const logout = () => {
+    change_input()
+    removeCookie("userName")
+    removeCart("cart")
+    window.location.href = '/'
+  }
+
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-          <Link to="/shop">
-            <img class="logo" src="images/Logo.png" alt="Logo" />
+          <Link to="/">
+            <img class="logo" src="images/Logo.png" alt="Logo" onClick={change_input} />
           </Link>
         </a>
         <button
@@ -30,45 +71,40 @@ function Navbar() {
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <Link to="/" class="nav-link" href="#">
-                Home <span class="sr-only">(current)</span>
-              </Link>
+              {/*<Link to="/" class="nav-link" href="#">*/}
+              {/*  Home <span class="sr-only">(current)</span>*/}
+              {/*</Link>*/}
             </li>
             <li class="nav-item">
-              <Link to = "/shop" class="nav-link" href="#">
+              <Link to = "/shop" class="nav-link" href="#" onClick={change_input}>
                   Shop
               </Link>
             </li>
-            {/* <li class="nav-item">
-              <Link to="/pdfBook" class="nav-link" href="#">
-                PDF Books
-              </Link>
-            </li> */}
             <li class="nav-item">
-              <Link to="/cart"class="nav-link" href="#">
+              <Link to="/cart"class="nav-link" href="#" onClick={change_input}>
                 Cart
               </Link>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input
-              class="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-            />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-              Search
-            </button>
+           <form class="form-inline my-2 my-lg-0">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
             <li class="nav-item active">
+              { cookies.userName ? <Link class="nav-link" href="#">
+                    {"Hello " + cookies.userName.toString()}
+                  </Link> :
               <Link to="/signup" class="nav-link" href="#">
                 Sign up
-              </Link>
+              </Link>}
             </li>
+
             <li class="nav-item active">
+              { cookies.userName ? <Link to="/" class="nav-link" href="#">
+                {<form onClick={() => logout()}>Logout</form>}
+              </Link> :
               <Link to="/login" class="nav-link" href="#">
                 Login
-              </Link>
+              </Link>}
             </li>
           </ul>
           </form>
